@@ -1,0 +1,46 @@
+G15: Statistic about Concepts, Vocabularies, Classes and Levels
+---
+
+This query generates the list of all vocabularies in the CONCEPT table (Standard and non-standard), their class, level and frequency.
+
+Sample query:
+
+
+```sql
+SELECT
+  vocabulary_id    AS vocabulary_id,
+  concept_class_id AS concept_class_id,
+  standard_concept AS standard_concept,
+  count(*)         AS num_records
+FROM concept
+GROUP BY
+  vocabulary_id,
+  concept_class_id,
+  standard_concept
+ORDER BY vocabulary_id, concept_class_id, standard_concept
+;
+```
+Input:
+
+None
+
+Output:
+
+| Field |  Description |
+| --- | --- |
+|  vocabulary_id |  OMOP Vocabulary ID |
+|  vocabulary_name |  Vocabulary name |
+|  concept_class |  Concept Class |
+|  concept_level |  Concept Level Number |
+|  cnt |  Number of concepts |
+
+Sample output record:
+
+|  Field |  Value |
+| --- | --- |
+|  vocabulary_id |  1 |
+|  vocabulary_name |  SNOMED-CT |
+|  concept_class |  Procedure |
+|  concept_level |  2 |
+|  cnt |  20286 |
+

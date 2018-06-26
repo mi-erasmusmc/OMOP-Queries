@@ -3,7 +3,7 @@
 #depends: w2m from ruby: 
 # gem install word-to-markdown
 
-the_dir=$(pwd)
+the_dir=$(pwd)/_docx
 
 for f in *\ *; do mv "$f" "${f// /_}"; done
 
@@ -21,8 +21,8 @@ for f in *; do
     fi
 done
 
-mkdir md
-mv $the_dir/*.md $the_dir/md/
+mkdir _md
+mv $the_dir/*.md $(pwd)/_md/
 
 for f in *_*; do mv "$f" "${f//_/ }"; done
 
