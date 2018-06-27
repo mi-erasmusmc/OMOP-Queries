@@ -1,15 +1,13 @@
-G05: Translate a code from a source to a standard vocabulary.
----
+# G05: Translate a code from a source to a standard vocabulary.
 
 This query enables search of all Standard Vocabulary concepts that are mapped to a code from a specified source vocabulary. It will return all possible concepts that are mapped to it, as well as the target vocabulary. The source code could be obtained using queries G02 or G03.
 Note that to unambiguously identify a source code, the vocabulary id has to be provided, as source codes are not unique identifiers across different vocabularies.
 
-Sample query:
-
+## Sample query
 
 ```sql
 SELECT DISTINCT
-  c1.domain_id,
+  c1.domain_id        AS source_domain,
   c2.concept_id       AS concept_id,
   c2.concept_name     AS concept_name,
   c2.concept_code     AS concept_code,
@@ -25,40 +23,37 @@ WHERE cr.relationship_id = 'Maps to'
       AND sysdate BETWEEN cr.valid_start_date AND cr.valid_end_date -- PARAMETER
 ;
 ```
-Input:
+### Input
 
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  Source Code List |  '070.0' |  Yes |  Source codes are alphanumeric |
-|  Source Vocabulary ID |  2 |  Yes | The source vocabulary ID is mandatory, because the source code is not unique across different vocabularies.
-
-The list of vocabulary codes is listed in the VOCABULARY table. Vocabulary ID of 2 represents ICD9-CM |
+|  Source Vocabulary ID |  'ICD9CM' |  Yes | The source vocabulary ID is mandatory, because the source code is not unique across different vocabularies. |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-Output:
+### Output
 
 |  Field |  Description |
 | --- | --- |
-|  Mapping_Type |  Type of mapping from source code to target concept |
+|  Source_Domain |  Domain of source concept |
 |  Target_Concept_Id |  Concept ID of mapped concept |
 |  Target_Concept_Name |  Name of mapped concept |
 |  Target_Concept_Code |  Concept code of mapped concept |
 |  Target_Concept_Class |  Class of the mapped concept |
 |  Target_Concept_Vocab_ID |  Vocabulary ID of the target vocabulary |
-|  Target_Concept_Vocab_Name |  Name of the vocabulary the target concept is part of |
-|  Target_Concept_Domain |  Vocabulary domain that includes the entity. The domains include:
-DRUG, CONDITION, PROCEDURE, OBSERVATION, OBSERVATION UNIT, VISIT, DEMOGRAPHIC, DEATH, COST, PROVIDER |
+|  Target_Concept_Domain |  Vocabulary domain that includes the entity. The domains include: DRUG, CONDITION, PROCEDURE, OBSERVATION, OBSERVATION UNIT, VISIT, DEMOGRAPHIC, DEATH, COST, PROVIDER |
 
-Sample output record:
+### Sample output record
 
 | Field |  Value |
 | --- | --- |
-|  Mapping_Type |  CONDITION-MEDDRA |
+|  Source_Domain |  CONDITION |
 |  Target_Concept_Id |  35909589 |
 |  Target_Concept_Name |  Hepatitis viral |
 |  Target_Concept_Code |  10019799 |
 |  Target_Concept_Class |  Preferred Term |
-|  Target_Concept_Vocab_ID |  15 |
-|  Target_Concept_Vocab_Name |  MedDRA |
+|  Target_Concept_Vocab_ID |  MedDRA |
 |  Target_Concept_Domain |  CONDITION |
 
+## Documentation
+https://github.com/OHDSI/CommonDataModel/wiki/CONCEPT_RELATIONSHIP

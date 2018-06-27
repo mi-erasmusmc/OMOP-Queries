@@ -1,8 +1,6 @@
-PP02: Patient distribution by plan type
----
+# PP02: Patient distribution by plan type
 
-Sample query:
-
+## Sample query
 
 ```sql
 SELECT
@@ -19,11 +17,11 @@ FROM (
 ORDER BY t.plan_source_value
 ;
 ```
-Input:
+### Input
 
 None
 
-Output:
+### Output
 
 |  Field |  Description |
 | --- | --- |
@@ -31,7 +29,7 @@ Output:
 | num_patients | Number of patients |
 | perc_of_total_count | Total count |
 
-Sample output record:
+### Sample output record
 
 |  Field |  Value |
 | --- | --- |
@@ -39,4 +37,5 @@ Sample output record:
 | num_patients | 148348803 |
 | perc_of_total_count | 68.632428630338134 |
 
-
+## Documentation
+https://github.com/OHDSI/CommonDataModel/wiki/PAYER_PLAN_PERIOD

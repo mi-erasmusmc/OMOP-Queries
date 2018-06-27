@@ -1,8 +1,6 @@
-DRC01: What is the average/max/min cost per pill (total cost / quantity) per drug concept?
----
+# DRC01: What is the average/max/min cost per pill (total cost / quantity) per drug concept?
 
-Sample query:
-
+## Sample query
 
 ```sql
 SELECT
@@ -23,14 +21,13 @@ GROUP BY t.drug_concept_id
 ORDER BY t.drug_concept_id
 ;
 ```
-Input:
+### Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | list of drug_concept_id | 906805, 1517070, 19010522 | Yes |
 
-
-Output:
+### Output
 
 |  Field |  Description |
 | --- | --- |
@@ -39,9 +36,7 @@ Output:
 | max_val_num | Max cost per pill |
 | min_val_num | Min cost per pill |
 
-
-
-Sample output record:
+### Sample output record
 
 |  Field |  Description |
 | --- | --- |
@@ -50,5 +45,5 @@ Sample output record:
 | max_val_num | 3197.50 |
 | min_val_num | 0 |
 
-
-
+## Documentation
+https://github.com/OHDSI/CommonDataModel/wiki/COST

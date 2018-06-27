@@ -1,7 +1,6 @@
-DRC03: What is out-of-pocket cost for a given drug?
+# DRC03: What is out-of-pocket cost for a given drug?
 
-Sample query:
-
+## Sample query
 
 ```sql
 SELECT
@@ -15,13 +14,13 @@ WHERE
 GROUP BY d.drug_concept_id
 ;
 ```
-Input:
+### Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | list of drug_concept_id | 906805, 1517070, 19010522 | Yes |   |
 
-Output:
+### Output
 
 |  Field |  Description |
 | --- | --- |
@@ -29,7 +28,7 @@ Output:
 | total_out_of_pocket | The total amount paid by the person as a share of the expenses, excluding the copay. |
 | avg_out_pocket_cost | The average amount paid by the person as a share of the expenses, excluding the copay. |
 
-Sample output record:
+### Sample output record
 
 |   |
 | --- |
@@ -38,3 +37,5 @@ Sample output record:
 | drug_concept_id |   |
 | total_out_of_pocket |   |
 
+## Documentation
+https://github.com/OHDSI/CommonDataModel/wiki/COST

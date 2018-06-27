@@ -1,24 +1,23 @@
-G07: Find concepts that have a relationship with a given concept
----
+# G07: Find concepts that have a relationship with a given concept
 
 For a concept identifier entered as the input parameter, the query lists all existing relationships with other concepts. The resulting output includes:
 
 - Type of relationship (including both relationship ID and description)
 - Details of the other concept to which the relationship has been defined
 - Polarity of the relationship
-  - Polarity of "Relates to" implies the input concept is the first concept or CONCEPT_ID_1 of the relationship
-  - Polarity of "Is Related by" implies the input concept is the second concept or CONCEPT_ID_2 of the relationship
+
+o	Polarity of "Relates to" implies the input concept is the first concept or CONCEPT_ID_1 of the relationship
+
+o	Polarity of "Is Related by" implies the input concept is the second concept or CONCEPT_ID_2 of the relationship
 
 In vocabulary Version 4.0 and above all relationships are bi-directional, ie. all relationships are repeated as a mirrored version, where CONCEPT_ID_1 and CONCEPT_ID_2 are swapped and the inverse relationship ID is provided.
 
-Sample query:
-
+## Sample query
 
 ```sql
 SELECT
   'Relates to'         AS relationship_polarity,
   cr.relationship_id   AS relationship_id,
-  rt.relationship_name AS relationship_name,
   d.concept_id         AS concept_id,
   d.concept_name       AS concept_name,
   d.concept_code       AS concept_code,
@@ -27,14 +26,12 @@ SELECT
 FROM concept_relationship AS cr
   JOIN concept AS a ON cr.concept_id_1 = a.concept_id
   JOIN concept AS d ON cr.concept_id_2 = d.concept_id
-  JOIN relationship AS rt ON cr.relationship_id = rt.relationship_id
 WHERE a.concept_id = 192671 -- PARAMETER
       AND sysdate BETWEEN cr.valid_start_date AND cr.valid_end_date -- PARAMETER
 UNION ALL
 SELECT
   'Is related by'      AS relationship_polarity,
   cr.relationship_id   AS relationship_id,
-  rt.relationship_name AS relationship_name,
   a.concept_id         AS concept_id,
   a.concept_name       AS concept_name,
   a.concept_code       AS concept_code,
@@ -43,47 +40,41 @@ SELECT
 FROM concept_relationship AS cr
   JOIN concept AS a ON cr.concept_id_1 = a.concept_id
   JOIN concept AS d ON cr.concept_id_2 = d.concept_id
-  JOIN relationship AS rt ON cr.relationship_id = rt.relationship_id
 WHERE d.concept_id = 192671 -- PARAMETER
       AND sysdate BETWEEN cr.valid_start_date AND cr.valid_end_date -- PARAMETER
 ;
 ```
-Input:
+### Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
-|  Concept ID |  192671 |  Yes | GI - Gastrointestinal hemorrhage |
+|  Concept ID |  192671 |  Yes | Gastrointestinal hemorrhage |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-Output:
+### Output
 
 |  Field |  Description |
 | --- | --- |
-|  Relationship_Polarity |  Polarity of the relationship with the input concept as a reference:
-- "Relates to": Indicates input concept is CONCEPT_ID_1 or the first concept of the relationship
-- "Is Related by": Indicates input concept
-|
+|  Relationship_Polarity |  Polarity of the relationship with the input concept as a reference. "Relates to" indicates input concept is CONCEPT_ID_1 or the first concept of the relationship. "Is Related by" indicates input concept |
 |  Relationship_ID |  Identifier for the type of relationship |
-|  Relationship_Name |  Name of the type of relationship |
 |  Concept_ID |  Unique identifier of the concept related to the input concept |
 |  Concept_Name |  Name of the concept related to the input concept |
 |  Concept_Code |  Concept code of concept related to the input concept |
 |  Concept_Class |  Concept Class of concept related to the input concept |
 |  Concept_Vocab_ID |  ID of the vocabulary the related concept is derived from |
-|  Concept_Vocab_Name |  Name of the vocabulary the related concept is derived from |
 
-Sample output record:
+### Sample output record
 
 |  Field |  Value |
 | --- | --- |
 |  Relationship_Polarity |  Is Related to |
-|  Relationship_ID |  125 |
-|  Relationship_Name |  MedDRA to SNOMED-CT equivalent (OMOP) |
+|  Relationship_ID |  MedDRA - SNOMED eq |
 |  Concept_ID |  35707864 |
 |  Concept_Name |  Gastrointestinal haemorrhage |
 |  Concept_Code |  10017955 |
-|  Concept_Class |  Preferred Term |
-|  Concept_Vocab_ID |  15 |
-|  Concept_Vocab_Name |  MedDRA |
+|  Concept_Class |  PT |
+|  Concept_Vocab_ID |  MedDRA |
 
 
+## Documentation
+https://github.com/OHDSI/CommonDataModel/wiki/CONCEPT_RELATIONSHIP

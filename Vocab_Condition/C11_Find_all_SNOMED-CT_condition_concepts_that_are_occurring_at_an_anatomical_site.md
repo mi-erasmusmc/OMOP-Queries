@@ -1,15 +1,8 @@
-C11: Find all SNOMED-CT condition concepts that are occurring at an anatomical site
----
-This query accepts a SNOMED-CT body structure ID as input and returns all conditions occurring in the anatomical site, which can be identified using query  [C10](http://vocabqueries.omop.org/condition-queries/c10).
+# C11: Find all SNOMED-CT condition concepts that are occurring at an anatomical site
 
-Input:
+This query accepts a SNOMED-CT body structure ID as input and returns all conditions occurring in the anatomical site, which can be identified using query  [C10](http://vocabqueries.omop.org/condition-queries/c10). Input:
 
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-|  SNOMED-CT Concept ID |  4103720 |  Yes | Concept Identifier for 'Posterior epiglottis' |
-|  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
-
-Sample query run:
+## Sample query
 
 The following is a sample run of the query to list conditions located in the anatomical site.
 
@@ -35,9 +28,16 @@ WHERE
 ;
 ```
 
-Output:
+### Input
 
-Output field list:
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+|  SNOMED-CT Concept ID |  4103720 |  Yes | Concept Identifier for 'Posterior epiglottis' |
+|  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
+
+### Output
+
+#### Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -46,15 +46,13 @@ Output field list:
 |  Condition_Code |  Concept code of the standard concept in the source vocabulary |
 |  Condition_Class |  Concept class of standard vocabulary concept |
 |  Condition_Vocab_ID |  Vocabulary the standard concept is derived from as vocabulary ID |
-|  Condition_Vocab_Name |  Name of the vocabulary the standard concept is derived from |
 |  Anatomical_Site_ID |  Body Structure ID entered as input |
 |  Anatomical_Site_Name |  Body Structure Name |
 |  Anatomical_Site_Code |  Concept Code of the body structure concept |
 |  Anatomical_Site_Class |  Concept Class of the body structure concept |
 |  Anatomical_Site_Vocab_ID |  Vocabulary the body structure concept is derived from as vocabulary code |
-|  Anatomical_Site_Vocab_Name |  Name of the vocabulary the body structure concept is derived from |
 
-Sample output record:
+#### Sample output record
 
 |  Field |  Value |
 | --- | --- |
@@ -63,10 +61,11 @@ Sample output record:
 |  Condition_Code |  126700009 |
 |  Condition_Class |  Clinical finding |
 |  Condition_Vocab_ID |  SNOMED |
-|  Condition_Vocab_Name |  Systematic Nomenclature of Medicine - Clinical Terms (IHTSDO) |
 |  Anatomical_Site_ID |  4103720 |
 |  Anatomical_Site_Name |  Posterior epiglottis |
 |  Anatomical_Site_Code |  2894003 |
 |  Anatomical_Site_Class |  Body structure |
 |  Anatomical_Site_Vocab_ID |  SNOMED |
-|  Anatomical_Site_Vocab_Name |  Systematic Nomenclature of Medicine - Clinical Terms (IHTSDO) |
+
+## Documentation
+https://github.com/OHDSI/CommonDataModel/wiki/CONCEPT_RELATIONSHIP

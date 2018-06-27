@@ -1,32 +1,32 @@
-G12: List current vocabulary release number
----
+# G12: List current vocabulary release number
 
 This query returns current vocabulary release number.
 
-Sample query:
-
+## Sample query
 
 ```sql
-SELECT
-  vocabulary_name,
+SELECT  
   vocabulary_version
 FROM vocabulary
+WHERE vocabulary_id = 'None'
 ;
 ```
-Input:
+### Input
 
 None
 
-Output:
+### Output
 
 | Field |  Description |
 | --- | --- |
-|  vocabulary_name |  Version number of current OMOP vocabulary release |
+|  vocabulary_version |  Version number of current OMOP vocabulary release |
 
-Sample output record:
+### Sample output record
 
 | Field |  Value |
 | --- | --- |
-|  vocabulary_name |  OMOP Vocabulary v4.3 Q2-2013 |
+|  vocabulary_version |  v5.0 28-MAR-17 |
 
 
+## Documentation
+https://github.com/OHDSI/CommonDataModel/wiki/VOCABULARY

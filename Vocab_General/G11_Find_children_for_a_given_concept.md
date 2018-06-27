@@ -1,12 +1,10 @@
-G11: Find children for a given concept
----
+# G11: Find children for a given concept
 
 This query lists all standard vocabulary concepts that are child concepts of a given concept entered as input. The query accepts a concept ID as the input and returns all concepts that are its immediate child concepts.
 
 The query returns only the immediate child concepts that are directly linked to the input concept and not all descendants.
 
-Sample query:
-
+## Sample query
 
 ```sql
 SELECT
@@ -22,14 +20,14 @@ WHERE ca.min_levels_of_separation = 1
       AND sysdate BETWEEN d.valid_start_date AND d.valid_end_date -- PARAMETER
 ;
 ```
-Input:
+### Input
 
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
-|  Concept ID |  192671 |  Yes | GI - Gastrointestinal hemorrhage |
+|  Concept ID |  192671 |  Yes | Gastrointestinal hemorrhage |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-Output:
+### Output
 
 |  Field |  Description |
 | --- | --- |
@@ -38,9 +36,8 @@ Output:
 |  Child_Concept_Code |  Concept Code of child concept entered as input |
 |  Child_Concept_Class |  Concept Class of child concept entered as input |
 |  Child_Concept_Vocab_ID |  ID of the vocabulary the child concept is derived from |
-|  Child_Concept_Vocab_Name |  Name of the vocabulary the child concept is derived from |
 
-Sample output record:
+### Sample output record
 
 |  Field |  Value |
 | --- | --- |
@@ -48,6 +45,7 @@ Sample output record:
 |  Child_Concept_Name |  Haemorrhagic enteritis |
 |  Child_Concept_Code |  235224000 |
 |  Child_Concept_Class |  Clinical finding |
-|  Child_Concept_Vocab_ID |  1 |
-|  Child_Concept_Vocab_Name |  SNOMED-CT |
+|  Child_Concept_Vocab_ID |  SNOMED |
 
+## Documentation
+https://github.com/OHDSI/CommonDataModel/wiki/CONCEPT_ANCESTOR

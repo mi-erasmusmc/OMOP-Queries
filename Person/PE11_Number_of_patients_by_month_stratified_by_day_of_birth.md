@@ -1,10 +1,8 @@
-PE11: Number of patients by month stratified by day of birth
----
+# PE11: Number of patients by month stratified by day of birth
 
 This query is used to count number of patients grouped by month of birth within all person records. All possible values for month of birth are summarized. Not all databases maintain month of birth. This query is only available from CDM V4 and above.
 
-Sample query:
-
+## Sample query
 
 ```sql
 SELECT
@@ -15,18 +13,18 @@ GROUP BY month_of_birth
 ORDER BY month_of_birth
 ;
 ```
-Input:
+### Input
 
 None
 
-Output:
+### Output
 
 |  Field |  Description |
 | --- | --- |
 |  month |  Month year 1 through 12 |
 |  num_rows |  Number of records |
 
-Sample output record:
+### Sample output record
 
 | Field |  Value |
 | --- | --- |
@@ -34,3 +32,5 @@ Sample output record:
 |  num_rows |  34462921 |
 
 
+## Documentation
+https://github.com/OHDSI/CommonDataModel/wiki/PERSON

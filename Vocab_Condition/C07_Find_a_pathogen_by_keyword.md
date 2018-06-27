@@ -1,15 +1,8 @@
-C07: Find a pathogen by keyword
----
+# C07: Find a pathogen by keyword
+
 This query enables a search of all pathogens using a keyword as input. The resulting concepts could be used in query  [C09](http://vocabqueries.omop.org/condition-queries/c9) to identify diseases caused by a certain pathogen.
 
-Input:
-
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-|  Keyword for pathogen |  'Trypanosoma' |  Yes | Keyword should be placed in a single quote |
-|  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
-
-Sample query run:
+## Sample query
 
 The following is a sample run of the query to list all pathogens specified using a keyword as input. The sample parameter substitutions are highlighted in  blue.
 
@@ -29,9 +22,17 @@ WHERE
 ;
 ```
 
-Output:
+### Input
 
-Output field list:
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+|  Keyword for pathogen |  'Trypanosoma' |  Yes | Keyword should be placed in a single quote |
+|  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
+
+
+### Output
+
+#### Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -41,9 +42,8 @@ Output field list:
 |  Pathogen_Concept_Class |  Concept class of SNOMED-CT pathogen concept |
 |  Pathogen_Standard_Concept |  Indicator of standard concept of SNOMED-CT pathogen concept |
 |  Pathogen_Vocab_ID |  Vocabulary ID of the vocabulary from which the pathogen concept is derived from (1 for SNOMED-CT) |
-|  Pathogen_Vocab_Name |  Name of the vocabulary from which the pathogen concept is derived from (SNOMED-CT) |
 
-Sample output record:
+#### Sample output record
 
 |  Field |  Value |
 | --- | --- |
@@ -51,6 +51,8 @@ Sample output record:
 |  Pathogen_Concept_Name |  Trypanosoma brucei |
 |  Pathogen_Concept_Code |  243659009 |
 |  Pathogen_Concept_Class |  Organism |
-| Pathogen_Standard_Concept |  S |
+|  Pathogen_Standard_Concept |  S |
 |  Pathogen_Vocab_ID |  SNOMED |
-|  Pathogen_Vocab_Name |  Systematic Nomenclature of Medicine - Clinical Terms (IHTSDO) |
+
+## Documentation
+https://github.com/OHDSI/CommonDataModel/wiki/CONCEPT

@@ -1,10 +1,8 @@
-G15: Statistic about Concepts, Vocabularies, Classes and Levels
----
+# G15: Statistic about Concepts, Vocabularies, Classes and Levels
 
 This query generates the list of all vocabularies in the CONCEPT table (Standard and non-standard), their class, level and frequency.
 
-Sample query:
-
+## Sample query
 
 ```sql
 SELECT
@@ -20,27 +18,28 @@ GROUP BY
 ORDER BY vocabulary_id, concept_class_id, standard_concept
 ;
 ```
-Input:
+
+### Input
 
 None
 
-Output:
+### Output
 
 | Field |  Description |
 | --- | --- |
 |  vocabulary_id |  OMOP Vocabulary ID |
-|  vocabulary_name |  Vocabulary name |
 |  concept_class |  Concept Class |
-|  concept_level |  Concept Level Number |
-|  cnt |  Number of concepts |
+|  standard_concept |  'S' if concept is standard, 'C' if a classification concept or empty if non-standard.|
+|  num_records |  Number of concepts |
 
-Sample output record:
+### Sample output record
 
 |  Field |  Value |
 | --- | --- |
-|  vocabulary_id |  1 |
-|  vocabulary_name |  SNOMED-CT |
+|  vocabulary_id |  SNOMED |
 |  concept_class |  Procedure |
-|  concept_level |  2 |
-|  cnt |  20286 |
+|  standard_concept |  'S' |
+|  num_records |  20286 |
 
+## Documentation
+https://github.com/OHDSI/CommonDataModel/wiki/

@@ -1,5 +1,4 @@
-G06: Find concepts and their descendants that are covered by a given source code
----
+# G06: Find concepts and their descendants that are covered by a given source code
 
 This query returns all concepts that are direct maps and the descendants of these directly mapped concepts. This is useful if the target standard vocabulary is organized in a tall hierarchy, while the source vocabulary organization is flat.
 
@@ -7,8 +6,7 @@ Additional constraints can be added at the end of the query if only a specific t
 
 In the query only FDB indications and contraindications are returned, but not NDF-RT indications or contraindications. That is because no direct mapping between ICD-9-CM and NDF-RT exists. In order to query for drug indications please see queries D12 through D18.
 
-Sample query:
-
+## Sample query
 
 ```sql
 WITH dm AS ( -- collect direct maps
@@ -44,42 +42,39 @@ FROM concept_ancestor AS ca -- collect descendants which includes ancestor itsel
 WHERE dc.standard_concept = 'S'
 ;
 ```
-Input:
+### Input
 
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  Source Code List |  '410.0' |  Yes | Source codes are alphanumeric. |
-|  Source Vocabulary ID |  2 |  Yes | 2 represents ICD9-CM.
-
-The list of vocabulary codes can be found in the VOCABULARY table. |
+|  Source Vocabulary ID |  'ICD9CM' |  Yes | The list of vocabulary codes can be found in the VOCABULARY table. |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-Output:
+### Output
 
 | Field |  Description |
 | --- | --- |
-|  Mapping_Type |  Type of mapping from source code to target concept |
+|  Source_Code |  Concept code of source concept |
+|  Source_Vocab_ID |  ID of the source vocabulary |
+|  Source_Domain_ID |  Domain of the source concept |
 |  Target_Concept_ID |  Concept ID of mapped concept |
 |  Target_Concept_Name |  Concept name of mapped concept |
 |  Target_Concept_Code |  Concept Code of mapped concept |
 |  Target_Concept_Class |  Concept class of mapped concept |
 |  Target_Concept_Vocab_ID |  ID of the target vocabulary |
-|  Target_Concept_Vocab_Name |  Name of the vocabulary the target concept is part of |
-|  Target_Type |   Type of result, indicates how the target concepts was extracted. Includes:
-- Concepts that are direct maps
-- Concepts that are descendants of direct maps
-|
 
-Sample output record:
+### Sample output record
 
 |  Field |  Value |
 | --- | --- |
-|  Mapping_Type |  CONDITION |
+|  Source_Code |  410.0 |
+|  Source_Vocab_ID |  ICD9CM |
+|  Source_Domain_ID |  CONDITION |
 |  Target_Concept_ID |  312327 |
 |  Target_Concept_Name |  Acute myocardial infarction |
 |  Target_Concept_Code |  57054005 |
 |  Target_Concept_Class |  Clinical finding |
-|  Target_Concept_Vocab_ID |  1 |
-|  Target_Concept_Vocab_Name |  SNOMED-CT |
-|  Target_Type |  Direct map |
+|  Target_Concept_Vocab_ID |  SNOMED |
 
+## Documentation
+https://github.com/OHDSI/CommonDataModel/wiki/CONCEPT_RELATIONSHIP

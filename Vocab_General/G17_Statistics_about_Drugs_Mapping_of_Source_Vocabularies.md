@@ -1,18 +1,13 @@
-G17: Statistics about Drugs Mapping of Source Vocabularies
----
+# G17: Statistics about Drugs Mapping of Source Vocabularies
 
 The following query contains the coverage for mapped source vocabularies in the Drug domains to RxNorm.
 
-Sample query:
-
+## Sample query
 
 ```sql
 SELECT
   mapped.vocabulary_id,
-  CASE mapped.standard_concept
-    WHEN NULL THEN 'Not mapped'
-        ELSE mapped.standard_concept
-  END AS standard_concept,
+  mapped.standard_concept,
   mapped.mapped_codes,
   sum(mapped.mapped_codes) OVER (PARTITION BY vocabulary_id) AS total_mapped_codes,
   to_char(mapped.mapped_codes*100/sum(mapped.mapped_codes) OVER (PARTITION BY vocabulary_id), '990.9') AS pct_mapped_codes,
@@ -44,17 +39,17 @@ FROM (
   GROUP BY c1.vocabulary_id, c2.standard_concept
 ) AS mapped;
 ```
-Input:
+
+### Input
 
 None
 
-Output:
+### Output
 
 | Field |  Description |
 | --- | --- |
 |  vocabulary_id |  Source Vocabulary ID |
-|  vocabulary_name |  Source Vocabulary name |
-|  concept_level |  Concept Level Number |
+|  standard_concept |  'S' for standard, 'C' for classification or empty if non-standard |
 |  mapped_codes |  Number of mapped codes |
 |  total_mapped_codes |  Total number of mapped codes for source vocabulary |
 |  pct_mapped_codes |  Percentile of mapped code  |
@@ -62,13 +57,12 @@ Output:
 |  concepts_in_level |  Number of mapped concepts  |
 |  pct_mapped_concepts |  Percentile of of mapped concepts |
 
-Sample output record:
+### Sample output record
 
 | Field |  Value |
 | --- | --- |
-|  vocabulary_id |  9 |
-|  vocabulary_name |  NDC |
-|  concept_level |  1 |
+|  vocabulary_id |  NDC |
+|  standard_concept |  'C' |
 |  mapped_codes |  550959 |
 |  total_mapped_codes |  551757 |
 |  pct_mapped_codes |  99.0 |
@@ -76,7 +70,5 @@ Sample output record:
 |  concepts_in_level |  57162 |
 |  pct_mapped_concepts |  58.0 |
 
-
-
-
-
+## Documentation
+https://github.com/OHDSI/CommonDataModel/wiki/CONCEPT_RELATIONSHIP

@@ -1,5 +1,5 @@
-C05: Translate a source code to condition concepts
----
+# C05: Translate a source code to condition concepts
+
 This query enables to search all Standard SNOMED-CT concepts that are mapped to a condition (disease) source code. It can be used to translate e.g. ICD-9-CM, ICD-10-CM or Read codes to SNOMED-CT.
 
 Source codes are not unique across different source vocabularies, therefore the source vocabulary ID must also be provided.
@@ -10,15 +10,7 @@ The following source vocabularies have condition/disease codes that map to SNOME
 - OXMIS,         Vocabulary_id=18
 - ICD-10-CM,   Vocabulary_id=34
 
-Input:
-
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-|  Source Code List |  '070.0' |  Yes | Source codes are alphanumeric and need to be entered as a string enclosed by a single quote. If more than one source code needs to be entered an IN clause or a JOIN can be used. |
-|  Source Vocabulary ID |  2 |  Yes | The source vocabulary is mandatory, because the source ID is not unique across different vocabularies. |
-|  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
-
-Sample query run:
+## Sample query
 
 The following is a sample run of the query to list SNOMED-CT concepts that a set of mapped codes entered as input map to. The sample parameter substitutions are highlighted in  blue
 
@@ -45,36 +37,43 @@ WHERE
 ;
 ```
 
-Output:
+### Input
 
-Output field list:
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+|  Source Code List |  '070.0' |  Yes | Source codes are alphanumeric and need to be entered as a string enclosed by a single quote. If more than one source code needs to be entered an IN clause or a JOIN can be used. |
+|  Source Vocabulary ID |  2 |  Yes | The source vocabulary is mandatory, because the source ID is not unique across different vocabularies. |
+|  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
+
+### Output
+
+#### Output field list
 
 |  Field |  Description |
 | --- | --- |
 |  Source_Code |  Source code for the disease entered as input |
-|  Source_Code_Description |  Description of the source code entered as input |
+|  Source_Name |  Description of the source code entered as input |
 |  Source_Vocabulary_ID |  Vocabulary the disease source code is derived from as vocabulary ID |
-|  Source_Vocabulary_Description |  Name of the vocabulary the disease source code is derived from |
-|  Mapping_Type |  Type of mapping or mapping domain, from source code to target concept. Example Condition, Procedure, Drug etc. |
+|  Source_Domain_ID |  Type of mapping or mapping domain, from source code to target concept. Example Condition, Procedure, Drug etc. |
 |  Target_Concept_ID |  Concept ID of the target condition concept mapped to the disease source code |
 |  Target_Concept_Name |  Name of the target condition concept mapped to the disease source code |
 |  Target_Concept_Code |  Concept code of the target condition concept mapped to the disease source code |
 |  Target_Concept_Class |  Concept class of the target condition concept mapped to the disease source code |
 |  Target_Concept_Vocab_ID |  Vocabulary the target condition concept is derived from as vocabulary code |
-|  Target_Concept_Vocab_Name |  Name of the vocabulary the condition concept is derived from |
 
-Sample output record:
+#### Sample output record
 
 |  Field |  Value |
 | --- | --- |
 |  Source_Code |  070.0 |
-|  Source_Code_Description |  Viral hepatitis |
+|  Source_Name |  Viral hepatitis |
 |  Source_Vocabulary_ID |  ICD9CM |
-|  Source_Vocabulary_Description |  International Classification of Diseases, Ninth Revision, Clinical Modification, Volume 1 and 2 (NCHS) |
-|  Mapping_Type |  CONDITION |
+|  Source_Domain_ID |  CONDITION |
 |  Target_Concept_ID |  4291005 |
 |  Target_Concept_Name |  VH - Viral hepatitis |
 |  Target_Concept_Code |  3738000 |
 |  Target_Concept_Class |  Clinical finding |
 |  Target_Concept_Vocab_ID |  SNOMED |
-|  Target_Concept_Vocab_Name |  Systematic Nomenclature of Medicine - Clinical Terms (IHTSDO) |
+
+## Documentation
+https://github.com/OHDSI/CommonDataModel/wiki/CONCEPT_RELATIONSHIP

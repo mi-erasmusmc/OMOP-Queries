@@ -1,11 +1,9 @@
-G10: Find parents for a given concept
----
+# G10: Find parents for a given concept
 
 This query accepts a concept ID as the input and returns all concepts that are its immediate parents of that concept. Parents are concepts that have a hierarchical relationship to the given concepts. Hierarchical relationships are defined in the relationship table.
 The query returns only the immediate parent concepts that are directly linked to the input concept and not all ancestors.
 
-Sample query:
-
+## Sample query
 
 ```sql
 SELECT
@@ -22,14 +20,14 @@ WHERE ca.min_levels_of_separation = 1
       AND sysdate BETWEEN a.valid_start_date AND a.valid_end_date -- PARAMETER
 ;
 ```
-Input:
+### Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
-|  Concept ID |  192671 |  Yes | GI - Gastrointestinal hemorrhage |
+|  Concept ID |  192671 |  Yes | Gastrointestinal hemorrhage |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-Output:
+### Output
 
 |  Field |  Description |
 | --- | --- |
@@ -38,9 +36,8 @@ Output:
 |  Parent_Concept_Code |  Concept Code of parent concept |
 |  Parent_Concept_Class |  Concept Class of parent concept |
 |  Parent_Concept_Vocab_ID |  Vocabulary parent concept is derived from as vocabulary code |
-|  Parent_Concept_Vocab_Name |  Name of the vocabulary the child concept is derived from |
 
-Sample output record:
+### Sample output record
 
 |  Field |  Value |
 | --- | --- |
@@ -48,6 +45,7 @@ Sample output record:
 |  Parent_Concept_Name |  Disease of gastrointestinal tract |
 |  Parent_Concept_Code |  119292006 |
 |  Parent_Concept_Class |  Clinical finding |
-|  Parent_Concept_Vocab_ID |  1 |
-|  Parent_Concept_Vocab_Name |  SNOMED-CT |
+|  Parent_Concept_Vocab_ID |  SNOMED |
 
+## Documentation
+https://github.com/OHDSI/CommonDataModel/wiki/CONCEPT_ANCESTOR

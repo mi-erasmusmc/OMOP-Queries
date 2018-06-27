@@ -1,15 +1,8 @@
-C09: Find all SNOMED-CT condition concepts that can be caused by a given pathogen or causative agent
----
+# C09: Find all SNOMED-CT condition concepts that can be caused by a given pathogen or causative agent
+
 This query accepts a SNOMED-CT pathogen ID as input and returns all conditions caused by the pathogen or disease causing agent identified using queries  [C07](http://vocabqueries.omop.org/condition-queries/c7) or  [C08](http://vocabqueries.omop.org/condition-queries/c8).
 
-Input:
-
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-|  SNOMED-CT Concept ID |  4248851 |  Yes | Concept Identifier for 'Treponema pallidum' |
-|  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
-
-Sample query run:
+## Sample query
 
 The following is a sample run of the query to list conditions caused by pathogen or causative agent. Sample parameter substitution is highlighted in  blue.
 
@@ -35,9 +28,16 @@ WHERE
 ;
 ```
 
-Output:
+### Input
 
-Output field list:
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+|  SNOMED-CT Concept ID |  4248851 |  Yes | Concept Identifier for 'Treponema pallidum' |
+|  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
+
+### Output
+
+#### Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -46,15 +46,13 @@ Output field list:
 |  Condition_Code |  Concept code of the standard concept in the source vocabulary |
 |  Condition_Class |  Concept class of standard vocabulary concept |
 |  Condition_Vocab_ID |  Vocabulary the standard concept is derived from as vocabulary ID |
-|  Condition_Vocab_Name |  Name of the vocabulary the standard concept is derived from |
 |  Causative_Agent_ID |  Pathogen concept ID entered as input |
 |  Causative_Agent_Name |  Pathogen Name |
 |  Causative_Agent_Code |  Concept Code of pathogen concept |
 |  Causative_Agent_Class |  Concept Class of pathogen concept |
 |  Causative_Agent_Vocab_ID |  Vocabulary the pathogen concept is derived from as vocabulary ID |
-|  Causative_Agent_Vocab_Name |  Name of the vocabulary the pathogen concept is derived from |
 
-Sample output record:
+#### Sample output record
 
 |  Field |  Value |
 | --- | --- |
@@ -63,10 +61,11 @@ Sample output record:
 |  Condition_Code |  75299005 |
 |  Condition_Class |  Clinical finding |
 |  Condition_Vocab_ID |  SNOMED |
-|  Condition_Vocab_Name |  Systematic Nomenclature of Medicine - Clinical Terms (IHTSDO) |
 |  Causative_Agent_ID |  4248851 |
 |  Causative_Agent_Name |  Treponema pallidum |
 |  Causative_Agent_Code |  72904005 |
 |  Causative_Agent_Class |  Organism |
 |  Causative_Agent_Vocab_ID |  SNOMED |
-|  Causative_Agent_Vocab_Name |  Systematic Nomenclature of Medicine - Clinical Terms (IHTSDO) |
+
+## Documentation
+https://github.com/OHDSI/CommonDataModel/wiki/CONCEPT_RELATIONSHIP

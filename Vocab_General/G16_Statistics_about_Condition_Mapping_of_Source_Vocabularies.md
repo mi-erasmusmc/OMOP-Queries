@@ -1,10 +1,8 @@
-G16: Statistics about Condition Mapping of Source Vocabularies
----
+# G16: Statistics about Condition Mapping of Source Vocabularies
 
 The following query contains the coverage for mapped source vocabularies in the Condition domains to SNOMED-CT.
 
-Sample query:
-
+## Sample query
 
 ```sql
 SELECT
@@ -46,16 +44,16 @@ FROM (
   GROUP BY c1.vocabulary_id, c2.standard_concept
 ) AS mapped;
 ```
-Input:
+
+### Input
 
 None
 
-Output:
+### Output
 
 |  Field |  Description |
 | --- | --- |
 |  vocabulary_id |  Source Vocabulary ID |
-|  vocabulary_name |  Source Vocabulary name |
 |  concept_level |  Concept Level Number |
 |  mapped_codes |  Number of mapped codes |
 |  total_mapped_codes |  Total number of mapped codes for source vocabulary |
@@ -64,12 +62,11 @@ Output:
 |  concepts_in_level |  Number of mapped concepts  |
 |  pct_mapped_concepts |  Percentile of of mapped concepts |
 
-Sample output record:
+### Sample output record
 
 | Field |  Value |
 | --- | --- |
-|  vocabulary_id |  2 |
-|  vocabulary_name |  ICD9-CT |
+|  vocabulary_id |  ICD9-CT |
 |  concept_level |  1 |
 |  mapped_codes |  4079 |
 |  total_mapped_codes |  10770 |
@@ -78,3 +75,5 @@ Sample output record:
 |  concepts_in_level |  69280 |
 |  pct_mapped_concepts |  5.0 |
 
+## Documentation
+https://github.com/OHDSI/CommonDataModel/wiki/CONCEPT_RELATIONSHIP

@@ -1,19 +1,12 @@
-C02: Find a condition by keyword
----
+# C02: Find a condition by keyword
+
 This query enables search of vocabulary entities by keyword. The query does a search of standard concepts names in the CONDITION domain (SNOMED-CT clinical findings and MedDRA concepts) and their synonyms to return all related concepts.
 
 It does not require prior knowledge of where in the logic of the vocabularies the entity is situated.
 
-Input:
+## Sample query
 
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-|  Keyword |  'myocardial infarction' |  Yes | Keyword should be placed in a single quote |
-|  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
-
-Sample query run:
-
-The following is a sample run of the query to run a search of the Condition domain for keyword 'myocardial infarction'. The input parameters are highlighted in  blue.
+The following is a sample run of the query to run a search of the Condition domain for keyword 'myocardial infarction'. The input parameters are highlighted.
 
 ```sql
 SELECT
@@ -28,9 +21,7 @@ FROM (
          c.concept_name     AS entity_name,
          c.concept_code     AS entity_code,
          c.concept_class_id AS entity_concept_class,
-         c.vocabulary_id    AS entity_vocabulary_id,
-         c.valid_start_date,
-         c.valid_end_date
+         c.vocabulary_id    AS entity_vocabulary_id
        FROM concept AS c
          LEFT JOIN concept_synonym AS s ON c.concept_id = s.concept_id
        WHERE
@@ -44,32 +35,39 @@ ORDER BY t.entity_vocabulary_id, t.entity_name
 ;
 ```
 
-Output:
+### Input
 
-Output field list:
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+|  Keyword |  'myocardial infarction' |  Yes | Keyword should be placed in a single quote |
+|  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
+
+### Output
+
+#### Output field list
 
 |  Field |  Description |
 | --- | --- |
 |  Entity_Concept_ID |  Concept ID of entity with string match on name or synonym concept |
 |  Entity_Name |  Concept name of entity with string match on name or synonym concept |
 |  Entity_Code |  Concept code of entity with string match on name or synonym concept  |
-|  Entity_Type |  Concept type |
 |  Entity_Concept_Class |  Concept class of entity with string match on name or synonym concept |
-|  Entity_Vocabulary_ID |  ID of vocabulary associated with the concept |
-|  Entity_Vocabulary_Name |  Name of the vocabulary associated with the concept |
+|  Entity_Vocabulary_ID |  Name of the vocabulary associated with the concept |
 
-Sample output record:
+
+#### Sample output record
 
 |  Field |  Value |
 | --- | --- |
 |  Entity_Concept_ID |  35205180 |
 |  Entity_Name |  Acute myocardial infarction |
 |  Entity_Code |  10000891 |
-|  Entity_Type |  Concept |
 |  Entity_Concept_Class |  Preferred Term |
 |  Entity_Vocabulary_ID |  MedDRA |
-|  Entity_Vocabulary_Name |  Medical Dictionary for Regulatory Activities (MSSO) |
 
 This is a comprehensive query to find relevant terms in the vocabulary. To constrain, additional clauses can be added to the query. However, it is recommended to do a filtering after the result set is produced to avoid syntactical mistakes.
 
 The query only returns concepts that are part of the Standard Vocabulary, ie. they have concept level that is not 0. If all concepts are needed, including the non-standard ones, the clause in the query restricting the concept level and concept class can be commented out.
+
+## Documentation
+https://github.com/OHDSI/CommonDataModel/wiki/CONCEPT_SYNONYM
