@@ -18,6 +18,10 @@ def look_around(doc, regex, line_number, around = 1):
     return(tr)
 
 
+def is_section_heading(md_line):
+    return re.match(r' ?[A-Z]{1,3}\d{1,2} ?:', md_line)
+
+
 def parse_chunk_line(line, indent_size):
     line = re.sub(r'^' + r' '*indent_size, '', line)
     line = line.replace('\*', '*')
@@ -26,10 +30,10 @@ def parse_chunk_line(line, indent_size):
     return line
 
 
-def parse_non_chunk_line(line, is_section_heading):
+def parse_non_chunk_line(line):
     if line.strip() == '---':
         return None
-    elif is_section_heading:
+    elif is_section_heading(line):
         return '# ' + line
     elif re.match(r'Sample query( run)?:', line):
         return '## Sample query'
@@ -48,9 +52,8 @@ def read_md(flpath):
     with(open(flpath, 'r')) as new_fl:
         return(new_fl.readlines())
 
-def sql_chunks(filename):
+def sql_chunks(the_md):
 
-    the_md = read_md(filename)
     in_chunk = False
     indent_size = 0
     new_md = []
@@ -73,8 +76,6 @@ def sql_chunks(filename):
         the_line = the_md[i]
         the_line = the_line.replace('\t', ' '*4)
 
-        is_section_heading = re.match(r'[A-Z]{1,3}\d{2} ?:', the_line)
-
         if start_chunk or one_liner:
             new_md.append('```sql\n')
             in_chunk = True
@@ -83,7 +84,7 @@ def sql_chunks(filename):
         if in_chunk:
             the_line = parse_chunk_line(the_line, indent_size)
         else:
-            the_line = parse_non_chunk_line(the_line, is_section_heading)
+            the_line = parse_non_chunk_line(the_line)
 
         if the_line is not None:
             new_md.append(the_line)
@@ -91,20 +92,69 @@ def sql_chunks(filename):
         if end_chunk or one_liner:
             new_md.append('```\n')
             in_chunk = False
-        
-    return(new_md)
+
+    new_md.append('## Documentation\nhttps://github.com/OHDSI/CommonDataModel/wiki/\n')
+    return new_md
+
+
+def split_md(filename):
+    the_md = read_md(filename)
+
+    md_parts = []
+    current_heading = 'None'
+    current_md_part = []
+    first_heading_seen = False
+    for line in the_md:
+        if is_section_heading(line):
+            if first_heading_seen:
+                md_parts.append((current_heading, current_md_part))
+
+            current_heading = line
+            current_md_part = []
+            first_heading_seen = True
+
+        current_md_part.append(line)
+
+    md_parts.append((current_heading, current_md_part))
+
+    return md_parts
+
+
+def sanitize_filename(s):
+    s = s.strip()
+    s = re.subn(r' *: *| |/', '_', s)[0]
+    s = re.subn(r'\?|,|\(|\)', '', s)[0]
+    s = s.strip('.')
+    return s
+
+
+def make_dirs(folder):
+    try:
+        os.makedirs(folder)
+    except:
+        #print("folder exists, %s" % folder)
+        pass
+
 
 if __name__ == '__main__':
     if len(sys.argv[1:]) != 1:
         raise ValueError('This script accepts one parameter: the path to a folder containing markdown files.')
     md_fldr = sys.argv[1] + '/'
-    new_md_fldr = './sql_' + md_fldr
+    new_md_fldr = './md'
 
-    try:
-        os.makedirs(new_md_fldr)
-    except:
-        print("folder exists")
+    make_dirs(new_md_fldr)
 
     filenames = sorted(os.listdir(md_fldr))
     for flnm in filenames:
-        write_md(sql_chunks(md_fldr + flnm), new_md_fldr + flnm) 
+        base_name, extension = os.path.splitext(flnm)
+        if extension != '.md':
+            continue
+
+        for part_name, md_part in split_md(md_fldr + flnm):
+            folder = os.path.join(new_md_fldr, base_name)
+            make_dirs(folder)
+
+            filename = sanitize_filename(part_name) + '.md'
+            print(filename)
+
+            write_md(sql_chunks(md_part), os.path.join(folder, filename))
