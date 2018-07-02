@@ -1,49 +1,46 @@
 Condition Queries
----
 
-C01: Find condition by concept ID
----
+# C01: Find condition by concept ID
 
 Find condition by condition ID is the lookup for obtaining condition or disease concept details associated with a concept identifier. This query is a tool for quick reference for the name, class, level and source vocabulary details associated with a concept identifier, either SNOMED-CT clinical finding or MedDRA.
 This query is equivalent to  [G01](http://vocabqueries.omop.org/general-queries/g1), but if the concept is not in the condition domain the query still returns the concept details with the Is_Disease_Concept_Flag field set to 'No'.
 
-Input:
+### Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  Concept ID |  192671 |  Yes | Concept Identifier for 'GI - Gastrointestinal haemorrhage' |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-Sample query run:
-
+## Sample query
 The following is a sample run of the query to run a search for specific disease concept ID. 
 
 The input parameters are highlighted in  blue.
 
 ```sql
-	SELECT 
-	  C.concept_id Condition_concept_id, 
-	  C.concept_name Condition_concept_name, 
-	  C.concept_code Condition_concept_code, 
-	  C.concept_class_id Condition_concept_class,
-	  C.vocabulary_id Condition_concept_vocab_ID, 
-	  V.vocabulary_name Condition_concept_vocab_name, 
-	  CASE C.vocabulary_id 
-	    WHEN 'SNOMED' THEN CASE lower(C.concept_class_id)   
-		  WHEN 'clinical finding' THEN 'Yes' ELSE 'No' END 
-		WHEN 'MedDRA' THEN 'Yes'
-		ELSE 'No' 
-	  END Is_Disease_Concept_flag 
-	FROM concept C, vocabulary V 
-	WHERE 
-	  C.concept_id = 192671 AND 
-	  C.vocabulary_id = V.vocabulary_id AND 
-	  sysdate BETWEEN valid_start_date AND valid_end_date;
+SELECT 
+  C.concept_id Condition_concept_id, 
+  C.concept_name Condition_concept_name, 
+  C.concept_code Condition_concept_code, 
+  C.concept_class_id Condition_concept_class,
+  C.vocabulary_id Condition_concept_vocab_ID, 
+  V.vocabulary_name Condition_concept_vocab_name, 
+  CASE C.vocabulary_id 
+    WHEN 'SNOMED' THEN CASE lower(C.concept_class_id)   
+      WHEN 'clinical finding' THEN 'Yes' ELSE 'No' END 
+    WHEN 'MedDRA' THEN 'Yes'
+    ELSE 'No' 
+  END Is_Disease_Concept_flag 
+FROM concept C, vocabulary V 
+WHERE 
+  C.concept_id = 192671 AND 
+  C.vocabulary_id = V.vocabulary_id AND 
+  sysdate BETWEEN valid_start_date AND valid_end_date;
 ```
 
-Output:
+### Output
 
-Output field list:
+### Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -56,7 +53,7 @@ Output field list:
 |  Is_Disease_Concept_Flag |  Flag indicating whether the Concept ID belongs to a disease concept. 'Yes' if disease concept, 'No' if not a disease concept |
 
 
-Sample output record:
+### Sample output record
 
 |  Field |  Value |
 | --- | --- | 
@@ -68,62 +65,60 @@ Sample output record:
 |  Condition_Concept_Vocab_Name | Systematic Nomenclature of Medicine - Clinical Terms (IHTSDO) |
 |  Is_Disease_Concept_Flag |  Yes |
 
-C02: Find a condition by keyword
----
+# C02: Find a condition by keyword
 
 This query enables search of vocabulary entities by keyword. The query does a search of standard concepts names in the CONDITION domain (SNOMED-CT clinical findings and MedDRA concepts) and their synonyms to return all related concepts.
 
 It does not require prior knowledge of where in the logic of the vocabularies the entity is situated.
 
-Input:
+### Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  Keyword |  'myocardial infarction' |  Yes | Keyword should be placed in a single quote |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-Sample query run:
-
+## Sample query
 The following is a sample run of the query to run a search of the Condition domain for keyword 'myocardial infarction'. The input parameters are highlighted in  blue.
 
 ```sql
-	SELECT 
-	  T.Entity_Concept_Id, 
-	  T.Entity_Name, 
-	  T.Entity_Code, 
-	  T.Entity_Type, 
-	  T.Entity_concept_class, 
-	  T.Entity_vocabulary_id, 
-	  T.Entity_vocabulary_name 
-	FROM ( 
-	  SELECT 
-	    C.concept_id Entity_Concept_Id, 
-		C.concept_name Entity_Name, 
-		C.CONCEPT_CODE Entity_Code, 
-		'Concept' Entity_Type, 
-		C.concept_class_id Entity_concept_class, 
-		C.vocabulary_id Entity_vocabulary_id, 
-		V.vocabulary_name Entity_vocabulary_name, 
-		NULL Entity_Mapping_Type, 
-		C.valid_start_date, 
-		C.valid_end_date 
-	  FROM concept C 
-	  JOIN vocabulary V ON C.vocabulary_id = V.vocabulary_id 
-	  LEFT JOIN concept_synonym S ON C.concept_id = S.concept_id 
-	  WHERE 
-	    (C.vocabulary_id IN ('SNOMED', 'MedDRA') OR LOWER(C.concept_class_id) = 'clinical finding' ) AND 
-		C.concept_class_id IS NOT NULL AND 
-		( LOWER(C.concept_name) like '%myocardial infarction%' OR 
-		  LOWER(S.concept_synonym_name) like '%myocardial infarction%' ) 
-	  ) T
-	WHERE sysdate BETWEEN valid_start_date AND valid_end_date 
-	ORDER BY 6,2;
+SELECT 
+  T.Entity_Concept_Id, 
+  T.Entity_Name, 
+  T.Entity_Code, 
+  T.Entity_Type, 
+  T.Entity_concept_class, 
+  T.Entity_vocabulary_id, 
+  T.Entity_vocabulary_name 
+FROM ( 
+  SELECT 
+    C.concept_id Entity_Concept_Id, 
+    C.concept_name Entity_Name, 
+    C.CONCEPT_CODE Entity_Code, 
+    'Concept' Entity_Type, 
+    C.concept_class_id Entity_concept_class, 
+    C.vocabulary_id Entity_vocabulary_id, 
+    V.vocabulary_name Entity_vocabulary_name, 
+    NULL Entity_Mapping_Type, 
+    C.valid_start_date, 
+    C.valid_end_date 
+  FROM concept C 
+  JOIN vocabulary V ON C.vocabulary_id = V.vocabulary_id 
+  LEFT JOIN concept_synonym S ON C.concept_id = S.concept_id 
+  WHERE 
+    (C.vocabulary_id IN ('SNOMED', 'MedDRA') OR LOWER(C.concept_class_id) = 'clinical finding' ) AND 
+    C.concept_class_id IS NOT NULL AND 
+    ( LOWER(C.concept_name) like '%myocardial infarction%' OR 
+      LOWER(S.concept_synonym_name) like '%myocardial infarction%' ) 
+  ) T
+WHERE sysdate BETWEEN valid_start_date AND valid_end_date 
+ORDER BY 6,2;
 ```
 
 
-Output:
+### Output
 
-Output field list:
+### Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -136,7 +131,7 @@ Output field list:
 |  Entity_Vocabulary_Name |  Name of the vocabulary associated with the concept |
 
 
-Sample output record:
+### Sample output record
 
 |  Field |  Value |
 | --- | --- |
@@ -152,8 +147,7 @@ This is a comprehensive query to find relevant terms in the vocabulary. To const
 
 The query only returns concepts that are part of the Standard Vocabulary, ie. they have concept level that is not 0. If all concepts are needed, including the non-standard ones, the clause in the query restricting the concept level and concept class can be commented out. 
 
-C03: Translate a SNOMED-CT concept into a MedDRA concept
----
+# C03: Translate a SNOMED-CT concept into a MedDRA concept
 
 This query accepts a SNOMED-CT concept ID as input and returns details of the equivalent MedDRA concepts.
 
@@ -161,41 +155,40 @@ The relationships in the vocabulary associate MedDRA 'Preferred Term' to SNOMED-
 
 Also, not all SNOMED-CT clinical findings are mapped to a MedDRA concept in the vocabulary.
 
-Input:
+### Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  SNOMED-CT Concept ID |  312327 |  Yes | Concept Identifier for 'Acute myocardial infarction' |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-Sample query run:
-
+## Sample query
 The following is a sample run of the query to list MedDRA equivalents for SNOMED-CT concept whose concept ID is entered as input. 
 
 ```sql
-	SELECT	D.concept_id Snomed_concept_id,
-			D.concept_name Snomed_concept_name,
-			D.concept_code Snomed_concept_code,
-			D.concept_class_id Snomed_concept_class,
-			CR.relationship_id,
-			RT.relationship_name,
-			A.Concept_id MedDRA_concept_id,
-			A.Concept_name MedDRA_concept_name,
-			A.Concept_code MedDRA_concept_code,
-			A.Concept_class_id MedDRA_concept_class 
-	FROM concept_relationship CR, concept A, concept D, relationship RT 
-	WHERE CR.relationship_id =  'SNOMED - MedDRA eq'
-	AND CR.concept_id_2 = A.concept_id 
-	AND CR.concept_id_1 = 312327
-	AND CR.concept_id_1 = D.concept_id 
-	AND CR.relationship_id = RT.relationship_id 
-	AND sysdate BETWEEN CR.valid_start_date 
-	AND CR.valid_end_date;
+SELECT    D.concept_id Snomed_concept_id,
+        D.concept_name Snomed_concept_name,
+        D.concept_code Snomed_concept_code,
+        D.concept_class_id Snomed_concept_class,
+        CR.relationship_id,
+        RT.relationship_name,
+        A.Concept_id MedDRA_concept_id,
+        A.Concept_name MedDRA_concept_name,
+        A.Concept_code MedDRA_concept_code,
+        A.Concept_class_id MedDRA_concept_class 
+FROM concept_relationship CR, concept A, concept D, relationship RT 
+WHERE CR.relationship_id =  'SNOMED - MedDRA eq'
+AND CR.concept_id_2 = A.concept_id 
+AND CR.concept_id_1 = 312327
+AND CR.concept_id_1 = D.concept_id 
+AND CR.relationship_id = RT.relationship_id 
+AND sysdate BETWEEN CR.valid_start_date 
+AND CR.valid_end_date;
 ```
 
-Output:
+### Output
 
-Output field list:
+### Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -210,7 +203,7 @@ Output field list:
 |  MedDRA_Concept_Code |  Concept code of matching MedDRA concept |
 |  MedDRA_Concept_Class |  Concept class of matching MedDRA concept |
 
-Sample output record:
+### Sample output record
 
 |  Field |  Value |
 | --- | --- |
@@ -225,48 +218,45 @@ Sample output record:
 |  MedDRA_Concept_Code |  10000891 |
 |  MedDRA_Concept_Class |  Preferred Term |
 
-C04: Translate a MedDRA concept into a SNOMED-CT concept
----
+# C04: Translate a MedDRA concept into a SNOMED-CT concept
 
 This query accepts a MedDRA concept ID as input and returns details of the equivalent SNOMED-CT concepts.
 The existing relationships in the vocabulary associate MedDRA 'Preferred Term' to SNOMED-CT 'clinical findings'. The respective hierarchy for MedDRA and SNOMED-CT can be used to traverse up and down the hierarchy of each of these individual vocabularies.
 
-Input:
+### Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  MedDRA Concept ID |  35205180 |  Yes | Concept Identifier for 'Acute myocardial infarction' |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-Sample query run:
-
+## Sample query
 The following is a sample run of the query to list all MedDRA concepts that have SNOMED-CT equivalents. Sample parameter substitution is highlighted in  blue.
 
 ```sql
-	SELECT	D.concept_id MedDRA_concept_id,
-			D.concept_name MedDRA_concept_name,
-			D.concept_code MedDRA_concept_code,
-			D.concept_class_id MedDRA_concept_class,
-			CR.relationship_id,
-			RT.relationship_name,
-			A.concept_id Snomed_concept_id,
-			A.concept_name Snomed_concept_name,
-			A.concept_code Snomed_concept_code,
-			A.concept_class_id Snomed_concept_class 
-	FROM concept_relationship CR, concept A, concept D, relationship RT 
-	WHERE CR.relationship_id = 'MedDRA to SNOMED equivalent (OMOP)'
-	AND CR.concept_id_2 = A.concept_id 
-	AND CR.concept_id_1 = 35205180
-
-	AND CR.concept_id_1 = D.concept_id 
-	AND CR.relationship_id = RT.relationship_id 
-	AND sysdate BETWEEN CR.valid_start_date 
-	AND CR.valid_end_date;
+SELECT    D.concept_id MedDRA_concept_id,
+        D.concept_name MedDRA_concept_name,
+        D.concept_code MedDRA_concept_code,
+        D.concept_class_id MedDRA_concept_class,
+        CR.relationship_id,
+        RT.relationship_name,
+        A.concept_id Snomed_concept_id,
+        A.concept_name Snomed_concept_name,
+        A.concept_code Snomed_concept_code,
+        A.concept_class_id Snomed_concept_class 
+FROM concept_relationship CR, concept A, concept D, relationship RT 
+WHERE CR.relationship_id = 'MedDRA to SNOMED equivalent (OMOP)'
+AND CR.concept_id_2 = A.concept_id 
+AND CR.concept_id_1 = 35205180
+AND CR.concept_id_1 = D.concept_id 
+AND CR.relationship_id = RT.relationship_id 
+AND sysdate BETWEEN CR.valid_start_date 
+AND CR.valid_end_date;
 ```
 
-Output:
+### Output
 
-Output field list:
+### Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -281,7 +271,7 @@ Output field list:
 |  SNOMED-CT_Concept_Code |  Concept Code of matching SNOMED-CT concept |
 |  SNOMED-CT_Concept_Class |  Concept class of matching SNOMED-CT concept |
 
-Sample output record:
+### Sample output record
 
 |  Field |  Value |
 | --- | --- |
@@ -297,8 +287,7 @@ Sample output record:
 |  SNOMED-CT_Concept_Class |  Clinical finding |
 
 
-C05: Translate a source code to condition concepts
----
+# C05: Translate a source code to condition concepts
 
 This query enables to search all Standard SNOMED-CT concepts that are mapped to a condition (disease) source code. It can be used to translate e.g. ICD-9-CM, ICD-10-CM or Read codes to SNOMED-CT.
 
@@ -311,7 +300,7 @@ The following source vocabularies have condition/disease codes that map to SNOME
 - OXMIS,         Vocabulary_id=18
 - ICD-10-CM,   Vocabulary_id=34
 
-Input:
+### Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
@@ -319,50 +308,48 @@ Input:
 |  Source Vocabulary ID |  2 |  Yes | The source vocabulary is mandatory, because the source ID is not unique across different vocabularies. |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-Sample query run:
-
+## Sample query
 The following is a sample run of the query to list SNOMED-CT concepts that a set of mapped codes entered as input map to. The sample parameter substitutions are highlighted in  blue 
 
 ```sql
-	set search_path to full_201612_omop_v5;
-
-	SELECT DISTINCT 
-	  c1.concept_code, 
-	  c1.concept_name, 
-	  c1.vocabulary_id source_vocabulary_id, 
-	  VS.vocabulary_name source_vocabulary_description, 
-	  C1.domain_id, 
-	  C2.concept_id target_concept_id, 
-	  C2.concept_name target_Concept_Name, 
-	  C2.concept_code target_Concept_Code, 
-	  C2.concept_class_id target_Concept_Class, 
-	  C2.vocabulary_id target_Concept_Vocab_ID, 
-	  VT.vocabulary_name target_Concept_Vocab_Name 
-	FROM 
-	  concept_relationship cr, 
-	  concept c1, 
-	  concept c2,
-	  vocabulary VS, 
-	  vocabulary VT 
-	WHERE 
-	  cr.concept_id_1 = c1.concept_id AND
-	  cr.relationship_id = 'Maps to' AND
-	  cr.concept_id_2 = c2.concept_id AND
-	  c1.vocabulary_id = VS.vocabulary_id AND 
-	  c1.domain_id = 'Condition' AND 
-	  c2.vocabulary_id = VT.vocabulary_id AND 
-	  c1.concept_code IN (
-	'070.0'                                           
-	) AND c2.vocabulary_id =
-	'SNOMED'                                          
-	AND
-	sysdate                                           
-	BETWEEN c1.valid_start_date AND c1.valid_end_date;
+set search_path to full_201612_omop_v5;
+SELECT DISTINCT 
+  c1.concept_code, 
+  c1.concept_name, 
+  c1.vocabulary_id source_vocabulary_id, 
+  VS.vocabulary_name source_vocabulary_description, 
+  C1.domain_id, 
+  C2.concept_id target_concept_id, 
+  C2.concept_name target_Concept_Name, 
+  C2.concept_code target_Concept_Code, 
+  C2.concept_class_id target_Concept_Class, 
+  C2.vocabulary_id target_Concept_Vocab_ID, 
+  VT.vocabulary_name target_Concept_Vocab_Name 
+FROM 
+  concept_relationship cr, 
+  concept c1, 
+  concept c2,
+  vocabulary VS, 
+  vocabulary VT 
+WHERE 
+  cr.concept_id_1 = c1.concept_id AND
+  cr.relationship_id = 'Maps to' AND
+  cr.concept_id_2 = c2.concept_id AND
+  c1.vocabulary_id = VS.vocabulary_id AND 
+  c1.domain_id = 'Condition' AND 
+  c2.vocabulary_id = VT.vocabulary_id AND 
+  c1.concept_code IN (
+'070.0'                                           
+) AND c2.vocabulary_id =
+'SNOMED'                                          
+AND
+sysdate                                           
+BETWEEN c1.valid_start_date AND c1.valid_end_date;
 ```
 
-Output:
+### Output
 
-Output field list:
+### Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -378,7 +365,7 @@ Output field list:
 |  Target_Concept_Vocab_ID |  Vocabulary the target condition concept is derived from as vocabulary code |
 |  Target_Concept_Vocab_Name |  Name of the vocabulary the condition concept is derived from |
 
-Sample output record:
+### Sample output record
 
 |  Field |  Value |
 | --- | --- |
@@ -394,12 +381,11 @@ Sample output record:
 |  Target_Concept_Vocab_ID |  SNOMED |
 |  Target_Concept_Vocab_Name |  Systematic Nomenclature of Medicine - Clinical Terms (IHTSDO) |
 
-C06: Translate a given condition to source codes
----
+# C06: Translate a given condition to source codes
 
 This query allows to search all source codes that are mapped to a SNOMED-CT clinical finding concept. It can be used to translate SNOMED-CT to ICD-9-CM, ICD-10-CM, Read or OXMIS codes.
 
-Input:
+### Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
@@ -407,48 +393,47 @@ Input:
 |  Source Vocabulary ID |  2 |  Yes | 2 represents ICD9-CM |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-Sample query run: 
-
+## Sample query
 The following is a sample run of the query to list all source codes that map to a SNOMED-CT concept entered as input. The sample parameter substitutions are highlighted in  blue.
 
 ```sql
-	SELECT DISTINCT
-	  c1.concept_code,
-	  c1.concept_name,
-	  c1.vocabulary_id source_vocabulary_id,
-	  VS.vocabulary_name source_vocabulary_description,
-	  C1.domain_id,
-	  C2.concept_id target_concept_id,
-	  C2.concept_name target_Concept_Name,
-	  C2.concept_code target_Concept_Code,
-	  C2.concept_class_id target_Concept_Class,
-	  C2.vocabulary_id target_Concept_Vocab_ID,
-	  VT.vocabulary_name target_Concept_Vocab_Name
-	FROM
-	  concept_relationship cr,
-	  concept c1,
-	  concept c2,
-	  vocabulary VS,
-	  vocabulary VT
-	WHERE
-	  cr.concept_id_1 = c1.concept_id AND
-	  cr.relationship_id = 'Maps to' AND
-	  cr.concept_id_2 = c2.concept_id AND
-	  c1.vocabulary_id = VS.vocabulary_id AND
-	  c1.domain_id = 'Condition' AND
-	  c2.vocabulary_id = VT.vocabulary_id AND
-	  c1.concept_id =
-	312327                                            
-	  AND c1.vocabulary_id =
-	'SNOMED'                                          
-	AND
-	sysdate                                           
-	BETWEEN c2.valid_start_date AND c2.valid_end_date;
+SELECT DISTINCT
+  c1.concept_code,
+  c1.concept_name,
+  c1.vocabulary_id source_vocabulary_id,
+  VS.vocabulary_name source_vocabulary_description,
+  C1.domain_id,
+  C2.concept_id target_concept_id,
+  C2.concept_name target_Concept_Name,
+  C2.concept_code target_Concept_Code,
+  C2.concept_class_id target_Concept_Class,
+  C2.vocabulary_id target_Concept_Vocab_ID,
+  VT.vocabulary_name target_Concept_Vocab_Name
+FROM
+  concept_relationship cr,
+  concept c1,
+  concept c2,
+  vocabulary VS,
+  vocabulary VT
+WHERE
+  cr.concept_id_1 = c1.concept_id AND
+  cr.relationship_id = 'Maps to' AND
+  cr.concept_id_2 = c2.concept_id AND
+  c1.vocabulary_id = VS.vocabulary_id AND
+  c1.domain_id = 'Condition' AND
+  c2.vocabulary_id = VT.vocabulary_id AND
+  c1.concept_id =
+312327                                            
+  AND c1.vocabulary_id =
+'SNOMED'                                          
+AND
+sysdate                                           
+BETWEEN c2.valid_start_date AND c2.valid_end_date;
 ```
 
-Output:
+### Output
 
-Output field list:
+### Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -464,7 +449,7 @@ Output field list:
 |  Target_Concept_Vocab_ID |  Vocabulary of concept entered as input is derived from, as vocabulary ID |
 |  Target_Concept_Vocab_Name |  Name of vocabulary the concept entered as input is derived from |
 
-Sample output record:
+### Sample output record
 
 |  Field |  Value |
 | --- | --- |
@@ -480,46 +465,44 @@ Sample output record:
 |  Target_Concept_Vocab_ID |  SNOMED |
 |  Target_Concept_Vocab_Name |  Systematic Nomenclature of Medicine - Clinical Terms (IHTSDO) |
 
-C07: Find a pathogen by keyword
----
+# C07: Find a pathogen by keyword
 
 This query enables a search of all pathogens using a keyword as input. The resulting concepts could be used in query  [C09](http://vocabqueries.omop.org/condition-queries/c9) to identify diseases caused by a certain pathogen.
 
-Input:
+### Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  Keyword for pathogen |  'Trypanosoma' |  Yes | Keyword should be placed in a single quote |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-Sample query run:
-
+## Sample query
 The following is a sample run of the query to list all pathogens specified using a keyword as input. The sample parameter substitutions are highlighted in  blue.
 
 ```sql
-	SELECT 
-	  C.concept_id Pathogen_Concept_ID, 
-	  C.concept_name Pathogen_Concept_Name, 
-	  C.concept_code Pathogen_concept_code, 
-	  C.concept_class_id Pathogen_concept_class, 
-	  C.standard_concept Pathogen_Standard_Concept, 
-	  C.vocabulary_id Pathogen_Concept_Vocab_ID, 
-	  V.vocabulary_name Pathogen_Concept_Vocab_Name 
-	FROM 
-	  concept C, 
-	  vocabulary V
-	WHERE 
-	  LOWER(C.concept_class_id) = 'organism' AND 
-	  LOWER(C.concept_name) like
-	'%trypanosoma%'                                
-	AND C.vocabulary_id = V.vocabulary_id AND
-	sysdate                                        
-	BETWEEN C.valid_start_date AND C.valid_end_date;
+SELECT 
+  C.concept_id Pathogen_Concept_ID, 
+  C.concept_name Pathogen_Concept_Name, 
+  C.concept_code Pathogen_concept_code, 
+  C.concept_class_id Pathogen_concept_class, 
+  C.standard_concept Pathogen_Standard_Concept, 
+  C.vocabulary_id Pathogen_Concept_Vocab_ID, 
+  V.vocabulary_name Pathogen_Concept_Vocab_Name 
+FROM 
+  concept C, 
+  vocabulary V
+WHERE 
+  LOWER(C.concept_class_id) = 'organism' AND 
+  LOWER(C.concept_name) like
+'%trypanosoma%'                                
+AND C.vocabulary_id = V.vocabulary_id AND
+sysdate                                        
+BETWEEN C.valid_start_date AND C.valid_end_date;
 ```
 
-Output:
+### Output
 
-Output field list:
+### Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -531,7 +514,7 @@ Output field list:
 |  Pathogen_Vocab_ID |  Vocabulary ID of the vocabulary from which the pathogen concept is derived from (1 for SNOMED-CT) |
 |  Pathogen_Vocab_Name |  Name of the vocabulary from which the pathogen concept is derived from (SNOMED-CT) |
 
-Sample output record:
+### Sample output record
 
 |  Field |  Value |
 | --- | --- |
@@ -543,8 +526,7 @@ Sample output record:
 |  Pathogen_Vocab_ID |  SNOMED |
 |  Pathogen_Vocab_Name |  Systematic Nomenclature of Medicine - Clinical Terms (IHTSDO) |
 
-C08: Find a disease causing agent by keyword
----
+# C08: Find a disease causing agent by keyword
 
 This query enables a search of various agents that can cause disease by keyword as input. Apart from pathogens (see query  [C07](http://vocabqueries.omop.org/condition-queries/c7)), these agents can be SNOMED-CT concepts of the following classes:
 - Pharmaceutical / biologic product
@@ -556,42 +538,41 @@ This query enables a search of various agents that can cause disease by keyword 
 
 The resulting concepts could be used in query  [C09](http://vocabqueries.omop.org/condition-queries/c9) to identify diseases caused by the agent.
 
-Input:
+### Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  Keyword for pathogen |  'Radiation' |  Yes | Keyword should be placed in a single quote |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-Sample query run:
-
+## Sample query
 The following is a sample run of the query to list all pathogens specified using a keyword as input. The sample parameter substitutions are highlighted in  blue.
 
 ```sql
-	SELECT
-	  C.concept_id Agent_Concept_ID,
-	  C.concept_name Agent_Concept_Name,
-	  C.concept_code Agent_concept_code,
-	  C.concept_class_id Agent_concept_class,
-	  C.standard_concept Agent_Standard_Concept,
-	  C.vocabulary_id Agent_Concept_Vocab_ID,
-	  V.vocabulary_name Agent_Concept_Vocab_Name
-	FROM
-	  concept C,
-	  vocabulary V
-	WHERE
-	  LOWER(C.concept_class_id) in ('pharmaceutical / biologic product','physical object',
-	                                'special concept','event', 'physical force','substance') AND
-	  LOWER(C.concept_name) like
-	'%radiation%'                                  
-	AND C.vocabulary_id = V.vocabulary_id AND
-	sysdate                                        
-	BETWEEN C.valid_start_date AND C.valid_end_date;
+SELECT
+  C.concept_id Agent_Concept_ID,
+  C.concept_name Agent_Concept_Name,
+  C.concept_code Agent_concept_code,
+  C.concept_class_id Agent_concept_class,
+  C.standard_concept Agent_Standard_Concept,
+  C.vocabulary_id Agent_Concept_Vocab_ID,
+  V.vocabulary_name Agent_Concept_Vocab_Name
+FROM
+  concept C,
+  vocabulary V
+WHERE
+  LOWER(C.concept_class_id) in ('pharmaceutical / biologic product','physical object',
+                                'special concept','event', 'physical force','substance') AND
+  LOWER(C.concept_name) like
+'%radiation%'                                  
+AND C.vocabulary_id = V.vocabulary_id AND
+sysdate                                        
+BETWEEN C.valid_start_date AND C.valid_end_date;
 ```
 
-Output:
+### Output
 
-Output field list:
+### Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -603,7 +584,7 @@ Output field list:
 |  Agent_Vocab_ID |  Vocabulary ID of the vocabulary from which the agent concept is derived from (1 for SNOMED-CT) |
 |  Agent_Vocab_Name |  Name of the vocabulary from which the agent concept is derived from (SNOMED-CT) |
 
-Sample output record:
+### Sample output record
 
 |  Field |  Value |
 | --- | --- |
@@ -615,57 +596,55 @@ Sample output record:
 |  Agent_Vocab_ID |  SNOMED |
 |  Agent_Vocab_Name |  Systematic Nomenclature of Medicine - Clinical Terms (IHTSDO) |
 
-C09: Find all SNOMED-CT condition concepts that can be caused by a given pathogen or causative agent
----
+# C09: Find all SNOMED-CT condition concepts that can be caused by a given pathogen or causative agent
 
 This query accepts a SNOMED-CT pathogen ID as input and returns all conditions caused by the pathogen or disease causing agent identified using queries  [C07](http://vocabqueries.omop.org/condition-queries/c7) or  [C08](http://vocabqueries.omop.org/condition-queries/c8).
 
-Input:
+### Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  SNOMED-CT Concept ID |  4248851 |  Yes | Concept Identifier for 'Treponema pallidum' |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-Sample query run:
-
+## Sample query
 The following is a sample run of the query to list conditions caused by pathogen or causative agent. Sample parameter substitution is highlighted in  blue.
 
 ```sql
-	SELECT 
-	  A.concept_Id Condition_ID, 
-	  A.concept_Name Condition_name, 
-	  A.concept_Code Condition_code, 
-	  A.concept_Class_id Condition_class, 
-	  A.vocabulary_id Condition_vocab_ID, 
-	  VA.vocabulary_name Condition_vocab_name, 
-	  D.concept_Id Causative_agent_ID, 
-	  D.concept_Name Causative_agent_Name, 
-	  D.concept_Code Causative_agent_Code, 
-	  D.concept_Class_id Causative_agent_Class, 
-	  D.vocabulary_id Causative_agent_vocab_ID, 
-	  VS.vocabulary_name Causative_agent_vocab_name 
-	FROM 
-	  concept_relationship CR, 
-	  concept A, 
-	  concept D, 
-	  vocabulary VA, 
-	  vocabulary VS
-	WHERE 
-	  CR.relationship_ID = 'Has causative agent' AND 
-	  CR.concept_id_1 = A.concept_id AND 
-	  A.vocabulary_id = VA.vocabulary_id AND 
-	  CR.concept_id_2 = D.concept_id AND 
-	  D.concept_id =
-	4248851                                             
-	  AND D.vocabulary_id = VS.vocabulary_id AND 
-	sysdate                                             
-	  BETWEEN CR.valid_start_date AND CR.valid_end_date;
+SELECT 
+  A.concept_Id Condition_ID, 
+  A.concept_Name Condition_name, 
+  A.concept_Code Condition_code, 
+  A.concept_Class_id Condition_class, 
+  A.vocabulary_id Condition_vocab_ID, 
+  VA.vocabulary_name Condition_vocab_name, 
+  D.concept_Id Causative_agent_ID, 
+  D.concept_Name Causative_agent_Name, 
+  D.concept_Code Causative_agent_Code, 
+  D.concept_Class_id Causative_agent_Class, 
+  D.vocabulary_id Causative_agent_vocab_ID, 
+  VS.vocabulary_name Causative_agent_vocab_name 
+FROM 
+  concept_relationship CR, 
+  concept A, 
+  concept D, 
+  vocabulary VA, 
+  vocabulary VS
+WHERE 
+  CR.relationship_ID = 'Has causative agent' AND 
+  CR.concept_id_1 = A.concept_id AND 
+  A.vocabulary_id = VA.vocabulary_id AND 
+  CR.concept_id_2 = D.concept_id AND 
+  D.concept_id =
+4248851                                             
+  AND D.vocabulary_id = VS.vocabulary_id AND 
+sysdate                                             
+  BETWEEN CR.valid_start_date AND CR.valid_end_date;
 ```
 
-Output:
+### Output
 
-Output field list:
+### Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -682,7 +661,7 @@ Output field list:
 |  Causative_Agent_Vocab_ID |  Vocabulary the pathogen concept is derived from as vocabulary ID |
 |  Causative_Agent_Vocab_Name |  Name of the vocabulary the pathogen concept is derived from |
 
-Sample output record:
+### Sample output record
 
 |  Field |  Value |
 | --- | --- |
@@ -699,44 +678,42 @@ Sample output record:
 |  Causative_Agent_Vocab_ID |  SNOMED |
 |  Causative_Agent_Vocab_Name |  Systematic Nomenclature of Medicine - Clinical Terms (IHTSDO) |
 
-C10: Find an anatomical site by keyword
----
+# C10: Find an anatomical site by keyword
 
 This query enables a search of all anatomical sites using a keyword entered as input. The resulting concepts could be used in query  [C11](http://vocabqueries.omop.org/condition-queries/c11) to identify diseases occurring at a certain anatomical site.
 
-Input:
+### Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  Keyword for pathogen |  'Epiglottis' |  Yes | Keyword should be placed in a single quote |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-Sample query run:
-
+## Sample query
 The following is a sample run of the query to list all anatomical site concept IDs specified using a keyword as input. The sample parameter substitutions are highlighted in  blue.
 
 ```sql
-	SELECT 
-	  C.concept_id Anatomical_site_ID, 
-	  C.concept_name Anatomical_site_Name, 
-	  C.concept_code Anatomical_site_Code, 
-	  C.concept_class_id Anatomical_site_Class, 
-	  C.standard_concept Anatomical_standard_concept, 
-	  C.vocabulary_id Anatomical_site_Vocab_ID, 
-	  V.vocabulary_name Anatomical_site_Vocab_Name 
-	FROM 
-	  concept C, 
-	  vocabulary V 
-	WHERE 
-	  LOWER(C.concept_class_id) = 'body structure' AND 
-	  LOWER(C.concept_name) like
-	'%epiglottis%'                                  
-	AND C.vocabulary_id = V.vocabulary_id AND
-	sysdate                                          
-	BETWEEN C.valid_start_date AND C.valid_end_date;
+SELECT 
+  C.concept_id Anatomical_site_ID, 
+  C.concept_name Anatomical_site_Name, 
+  C.concept_code Anatomical_site_Code, 
+  C.concept_class_id Anatomical_site_Class, 
+  C.standard_concept Anatomical_standard_concept, 
+  C.vocabulary_id Anatomical_site_Vocab_ID, 
+  V.vocabulary_name Anatomical_site_Vocab_Name 
+FROM 
+  concept C, 
+  vocabulary V 
+WHERE 
+  LOWER(C.concept_class_id) = 'body structure' AND 
+  LOWER(C.concept_name) like
+'%epiglottis%'                                  
+AND C.vocabulary_id = V.vocabulary_id AND
+sysdate                                          
+BETWEEN C.valid_start_date AND C.valid_end_date;
 ```
 
-Output:
+### Output
 
 |  Field |  Description |
 | --- | --- |
@@ -748,7 +725,7 @@ Output:
 |  Anatomical_site_vocab_ID |  Vocabulary ID of the vocabulary from which the anatomical site  concept is derived from |
 |  Anatomical_site_vocab_name |  Name of the vocabulary from which the anatomical site concept is derived from |
 
-Sample output record:
+### Sample output record
 
 |  Field |  Value |
 | --- | --- |
@@ -760,8 +737,7 @@ Sample output record:
 |  Anatomical_site_vocab_ID |  SNOMED 1 |
 |  Anatomical_site_vocab_name |  Systematic Nomenclature of Medicine - Clinical Terms (IHTSDO) |
 
-C11: Find all SNOMED-CT condition concepts that are occurring at an anatomical site
----
+# C11: Find all SNOMED-CT condition concepts that are occurring at an anatomical site
 
 This query accepts a SNOMED-CT body structure ID as input and returns all conditions occurring in the anatomical site, which can be identified using query  [C10](http://vocabqueries.omop.org/condition-queries/c10). Input:
 
@@ -770,40 +746,39 @@ This query accepts a SNOMED-CT body structure ID as input and returns all condit
 |  SNOMED-CT Concept ID |  4103720 |  Yes | Concept Identifier for 'Posterior epiglottis' |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-Sample query run: 
-
+## Sample query
 The following is a sample run of the query to list conditions located in the anatomical site.
 
 ```sql
-	SELECT
-	  A.concept_Id Condition_ID,
-	  A.concept_Name Condition_name,
-	  A.concept_Code Condition_code,
-	  A.concept_Class_id Condition_class,
-	  A.vocabulary_id Condition_vocab_ID,
-	  VA.vocabulary_name Condition_vocab_name,
-	  D.concept_Id Anatomical_site_ID,
-	  D.concept_Name Anatomical_site_Name,
-	  D.concept_Code Anatomical_site_Code,
-	  D.concept_Class_id Anatomical_site_Class,
-	  D.vocabulary_id Anatomical_site_vocab_ID,
-	  VS.vocabulary_name Anatomical_site_vocab_name
-	FROM
-	  concept_relationship CR,
-	  concept A,
-	  concept D,
-	  vocabulary VA,
-	  vocabulary VS
-	WHERE
-	  CR.relationship_ID = 'Has finding site' AND
-	  CR.concept_id_1 = A.concept_id AND
-	  A.vocabulary_id = VA.vocabulary_id AND
-	  CR.concept_id_2 = D.concept_id AND
-	  D.concept_id =
-	4103720                                             --input
-	  AND D.vocabulary_id = VS.vocabulary_id AND
-	sysdate                                             --input
-	  BETWEEN CR.valid_start_date AND CR.valid_end_date;
+SELECT
+  A.concept_Id Condition_ID,
+  A.concept_Name Condition_name,
+  A.concept_Code Condition_code,
+  A.concept_Class_id Condition_class,
+  A.vocabulary_id Condition_vocab_ID,
+  VA.vocabulary_name Condition_vocab_name,
+  D.concept_Id Anatomical_site_ID,
+  D.concept_Name Anatomical_site_Name,
+  D.concept_Code Anatomical_site_Code,
+  D.concept_Class_id Anatomical_site_Class,
+  D.vocabulary_id Anatomical_site_vocab_ID,
+  VS.vocabulary_name Anatomical_site_vocab_name
+FROM
+  concept_relationship CR,
+  concept A,
+  concept D,
+  vocabulary VA,
+  vocabulary VS
+WHERE
+  CR.relationship_ID = 'Has finding site' AND
+  CR.concept_id_1 = A.concept_id AND
+  A.vocabulary_id = VA.vocabulary_id AND
+  CR.concept_id_2 = D.concept_id AND
+  D.concept_id =
+4103720                                             --input
+  AND D.vocabulary_id = VS.vocabulary_id AND
+sysdate                                             --input
+  BETWEEN CR.valid_start_date AND CR.valid_end_date;
 ```
 
  Output: 

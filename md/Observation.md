@@ -1,13 +1,11 @@
 Observation Queries
----
 
 O1: Find a Observation from a keyword
----
 
 This query enables the search of LOINC and UCUM descriptions that are used in the observation domain of the vocabulary by keyword.
 It does not require prior knowledge of where in the logic of the vocabularies the entity is situated.
 
-Input:
+### Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
@@ -16,41 +14,40 @@ Input:
 
 
 
-Sample query run:
-
+## Sample query
 The following is a sample run of the query to run a search of the Observation domain for keyword 'LDL'. The input parameters are highlighted in  blue.
 
 ```sql
-	SELECT  T.Entity_Concept_Id,
-	        T.Entity_Name,
-	        T.Entity_Code,
-	        T.Entity_Type,
-	        T.Entity_concept_class_id,
-	        T.Entity_vocabulary_id,
-	        T.Entity_vocabulary_name
-	FROM   (
-	       SELECT  C.concept_id       Entity_Concept_Id,
-	               C.concept_name     Entity_Name,
-	               C.concept_code     Entity_Code,
-	               'Concept'          Entity_Type,
-	               C.concept_class_id    Entity_concept_class_id,
-	               C.vocabulary_id    Entity_vocabulary_id,
-	               V.vocabulary_name  Entity_vocabulary_name,
-	               C.valid_start_date,
-	               C.valid_end_date
-	       FROM    concept         C, 
-	               vocabulary      V
-	       WHERE  C.vocabulary_id IN ('LOINC', 'UCUM')
-	       AND    C.concept_class_id IS NOT NULL
-	       AND    C.standard_concept = 'S'
-	       AND    C.vocabulary_id = V.vocabulary_id
-	       ) T
-	WHERE  REGEXP_INSTR(LOWER(REPLACE(REPLACE(T.Entity_Name, ' ', ''), '-', '')), 
-	             LOWER(REPLACE(REPLACE('LDL' , ' ', ''), '-', ''))) > 0
-	AND     sysdate BETWEEN T.valid_start_date AND T.valid_end_date
+SELECT  T.Entity_Concept_Id,
+        T.Entity_Name,
+        T.Entity_Code,
+        T.Entity_Type,
+        T.Entity_concept_class_id,
+        T.Entity_vocabulary_id,
+        T.Entity_vocabulary_name
+FROM   (
+       SELECT  C.concept_id       Entity_Concept_Id,
+               C.concept_name     Entity_Name,
+               C.concept_code     Entity_Code,
+               'Concept'          Entity_Type,
+               C.concept_class_id    Entity_concept_class_id,
+               C.vocabulary_id    Entity_vocabulary_id,
+               V.vocabulary_name  Entity_vocabulary_name,
+               C.valid_start_date,
+               C.valid_end_date
+       FROM    concept         C, 
+               vocabulary      V
+       WHERE  C.vocabulary_id IN ('LOINC', 'UCUM')
+       AND    C.concept_class_id IS NOT NULL
+       AND    C.standard_concept = 'S'
+       AND    C.vocabulary_id = V.vocabulary_id
+       ) T
+WHERE  REGEXP_INSTR(LOWER(REPLACE(REPLACE(T.Entity_Name, ' ', ''), '-', '')), 
+             LOWER(REPLACE(REPLACE('LDL' , ' ', ''), '-', ''))) > 0
+AND     sysdate BETWEEN T.valid_start_date AND T.valid_end_date
 ```
 
-Output:
+### Output
 
 Output field list
 
@@ -66,7 +63,7 @@ Output field list
 
 
 
-Sample output record:
+### Sample output record
 
 |  Field |  Value |
 | --- | --- |

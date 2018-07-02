@@ -1,54 +1,36 @@
 Drug Era Queries
----
 
-DER01: Which drug_exposure records belong to a drug_era?
----
+# DER01: Which drug_exposure records belong to a drug_era?
 
 This query is used to count all gender values (gender_concept_id) for all exposed persons stratified by drug (drug_concept_id). The input to the query is a value (or a comma-separated list of values) of a gender_concept_id and drug_concept_id. If the input is omitted, all existing value combinations are summarized.
 
-Sample query:
-
+## Sample query
 ```sql
-    select *
-
-     from        drug_exposure e
-
-     where
-
-             exists
-
-                    (
-
-                    select 1
-
-                    from
-
-                            drug_era r ,
-
-                            concept_ancestor m
-
-                    where
-
-                            r.drug_era_id = 20
-
-                    and r.person_id = e.person_id
-
-                    and r.drug_concept_id = m.ancestor_concept_id
-
-                    and e.drug_concept_id = m.descendant_concept_id
-
-                    and e.drug_exposure_start_date BETWEEN r.drug_era_start_date AND r.drug_era_end_date
-
-                    )
+select *
+ from        drug_exposure e
+ where
+         exists
+                (
+                select 1
+                from
+                        drug_era r ,
+                        concept_ancestor m
+                where
+                        r.drug_era_id = 20
+                and r.person_id = e.person_id
+                and r.drug_concept_id = m.ancestor_concept_id
+                and e.drug_concept_id = m.descendant_concept_id
+                and e.drug_exposure_start_date BETWEEN r.drug_era_start_date AND r.drug_era_end_date
+                )
 ```
 
-Input:
+### Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | drug_era_id | 20 | Yes |   |
 
-Output:
+### Output
 
 | Field |  Description |
 | --- | --- |
@@ -57,7 +39,7 @@ Output:
 | drug_exposure_start_date | The start date for the current instance of drug utilization. Valid entries include a start date of a prescription, the date a prescription was filled, or the date on which a drug administration procedure was recorded. |
 | drug_exposure_end_date | The end date for the current instance of drug utilization. |
 
-Sample output record:
+### Sample output record
 
 |  Field |  Description |
 | --- | --- |
@@ -68,62 +50,44 @@ Sample output record:
 
 
 
-DER02: What is cost of ERA? - era -> exposure -> cost
----
+# DER02: What is cost of ERA? - era -> exposure -> cost
 
 This query is used to count all gender values (gender_concept_id) for all exposed persons stratified by drug (drug_concept_id). The input to the query is a value (or a comma-separated list of values) of a gender_concept_id and drug_concept_id. If the input is omitted, all existing value combinations are summarized.
 
-Sample query:
-
+## Sample query
 ```sql
-    SELECT        sum(nvl(c.total_paid, 0)) as total_cost4era
-
-    FROM        drug_exposure e,
-
-                    cost c
-
-    WHERE
-
-            exists
-
-                    (
-
-                    select        1
-
-                    from        drug_era r,
-
-                                    concept_ancestor m
-
-                    where
-
-                            r.drug_era_id = 20--&era_id
-
-                            and r.person_id = e.person_id
-
-                            and r.drug_concept_id = m.ancestor_concept_id
-
-                            and e.drug_concept_id = m.descendant_concept_id
-
-                            and e.drug_exposure_start_date BETWEEN r.drug_era_start_date AND r.drug_era_end_date
-
-                    )
-
-    AND e. drug_exposure_id = c.cost_event_id
+SELECT        sum(nvl(c.total_paid, 0)) as total_cost4era
+FROM        drug_exposure e,
+                cost c
+WHERE
+        exists
+                (
+                select        1
+                from        drug_era r,
+                                concept_ancestor m
+                where
+                        r.drug_era_id = 20--&era_id
+                        and r.person_id = e.person_id
+                        and r.drug_concept_id = m.ancestor_concept_id
+                        and e.drug_concept_id = m.descendant_concept_id
+                        and e.drug_exposure_start_date BETWEEN r.drug_era_start_date AND r.drug_era_end_date
+                )
+AND e. drug_exposure_id = c.cost_event_id
 ```
 
-Input:
+### Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | drug_era_id | 20 | Yes |   |
 
-Output:
+### Output
 
 | Field |  Description |
 | --- | --- |
 | Total_cost4era | Total cost for drug era |
 
-Sample output record:
+### Sample output record
 
 | Field |  Description |
 | --- | --- |
@@ -131,50 +95,37 @@ Sample output record:
 
 
 
-DER03: What is the number of distinct ingredients per patient?
----
+# DER03: What is the number of distinct ingredients per patient?
 
 Average number of distinct ingredients for all patients.
 
-Sample query:
-
+## Sample query
 ```sql
-    SELECT
-
-            avg(cnt)
-
-    from
-
-            (
-
-                    select
-
-                            count(distinct r.drug_concept_id) cnt,
-
-                            r.person_id
-
-                    FROM
-
-                            drug_era r
-
-                    GROUP BY
-
-                            r.person_id
-
-            )
+SELECT
+        avg(cnt)
+from
+        (
+                select
+                        count(distinct r.drug_concept_id) cnt,
+                        r.person_id
+                FROM
+                        drug_era r
+                GROUP BY
+                        r.person_id
+        )
 ```
 
-Input:
+### Input
 
 None
 
-Output:
+### Output
 
 |  Field |  Description |
 | --- | --- |
 | avg |  Average count of distinct ingredient for all patients |
 
-Sample output record:
+### Sample output record
 
 |  Field |  Value |
 | --- | --- |
@@ -182,62 +133,43 @@ Sample output record:
 
 
 
-DER04: What proportion of observation time is a person exposed to a given drug?
----
+# DER04: What proportion of observation time is a person exposed to a given drug?
 
-Sample query:
-
+## Sample query
 ```sql
-    SELECT        decode(o.totalObs, 0, 0, 100\*(e.totExposure\*1.0/o.totalObs\*1.0)) as proportion
-
-    FROM
-
-            (
-
-            SELECT        SUM(r.drug_era_end_date - r.drug_era_start_date) AS totExposure,
-
-                            r.person_id
-
-            FROM        drug_era r
-
-            WHERE
-
-                    r.person_id                 = 9717995
-
-            AND        r.drug_concept_id         = 1549080
-
-            group by        r.person_id
-
-            ) e,
-
-            (
-
-            SELECT        sum(p.observation_period_end_date - p.observation_period_start_date) AS totalObs,
-
-                            p.person_id FROM observation_period p
-
-            group by p.person_id
-
-            ) o
-
-    where
-
-            o.person_id = e.person_id
+SELECT        decode(o.totalObs, 0, 0, 100*(e.totExposure*1.0/o.totalObs*1.0)) as proportion
+FROM
+        (
+        SELECT        SUM(r.drug_era_end_date - r.drug_era_start_date) AS totExposure,
+                        r.person_id
+        FROM        drug_era r
+        WHERE
+                r.person_id                 = 9717995
+        AND        r.drug_concept_id         = 1549080
+        group by        r.person_id
+        ) e,
+        (
+        SELECT        sum(p.observation_period_end_date - p.observation_period_start_date) AS totalObs,
+                        p.person_id FROM observation_period p
+        group by p.person_id
+        ) o
+where
+        o.person_id = e.person_id
 ```
 
-Input:
+### Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | drug_concept_id | 1549080 | Yes | Estrogens, Conjugated (USP) |
 
-Output:
+### Output
 
 |  Field |  Description |
 | --- | --- |
 | proportion | proportion of observation time is a person exposed to a given drug |
 
-Sample output record:
+### Sample output record
 
 |  Field |  Value |
 | --- | --- |
@@ -245,46 +177,29 @@ Sample output record:
 
 
 
-DER05: For a given indication, what proportion of patients take each indicated treatment?
----
+# DER05: For a given indication, what proportion of patients take each indicated treatment?
 
-Sample query:
-
+## Sample query
 ```sql
-    SELECT tt.concept_id, tt.concept_name, 100\*(tt.cntPersons\*1.0/tt.total\*1.0) AS proportion FROM (
-
-    SELECT c.concept_id, c.concept_name, t.cntPersons, sum(cntPersons) over() AS total
-
-    FROM concept c,
-
-    (SELECT er.drug_concept_id, count(DISTINCT er.person_id) AS cntPersons
-
-    FROM  concept_relationship cr,
-
-             concept_ancestor ca,
-
-          drug_era er
-
-    WHERE cr.concept_id_1 = ca.descendant_concept_id
-
-      and er.drug_concept_id = ca.ancestor_concept_id
-
-      and cr.concept_id_2 = 21001738--&era_id -- &Indication_id
-
-      -- allow only indication relationships
-
-      and cr.relationship_id IN ('Has FDA-appr ind', 'Has off-label ind', 'May treat', 'May prevent', 'CI by', 'Is off-label ind of', 'Is FDA-appr ind of', 'May be treated by')
-
-    GROUP BY er.drug_concept_id, cr.concept_id_2
-
-    ) t
-
-    WHERE t.drug_concept_id = c.concept_id
-
-    ) tt
+SELECT tt.concept_id, tt.concept_name, 100*(tt.cntPersons*1.0/tt.total*1.0) AS proportion FROM (
+SELECT c.concept_id, c.concept_name, t.cntPersons, sum(cntPersons) over() AS total
+FROM concept c,
+(SELECT er.drug_concept_id, count(DISTINCT er.person_id) AS cntPersons
+FROM  concept_relationship cr,
+         concept_ancestor ca,
+      drug_era er
+WHERE cr.concept_id_1 = ca.descendant_concept_id
+  and er.drug_concept_id = ca.ancestor_concept_id
+  and cr.concept_id_2 = 21001738--&era_id -- &Indication_id
+  -- allow only indication relationships
+  and cr.relationship_id IN ('Has FDA-appr ind', 'Has off-label ind', 'May treat', 'May prevent', 'CI by', 'Is off-label ind of', 'Is FDA-appr ind of', 'May be treated by')
+GROUP BY er.drug_concept_id, cr.concept_id_2
+) t
+WHERE t.drug_concept_id = c.concept_id
+) tt
 ```
 
-Input:
+### Input
 
 
 |  Parameter |  Example |  Mandatory |  Notes |
@@ -294,7 +209,7 @@ Input:
 
 
 
-Output:
+### Output
 
 |  Field |  Description |
 | --- | --- |
@@ -302,7 +217,7 @@ Output:
 | Concept_name | Standardized drug name |
 | Proportion | Drug that proportion of patients take |
 
-Sample output record:
+### Sample output record
 
 |  Field |  Value |
 | --- | --- |
@@ -312,68 +227,43 @@ Sample output record:
 
 
 
-DER06: For a given class, what proportion of patients take each treatment in the class?
----
+# DER06: For a given class, what proportion of patients take each treatment in the class?
 
-Sample query:
-
+## Sample query
 ```sql
-    select        tt.concept_id,
-
-                    tt.concept_name,
-
-                    100\*(tt.cntPersons\*1.0/tt.total\*1.0) as proportion_count
-
-    from
-
-            (
-
-            select        c.concept_id,
-
-                            c.concept_name,
-
-                            t.cntPersons,
-
-                            sum(cntPersons) over() as total
-
-            from        concept c,
-
-                            (
-
-                            select        r.drug_concept_id,
-
-                                            count(distinct r.person_id) as cntPersons
-
-                            FROM        concept_ancestor ca,
-
-                                            drug_era r
-
-                            WHERE
-
-                                    ca.ancestor_concept_id        = 4324992
-
-                            AND        r.drug_concept_id                = ca.descendant_concept_id
-
-                            group by
-
-                                    r.drug_concept_id
-
-                            ) t
-
-            where
-
-                    t.drug_concept_id = c.concept_id
-
-            ) tt;
+select        tt.concept_id,
+                tt.concept_name,
+                100*(tt.cntPersons*1.0/tt.total*1.0) as proportion_count
+from
+        (
+        select        c.concept_id,
+                        c.concept_name,
+                        t.cntPersons,
+                        sum(cntPersons) over() as total
+        from        concept c,
+                        (
+                        select        r.drug_concept_id,
+                                        count(distinct r.person_id) as cntPersons
+                        FROM        concept_ancestor ca,
+                                        drug_era r
+                        WHERE
+                                ca.ancestor_concept_id        = 4324992
+                        AND        r.drug_concept_id                = ca.descendant_concept_id
+                        group by
+                                r.drug_concept_id
+                        ) t
+        where
+                t.drug_concept_id = c.concept_id
+        ) tt;
 ```
 
-Input:
+### Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | ancestor_concept_id | 4324992 | Yes | Antithrombins |
 
-Output:
+### Output
 
 |  Field |  Description |
 | --- | --- |
@@ -381,7 +271,7 @@ Output:
 | Concept_name | Standardized drug name |
 | Proportion_count | Proportion of patients take each treatment in the class |
 
-Sample output record:
+### Sample output record
 
 |  Field |  Description |
 | --- | --- |
@@ -391,52 +281,38 @@ Sample output record:
 
 
 
-DER07: What is the average time between eras for a given ingredient? ex. steroids for RA
----
+# DER07: What is the average time between eras for a given ingredient? ex. steroids for RA
 
-Sample query:
-
+## Sample query
 ```sql
-    select
-
-            avg(t.next_era_start - t.drug_era_end_date) as num_days
-
-    from
-
-            (
-
-                    select
-
-                            r.drug_era_end_date,
-
-                            lead(r.drug_era_start_date) over(partition by r.person_id, r.drug_concept_id order by r.drug_era_start_date) as next_era_start
-
-                    from
-
-                            drug_era r
-
-                    where r.drug_concept_id = 1304643
-
-            ) t
-
-    where
-
-            t.next_era_start is not null
+select
+        avg(t.next_era_start - t.drug_era_end_date) as num_days
+from
+        (
+                select
+                        r.drug_era_end_date,
+                        lead(r.drug_era_start_date) over(partition by r.person_id, r.drug_concept_id order by r.drug_era_start_date) as next_era_start
+                from
+                        drug_era r
+                where r.drug_concept_id = 1304643
+        ) t
+where
+        t.next_era_start is not null
 ```
 
-Input:
+### Input
 
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | drug_concept_id | 1304643 | Yes | darbepoetin alfa |
 
-Output:
+### Output
 
 |  Field |  Description |
 | --- | --- |
 | Num_days |  Average number of days between drug eras |
 
-Sample output record:
+### Sample output record
 
 |  Field |  Value |
 | --- | --- |
@@ -444,29 +320,28 @@ Sample output record:
 
 
 
-DER08: Counts of drug records
----
+# DER08: Counts of drug records
 
 This query is used to count the drug concepts across all drug era records. The input to the query is a value (or a comma-separated list of values) of a drug_concept_id. If the input is omitted, all possible values are summarized. values are summarized.
 
-Sample query:
-
+## Sample query
 ```sql
-    SELECT count(1) AS total_count FROM drug_era r WHERE r.drug_concept_id in (1304643, 1549080);
+SELECT count(1) AS total_count FROM drug_era r WHERE r.drug_concept_id in (1304643, 1549080);
+```
 
-Input:
+### Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | list of drug_concept_id | 1304643, 1549080 | Yes |   |
 
-Output:
+### Output
 
 |  Field |  Description |
 | --- | --- |
 | Total_count |  Total count of the drug concepts for all drug era records |
 
-Sample output record:
+### Sample output record
 
 |  Field |  Value |
 | --- | --- |
@@ -474,33 +349,30 @@ Sample output record:
 
 
 
-DER09: Counts of persons taking drugs
----
+# DER09: Counts of persons taking drugs
 
 This query is used to count the persons with any number of eras with exposure to a certain drug (drug_concept_id) . The input to the query is a value (or a comma-separated list of values) of a drug_concept_id. If the input is omitted, all possible values are summarized.
 
-Sample query:
-
-    select count(distinct r.person_id) as persons_count
-
-    from drug_era r
-
-    where r.drug_concept_id in (1304643, 1549080);
+## Sample query
+```sql
+select count(distinct r.person_id) as persons_count
+from drug_era r
+where r.drug_concept_id in (1304643, 1549080);
 ```
 
-Input:
+### Input
 
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | list of drug_concept_id | 1304643, 1549080 | Yes |   |
 
-Output:
+### Output
 
 |  Field |  Description |
 | --- | --- |
 | persons_count |  Count of persons with any number of eras with exposure to certain drug |
 
-Sample output record:
+### Sample output record
 
 |  Field |  Value |
 | --- | --- |
@@ -508,54 +380,36 @@ Sample output record:
 
 
 
-DER10: Distribution of drug era end dates
----
+# DER10: Distribution of drug era end dates
 
 This query is used to to provide summary statistics for drug era end dates (drug_era_end_date) across all drug era records: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. No input is required for this query.
 
-Sample query:
-
+## Sample query
 ```sql
-    SELECT DISTINCT min(tt.end_date) over () AS min_date
-
-         , max(tt.end_date) over () AS max_date
-
-         , (avg(tt.end_date_num) over ()) + tt.min_date AS avg_date
-
-         , (round(stdDev(tt.end_date_num)) ) AS stdDev_days
-
-         , tt.min_date + (PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY tt.end_date_num ) over ())
-
-                    AS percentile_25_date
-
-         , tt.min_date + (PERCENTILE_DISC(0.5)  WITHIN GROUP (ORDER BY tt.end_date_num ) over ())
-
-             AS median_date
-
-         , tt.min_date + (PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY tt.end_date_num ) over ())
-
-             AS percential_75_date
-
-      FROM
-
-        ( SELECT (t.drug_era_end_date - MIN(t.drug_era_end_date) OVER()) AS end_date_num,
-
-                 t.drug_era_end_date AS end_date,
-
-                 MIN(t.drug_era_end_date) OVER() min_date
-
-          FROM drug_era t
-
-        ) tt
-
-            GROUP BY tt.min_date, tt.end_date, tt.end_date_num;
+SELECT DISTINCT min(tt.end_date) over () AS min_date
+     , max(tt.end_date) over () AS max_date
+     , (avg(tt.end_date_num) over ()) + tt.min_date AS avg_date
+     , (round(stdDev(tt.end_date_num)) ) AS stdDev_days
+     , tt.min_date + (PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY tt.end_date_num ) over ())
+                AS percentile_25_date
+     , tt.min_date + (PERCENTILE_DISC(0.5)  WITHIN GROUP (ORDER BY tt.end_date_num ) over ())
+         AS median_date
+     , tt.min_date + (PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY tt.end_date_num ) over ())
+         AS percential_75_date
+  FROM
+    ( SELECT (t.drug_era_end_date - MIN(t.drug_era_end_date) OVER()) AS end_date_num,
+             t.drug_era_end_date AS end_date,
+             MIN(t.drug_era_end_date) OVER() min_date
+      FROM drug_era t
+    ) tt
+        GROUP BY tt.min_date, tt.end_date, tt.end_date_num;
 ```
 
-Input:
+### Input
 
 None
 
-Output:
+### Output
 
 |  Field |  Description |
 | --- | --- |
@@ -566,7 +420,7 @@ Output:
 | median_date | Median of the drug era end date |
 | percentile_75_date | the 75th percentile of the drug era end date |
 
-Sample output record:
+### Sample output record
 
 |  Field |  Description |
 | --- | --- |
@@ -579,40 +433,29 @@ Sample output record:
 
 
 
-DER11: Distribution of drug era start dates
----
+# DER11: Distribution of drug era start dates
 
 This query is used to to provide summary statistics for drug era start dates (drug_era_start_date) across all drug era records: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. No input is required for this query.
 
-Sample query:
-
+## Sample query
 ```sql
-    SELECT distinct min(tt.start_date) over () AS min_date , max(tt.start_date) over () AS max_date ,
-
-    avg(tt.start_date_num) over () + tt.min_date AS avg_date , (round(stdDev(tt.start_date_num) over ())) AS stdDev_days ,
-
-    tt.min_date +
-
-    (PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY tt.start_date_num ) over ()) AS percentile_25_date
-
-    , tt.min_date + (PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY tt.start_date_num ) over() ) AS median_date
-
-    , tt.min_date + (PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY tt.start_date_num ) over() ) AS percential_75_date
-
-    FROM (
-
-    SELECT (t.drug_era_start_date - MIN(t.drug_era_start_date) OVER()) AS start_date_num, t.drug_era_start_date AS start_date, MIN(t.drug_era_start_date) OVER() min_date
-
-    FROM drug_era t ) tt
-
-    GROUP BY tt.start_date, tt.start_date_num, tt.min_date;
+SELECT distinct min(tt.start_date) over () AS min_date , max(tt.start_date) over () AS max_date ,
+avg(tt.start_date_num) over () + tt.min_date AS avg_date , (round(stdDev(tt.start_date_num) over ())) AS stdDev_days ,
+tt.min_date +
+(PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY tt.start_date_num ) over ()) AS percentile_25_date
+, tt.min_date + (PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY tt.start_date_num ) over() ) AS median_date
+, tt.min_date + (PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY tt.start_date_num ) over() ) AS percential_75_date
+FROM (
+SELECT (t.drug_era_start_date - MIN(t.drug_era_start_date) OVER()) AS start_date_num, t.drug_era_start_date AS start_date, MIN(t.drug_era_start_date) OVER() min_date
+FROM drug_era t ) tt
+GROUP BY tt.start_date, tt.start_date_num, tt.min_date;
 ```
 
-Input:
+### Input
 
 None
 
-Output:
+### Output
 
 |  Field |  Description |
 | --- | --- | 
@@ -624,7 +467,7 @@ Output:
 | median_date | Median of the drug era start date |
 | percentile_75_date | the 75th percentile of the drug era start date |
 
-Sample output record:
+### Sample output record
 
 |  Field |  Description |
 | --- | --- |
@@ -638,87 +481,65 @@ Sample output record:
 
 
 
-DER12: Counts of drug types
----
+# DER12: Counts of drug types
 
 This query is used to count the drug types (drug_type_concept_id) across all drug era records. The input to the query is a value (or a comma-separated list of values) of a drug_type_concept_id. If the input is ommitted, all possible values are summarized.
 
-Sample query:
-
+## Sample query
 ```sql
-    select count(1) as cntRecs, r.drug_type_concept_id
-
-    from drug_exposure r
-
-    group by r.drug_type_concept_id;
+select count(1) as cntRecs, r.drug_type_concept_id
+from drug_exposure r
+group by r.drug_type_concept_id;
 ```
 
-Input:
+### Input
 
 None
 
-Output:
+### Output
 
 |  Field |  Description |
 | --- | --- |
 | cntrecs |  Count of drug types |
 | drug_type_concept_id | Drug type standardized unique identifier |
 
-Sample output record:
+### Sample output record
 
 |  Field |  Value |
 | --- | --- |
 | cntrecs | 6544017 |
 | drug_type_concept_id | 38000179 |
 
-DER13: Distribution of number of distinct drugs persons take
----
+# DER13: Distribution of number of distinct drugs persons take
 
 This query is used to provide summary statistics for the number of number of different distinct drugs (drug_concept_id) of all exposed persons: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. No input is required for this query.
 
-Sample query:
-
+## Sample query
 ```sql
-    with tt as (
-
-      SELECT
-
-        count(distinct t.drug_concept_id) AS stat_value
-
-      FROM drug_era t
-
-      where nvl(t.drug_concept_id, 0) > 0
-
-      group by t.person_id
-
-    )
-
-    SELECT
-
-      min(tt.stat_value) AS min_value,
-
-      max(tt.stat_value) AS max_value,
-
-      avg(tt.stat_value) AS avg_value,
-
-      (round(stdDev(tt.stat_value)) ) AS stdDev_value ,
-
-      (select distinct PERCENTILE_DISC(0.25) WITHIN GROUP(ORDER BY tt.stat_value) OVER() from tt) AS percentile_25,
-
-      (select distinct PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY tt.stat_value) OVER() from tt) AS median_value,
-
-      (select distinct PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY tt.stat_value) OVER() from tt) AS percential_75
-
-    FROM tt
-
-    ;
+with tt as (
+  SELECT
+    count(distinct t.drug_concept_id) AS stat_value
+  FROM drug_era t
+  where nvl(t.drug_concept_id, 0) > 0
+  group by t.person_id
+)
+SELECT
+  min(tt.stat_value) AS min_value,
+  max(tt.stat_value) AS max_value,
+  avg(tt.stat_value) AS avg_value,
+  (round(stdDev(tt.stat_value)) ) AS stdDev_value ,
+  (select distinct PERCENTILE_DISC(0.25) WITHIN GROUP(ORDER BY tt.stat_value) OVER() from tt) AS percentile_25,
+  (select distinct PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY tt.stat_value) OVER() from tt) AS median_value,
+  (select distinct PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY tt.stat_value) OVER() from tt) AS percential_75
+FROM tt
+;
 ```
 
-Input:
+### Input
 
 None
 
-Output:
+### Output
 
 |  Field |  Description |
 | --- | --- |
@@ -730,7 +551,7 @@ Output:
 | median_date | Median number of distinct drugs persons take |
 | percentile_75_date | the 75th percentile number of distinct drugs persons take |
 
-Sample output record:
+### Sample output record
 
 |  Field |  Description |
 | --- | --- |
@@ -744,43 +565,35 @@ Sample output record:
 
 
 
-DER14: Counts of number of distinct drugs persons take
----
+# DER14: Counts of number of distinct drugs persons take
 
 This query is used to count the number of different distinct drugs (drug_concept_id) of all exposed persons. The input to the query is a value (or a comma-separated list of values) for a number of concepts. If the input is ommitted, all possible values are summarized.
 
-Sample query:
-
+## Sample query
 ```sql
-    SELECT count(
-
-    distinct t.drug_concept_id) AS drug_count, t.person_id
-
-    FROM drug_era t
-
-    group by t.person_id
-
-    having count(
-
-    distinct t.drug_concept_id)
-
-    in (3, 4);
+SELECT count(
+distinct t.drug_concept_id) AS drug_count, t.person_id
+FROM drug_era t
+group by t.person_id
+having count(
+distinct t.drug_concept_id)
+in (3, 4);
 ```
 
-Input:
+### Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | list of drug_type_concept_id | 3, 4 | Yes |   |
 
-Output:
+### Output
 
 |  Field |  Description |
 | --- | --- |
 | Drug_count | Counts of number of distinct drugs |
 | Person_id | A foreign key identifier to the person who is subjected to the drug. The demographic details of that person are stored in the person table. |
 
-Sample output record:
+### Sample output record
 
 |  Field |  Description |
 | --- | --- |
@@ -789,50 +602,34 @@ Sample output record:
 
 
 
-DER15: Distribution of drug era records per person
----
+# DER15: Distribution of drug era records per person
 
 This query is used to provide summary statistics for the number of drug era records (drug_era_id) for all persons: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. There is no input required for this query.
 
-Sample query:
-
+## Sample query
 ```sql
-    with tt as
-
-    (
-
-      SELECT count(1) AS stat_value
-
-      FROM drug_era t
-
-      group by t.person_id
-
-    )
-
-    SELECT
-
-      min(tt.stat_value) AS min_value ,
-
-      max(tt.stat_value) AS max_value ,
-
-      avg(tt.stat_value) AS avg_value ,
-
-      (round(stdDev(tt.stat_value)) ) AS stdDev_value,
-
-      (select distinct PERCENTILE_DISC(0.25) WITHIN GROUP (ORDER BY tt.stat_value) OVER() from tt) AS percentile_25,
-
-      (select distinct PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY tt.stat_value) OVER() from tt) AS median_value,
-
-      (select distinct PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY tt.stat_value) OVER() from tt) AS percential_75
-
-    FROM tt;
+with tt as
+(
+  SELECT count(1) AS stat_value
+  FROM drug_era t
+  group by t.person_id
+)
+SELECT
+  min(tt.stat_value) AS min_value ,
+  max(tt.stat_value) AS max_value ,
+  avg(tt.stat_value) AS avg_value ,
+  (round(stdDev(tt.stat_value)) ) AS stdDev_value,
+  (select distinct PERCENTILE_DISC(0.25) WITHIN GROUP (ORDER BY tt.stat_value) OVER() from tt) AS percentile_25,
+  (select distinct PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY tt.stat_value) OVER() from tt) AS median_value,
+  (select distinct PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY tt.stat_value) OVER() from tt) AS percential_75
+FROM tt;
 ```
 
-Input:
+### Input
 
 None
 
-Output:
+### Output
 
 |  Field |  Description |
 | --- | --- |
@@ -844,7 +641,7 @@ Output:
 | median_date | Median number of drug era record for all persons |
 | percentile_75_date | the 75th percentile number of drug era record for all persons |
 
-Sample output record:
+### Sample output record
 
 |  Field |  Description |
 | --- | --- |
@@ -858,41 +655,34 @@ Sample output record:
 
 
 
-DER16: Counts of drug era records per person
----
+# DER16: Counts of drug era records per person
 
 This query is used to count the number of drug era records (drug_era_id) for all persons. The input to the query is a value (or a comma-separated list of values) for a number of records per person. If the input is ommitted, all possible values are summarized.
 
-Sample query:
-
+## Sample query
 ```sql
-    SELECT
-
-      count(1) AS s_count,
-
-      t.person_id
-
-    FROM drug_era t
-
-    group by t.person_id
-
-    having count(1) in (3, 4);
+SELECT
+  count(1) AS s_count,
+  t.person_id
+FROM drug_era t
+group by t.person_id
+having count(1) in (3, 4);
 ```
 
-Input:
+### Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | list of drug_type_concept_id | 3, 4 | Yes |   |
 
-Output:
+### Output
 
 |  Field |  Description |
 | --- | --- |
 | s_count | number of drug era records for all persons. |
 | person_id | Person unique identifier |
 
-Sample output record:
+### Sample output record
 
 |  Field |  Description |
 | --- | --- |
@@ -901,47 +691,37 @@ Sample output record:
 
 
 
-DER17: Counts of drug era records stratified by observation month
----
+# DER17: Counts of drug era records stratified by observation month
 
 This query is used to count the drug era records stratified by observation month. The input to the query is a value (or a comma-separated list of values) of a month. If the input is ommitted, all possible values are summarized.
 
-Sample query:
-
+## Sample query
 ```sql
-    SELECT extract(month
-
-    FROM er.drug_era_start_date) month_num, COUNT(1) as eras_in_month_count
-
-    FROM drug_era er
-
-    WHERE extract(month
-
-    FROM er.drug_era_start_date)
-
-    IN (3, 5)
-
-    GROUP BY extract(month
-
-    FROM er.drug_era_start_date)
-
-    ORDER BY 1;
+SELECT extract(month
+FROM er.drug_era_start_date) month_num, COUNT(1) as eras_in_month_count
+FROM drug_era er
+WHERE extract(month
+FROM er.drug_era_start_date)
+IN (3, 5)
+GROUP BY extract(month
+FROM er.drug_era_start_date)
+ORDER BY 1;
 ```
 
-Input:
+### Input
 
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | list of month numbers | 3, 5 | Yes |   |
 
-Output:
+### Output
 
 |  Field |  Description |
 | --- | --- |
 | month_num | Month number (ex. 3 is March) |
 | eras_in_month_count | Number of drug era count per month |
 
-Sample output record:
+### Sample output record
 
 |  Field |  Description |
 | --- | --- |
@@ -950,56 +730,39 @@ Sample output record:
 
 
 
-DER18: Distribution of age, stratified by drug
----
+# DER18: Distribution of age, stratified by drug
 
 This query is used to provide summary statistics for the age across all drug era records stratified by drug (drug_concept_id): the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. The age value is defined by the earliest exposure. The input to the query is a value (or a comma-separated list of values) of a drug_concept_id. If the input is omitted, age is summarized for all existing drug_concept_id values.
 
-Sample query:
-
+## Sample query
 ```sql
-    SELECT DISTINCT tt.drug_concept_id,
-
-            min(tt.stat_value) over () AS min_value,
-
-            max(tt.stat_value) over () AS max_value,
-
-            avg(tt.stat_value) over () AS avg_value,
-
-            PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY tt.stat_value ) over() AS percentile_25,
-
-            PERCENTILE_DISC(0.5)  WITHIN GROUP( ORDER BY tt.stat_value ) over() AS median_value,
-
-            PERCENTILE_DISC(0.75) WITHIN GROUP( ORDER BY tt.stat_value ) over() AS percential_75
-
-            FROM
-
-        (
-
-            SELECT
-
-          extract(year from (min(t.drug_era_start_date) over(partition by t.person_id, t.drug_concept_id) )) - p.year_of_birth as stat_value,
-
-          t.drug_concept_id
-
-          FROM drug_era t, person p
-
-          WHERE t.person_id = p.person_id
-
-           and t.drug_concept_id in (1300978, 1304643, 1549080)
-
-        ) tt
+SELECT DISTINCT tt.drug_concept_id,
+        min(tt.stat_value) over () AS min_value,
+        max(tt.stat_value) over () AS max_value,
+        avg(tt.stat_value) over () AS avg_value,
+        PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY tt.stat_value ) over() AS percentile_25,
+        PERCENTILE_DISC(0.5)  WITHIN GROUP( ORDER BY tt.stat_value ) over() AS median_value,
+        PERCENTILE_DISC(0.75) WITHIN GROUP( ORDER BY tt.stat_value ) over() AS percential_75
+        FROM
+    (
+        SELECT
+      extract(year from (min(t.drug_era_start_date) over(partition by t.person_id, t.drug_concept_id) )) - p.year_of_birth as stat_value,
+      t.drug_concept_id
+      FROM drug_era t, person p
+      WHERE t.person_id = p.person_id
+       and t.drug_concept_id in (1300978, 1304643, 1549080)
+    ) tt
 ```
 
 
 
-Input:
+### Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | list of concept_id | 1300978, 1304643, 1549080 | Yes |   |
 
-Output:
+### Output
 
 |  Field |  Description |
 | --- | --- |
@@ -1011,7 +774,7 @@ Output:
 | median_date | Median number of drug era records for drug |
 | percentile_75_date | the 75th percentile number of drug era records for drug |
 
-Sample output record:
+### Sample output record
 
 |  Field |  Description |
 | --- | --- |
@@ -1023,69 +786,46 @@ Sample output record:
 | median_date | 70 |
 | percentile_75_date | 80 |
 
-DER20: Counts of drugs, stratified by drug type and drug exposure count
----
+# DER20: Counts of drugs, stratified by drug type and drug exposure count
 
 This query is used to count drugs (drug_concept_id) across all drug exposure records stratified by drug exposure type (drug_type_concept_id, in CDM V2 drug_exposure_type) and drug exposure count (drug_exposure_count) for each era. The input to the query is a value (or a comma-separated list of values) of a drug_concept_id, a drug_type_concept_id and a drug_exposure_count. If the input is omitted, all existing value combinations are summarized.
 
-Sample query:
-
+## Sample query
 ```sql
-    with tt as (
-
-      SELECT
-
-        extract(year from (min(t.drug_era_start_date) over(partition by t.person_id, t.drug_concept_id))) - p.year_of_birth as stat_value,
-
-        t.drug_concept_id
-
-      FROM
-
-        drug_era t,
-
-        person p
-
-      where
-
-        t.person_id = p.person_id and
-
-        t.drug_concept_id in (1300978, 1304643, 1549080)   --input
-
-    )
-
-    SELECT
-
-      tt.drug_concept_id,
-
-      min(tt.stat_value) AS min_value,
-
-      max(tt.stat_value) AS max_value,
-
-      avg(tt.stat_value) AS avg_value,
-
-      (round(stdDev(tt.stat_value)) ) AS stdDev_value ,
-
-      (select distinct PERCENTILE_DISC(0.25) WITHIN GROUP(ORDER BY tt.stat_value) OVER() from tt) AS percentile_25,
-
-      (select distinct PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY tt.stat_value) OVER() from tt) AS median_value,
-
-      (select distinct PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY tt.stat_value) OVER() from tt) AS percential_75
-
-    FROM tt
-
-    group by drug_concept_id;
+with tt as (
+  SELECT
+    extract(year from (min(t.drug_era_start_date) over(partition by t.person_id, t.drug_concept_id))) - p.year_of_birth as stat_value,
+    t.drug_concept_id
+  FROM
+    drug_era t,
+    person p
+  where
+    t.person_id = p.person_id and
+    t.drug_concept_id in (1300978, 1304643, 1549080)   --input
+)
+SELECT
+  tt.drug_concept_id,
+  min(tt.stat_value) AS min_value,
+  max(tt.stat_value) AS max_value,
+  avg(tt.stat_value) AS avg_value,
+  (round(stdDev(tt.stat_value)) ) AS stdDev_value ,
+  (select distinct PERCENTILE_DISC(0.25) WITHIN GROUP(ORDER BY tt.stat_value) OVER() from tt) AS percentile_25,
+  (select distinct PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY tt.stat_value) OVER() from tt) AS median_value,
+  (select distinct PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY tt.stat_value) OVER() from tt) AS percential_75
+FROM tt
+group by drug_concept_id;
 ```
 
 
 
-Input:
+### Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | concept_id |   | Yes |   |
 | drug_exposure_count |   | Yes |   |
 
-Output:
+### Output
 
 |  Field |  Description |
 | --- | --- |
@@ -1098,7 +838,7 @@ Output:
 | median_value |   |
 | percentile_75 |   |
 
-Sample output record:
+### Sample output record
 
 |  Field |  Description |
 | --- | --- |
@@ -1113,89 +853,55 @@ Sample output record:
 
 
 
-DER21: Counts of drugs, stratified by year, age group and gender
----
+# DER21: Counts of drugs, stratified by year, age group and gender
 
 This query is used to count drugs (drug_concept_id) across all drug era records stratified by year, age group and gender (gender_concept_id). The age groups are calculated as 10 year age bands from the age of a person at the drug era start date. The input to the query is a value (or a comma-separated list of values) of a drug_concept_id , year, age_group (10 year age band) and gender_concept_id. If the input is omitted, all existing value combinations are summarized.
 
-Sample query:
-
+## Sample query
 ```sql
-    SELECT
-
-      tt.drug_concept_id,
-
-      count(1) as s_count,
-
-      tt.age_band,
-
-      tt.year_of_Era,
-
-      tt.gender_concept_id
-
-    from (
-
-      SELECT
-
-        floor( (extract(year from t.drug_era_start_date ) - p.year_of_birth )/10 ) as age_band,
-
-            extract(year from t.drug_era_start_date) as year_of_era,
-
-            p.gender_concept_id,
-
-            t.drug_concept_id
-
-      FROM
-
-        drug_era t,
-
-        person p
-
-      where
-
-        t.person_id = p.person_id and
-
-        t.drug_concept_id in (1300978, 1304643, 1549080)
-
-    ) tt
-
-    where
-
-      tt.age_band in(3,4) and
-
-      tt.year_of_Era in( 2007, 2008)
-
-    group by
-
-      tt.age_band,
-
-      tt.year_of_Era,
-
-      tt.gender_concept_id,
-
-      tt.drug_concept_id
-
-    order by
-
-      tt.age_band,
-
-      tt.year_of_Era,
-
-      tt.gender_concept_id,
-
-      tt.drug_concept_id
-
-    ;
+SELECT
+  tt.drug_concept_id,
+  count(1) as s_count,
+  tt.age_band,
+  tt.year_of_Era,
+  tt.gender_concept_id
+from (
+  SELECT
+    floor( (extract(year from t.drug_era_start_date ) - p.year_of_birth )/10 ) as age_band,
+        extract(year from t.drug_era_start_date) as year_of_era,
+        p.gender_concept_id,
+        t.drug_concept_id
+  FROM
+    drug_era t,
+    person p
+  where
+    t.person_id = p.person_id and
+    t.drug_concept_id in (1300978, 1304643, 1549080)
+) tt
+where
+  tt.age_band in(3,4) and
+  tt.year_of_Era in( 2007, 2008)
+group by
+  tt.age_band,
+  tt.year_of_Era,
+  tt.gender_concept_id,
+  tt.drug_concept_id
+order by
+  tt.age_band,
+  tt.year_of_Era,
+  tt.gender_concept_id,
+  tt.drug_concept_id
+;
 ```
 
-Input:
+### Input
 
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | list of concept_id | 1300978, 1304643, 1549080 | Yes |   |
 | list of year_of_era | 2007, 2008 | Yes |   |
 
-Output:
+### Output
 
 | Field |  Description |
 | --- | --- |
@@ -1205,7 +911,7 @@ Output:
 | year_of_era | A foreign key to the predefined concept identifier in the vocabulary reflecting the type of drug exposure recorded. It indicates how the drug exposure was represented in the source data: as medication history, filled prescriptions, etc. |
 | gender_concept_id | A foreign key that refers to a standard concept identifier in the vocabulary for the gender of the person. |
 
-Sample output record:
+### Sample output record
 
 |  Field |  Description |
 | --- | --- |
@@ -1217,70 +923,45 @@ Sample output record:
 
 
 
-DER23: Distribution of drug era start dates, stratified by drug
----
+# DER23: Distribution of drug era start dates, stratified by drug
 
 This query is used to summary statistics of the drug era start dates (drug_era_start_date) across all drug era records, stratified by drug (drug_concept_id): the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. The input to the query is a value (or a comma-separated list of values) of a drug_concept_id. If the input is omitted, all possible values are summarized.
 
-Sample query:
-
+## Sample query
 ```sql
-    with tt as (
-
-      SELECT
-
-        (t.drug_era_start_date - MIN(t.drug_era_start_date) OVER(partition by t.drug_concept_id)) AS start_date_num,
-
-        t.drug_era_start_date AS start_date, MIN(t.drug_era_start_date) OVER(partition by t.drug_concept_id) min_date,
-
-        t.drug_concept_id
-
-      FROM drug_era t
-
-      where t.drug_concept_id in (1300978, 1304643, 1549080)
-
-    )
-
-    SELECT
-
-      tt.drug_concept_id,
-
-      min(tt.start_date_num) AS min_value,
-
-      max(tt.start_date_num) AS max_value,
-
-      tt.min_date+avg(tt.start_date_num) AS avg_value,
-
-      (round(stdDev(tt.start_date_num)) ) AS stdDev_value ,
-
-      tt.min_date+(select distinct PERCENTILE_DISC(0.25) WITHIN GROUP(ORDER BY tt.start_date_num) OVER() from tt) AS percentile_25,
-
-      tt.min_date+(select distinct PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY tt.start_date_num) OVER() from tt) AS median_value,
-
-      tt.min_date+(select distinct PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY tt.start_date_num) OVER() from tt) AS percential_75
-
-    FROM tt
-
-    group by
-
-      drug_concept_id,
-
-      tt.min_date
-
-    order by
-
-      drug_concept_id
-
-    ;
+with tt as (
+  SELECT
+    (t.drug_era_start_date - MIN(t.drug_era_start_date) OVER(partition by t.drug_concept_id)) AS start_date_num,
+    t.drug_era_start_date AS start_date, MIN(t.drug_era_start_date) OVER(partition by t.drug_concept_id) min_date,
+    t.drug_concept_id
+  FROM drug_era t
+  where t.drug_concept_id in (1300978, 1304643, 1549080)
+)
+SELECT
+  tt.drug_concept_id,
+  min(tt.start_date_num) AS min_value,
+  max(tt.start_date_num) AS max_value,
+  tt.min_date+avg(tt.start_date_num) AS avg_value,
+  (round(stdDev(tt.start_date_num)) ) AS stdDev_value ,
+  tt.min_date+(select distinct PERCENTILE_DISC(0.25) WITHIN GROUP(ORDER BY tt.start_date_num) OVER() from tt) AS percentile_25,
+  tt.min_date+(select distinct PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY tt.start_date_num) OVER() from tt) AS median_value,
+  tt.min_date+(select distinct PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY tt.start_date_num) OVER() from tt) AS percential_75
+FROM tt
+group by
+  drug_concept_id,
+  tt.min_date
+order by
+  drug_concept_id
+;
 ```
 
-Input:
+### Input
 
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | drug_concept_id | 1300978, 1304643, 1549080 | Yes |   |
 
-Output:
+### Output
 
 | Field |  Description |
 | --- | --- |
@@ -1293,7 +974,7 @@ Output:
 | median_value |      |
 | percentile_75 |      |
 
-Sample output record:
+### Sample output record
 
 | Field |  Description |
 | --- | --- |
@@ -1308,41 +989,31 @@ Sample output record:
 
 
 
-DER26: Counts of genders, stratified by drug
----
+# DER26: Counts of genders, stratified by drug
 
 This query is used to count all genders (gender concept_id), stratified by drug (drug_concept_id). The input to the query is a value (or a comma-separated list of values) of a gender_concept_id and a drug_concept_id. If the input is ommitted, all existing value combinations are summarized.
 
-Sample query:
-
+## Sample query
 ```sql
-    SELECT p.gender_concept_id, count(1) AS stat_value, t.drug_concept_id
-
-    FROM drug_era t, person p
-
-    WHERE t.drug_concept_id
-
-    IN (1300978, 1304643, 1549080)
-
-    AND p.person_id = t.person_id
-
-    AND p.gender_concept_id
-
-    IN (8507, 8532)
-
-    GROUP BY t.drug_concept_id, p.gender_concept_id
-
-    ORDER BY t.drug_concept_id, p.gender_concept_id;
+SELECT p.gender_concept_id, count(1) AS stat_value, t.drug_concept_id
+FROM drug_era t, person p
+WHERE t.drug_concept_id
+IN (1300978, 1304643, 1549080)
+AND p.person_id = t.person_id
+AND p.gender_concept_id
+IN (8507, 8532)
+GROUP BY t.drug_concept_id, p.gender_concept_id
+ORDER BY t.drug_concept_id, p.gender_concept_id;
 ```
 
-Input:
+### Input
 
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | list of gender_concept_id | 8507, 8532 | Yes | Male, Female |
 | list of drug_concept_id | 1300978, 1304643, 1549080 | Yes |   |
 
-Output:
+### Output
 
 |  Field |  Description |
 | --- | --- | 
@@ -1350,7 +1021,7 @@ Output:
 | stat_valu |   |
 | drug_concept_id |   |
 
-Sample output record:
+### Sample output record
 
 |  Field |  Description |
 | --- | --- |

@@ -18,6 +18,27 @@ def look_around(doc, regex, line_number, around = 1):
     return(tr)
 
 
+def parse_chunk_line(line, indent_size):
+    line = re.sub(r'^' + r' '*indent_size, '', line)
+    line = line.replace('\*', '*')
+    if len(line.strip()) == 0:
+        return None
+    return line
+
+
+def parse_non_chunk_line(line, is_section_heading):
+    if line.strip() == '---':
+        return None
+    elif is_section_heading:
+        return '# ' + line
+    elif re.match(r'Sample query( run)?:', line):
+        return '## Sample query'
+    elif re.match(r'(Input|Output.*|Sample.+|):', line):
+        return '### ' + line.replace(':', '')
+    else:
+        return line
+
+
 def write_md(fl, flnm):
     with(open(flnm, 'w')) as new_fl:
         new_fl.writelines(fl)
@@ -31,6 +52,7 @@ def sql_chunks(filename):
 
     the_md = read_md(filename)
     in_chunk = False
+    indent_size = 0
     new_md = []
 
     for i in range(len(the_md)):
@@ -48,23 +70,27 @@ def sql_chunks(filename):
         end_chunk = c_l and in_chunk and not nextlines_code
         one_liner = c_l and not in_chunk and not any_code_nearby
 
-        if start_chunk:
-            #case: start of block
-            #print "Match!"
-            in_chunk = True
+        the_line = the_md[i]
+        the_line = the_line.replace('\t', ' '*4)
+
+        is_section_heading = re.match(r'[A-Z]{1,3}\d{2} ?:', the_line)
+
+        if start_chunk or one_liner:
             new_md.append('```sql\n')
-            new_md.append(the_md[i])
-            #case: end of block
-        elif end_chunk:
-            new_md.append(the_md[i])
+            in_chunk = True
+            indent_size = len(the_line) - len(the_line.lstrip())
+
+        if in_chunk:
+            the_line = parse_chunk_line(the_line, indent_size)
+        else:
+            the_line = parse_non_chunk_line(the_line, is_section_heading)
+
+        if the_line is not None:
+            new_md.append(the_line)
+
+        if end_chunk or one_liner:
             new_md.append('```\n')
             in_chunk = False
-        elif one_liner:
-            new_md.append('```sql\n')
-            new_md.append(the_md[i])
-            new_md.append('```\n')
-        else: 
-            new_md.append(the_md[i])
         
     return(new_md)
 
@@ -73,7 +99,12 @@ if __name__ == '__main__':
         raise ValueError('This script accepts one parameter: the path to a folder containing markdown files.')
     md_fldr = sys.argv[1] + '/'
     new_md_fldr = './sql_' + md_fldr
-    os.makedirs(new_md_fldr)
+
+    try:
+        os.makedirs(new_md_fldr)
+    except:
+        print("folder exists")
+
     filenames = sorted(os.listdir(md_fldr))
     for flnm in filenames:
         write_md(sql_chunks(md_fldr + flnm), new_md_fldr + flnm) 
