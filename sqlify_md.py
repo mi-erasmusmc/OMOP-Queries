@@ -150,11 +150,21 @@ if __name__ == '__main__':
         if extension != '.md':
             continue
 
+        folder = os.path.join(new_md_fldr, base_name.lower())
+        make_dirs(folder)
+        f_index = open(os.path.join(folder, 'README.md'), 'w')
+        f_index.write('# Index %s\n' % base_name)
+        i = 0
         for part_name, md_part in split_md(md_fldr + flnm):
-            folder = os.path.join(new_md_fldr, base_name)
-            make_dirs(folder)
-
             filename = sanitize_filename(part_name) + '.md'
-            print(filename)
 
             write_md(sql_chunks(md_part), os.path.join(folder, filename))
+
+            i += 1
+            query_name = re.sub(r'^\w{1,3}\d{2}_', '', filename)
+            query_name = query_name.replace('_', ' ').replace('.md', '')
+            f_index.write('{}. [{}]({})'.format(i, query_name, filename))
+            f_index.write('\n')
+
+        f_index.close()
+        print('Written %d queries to %s' % (i, folder))
