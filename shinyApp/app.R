@@ -2,6 +2,7 @@ library(shiny)
 library(shinydashboard)
 library(SqlRender)
 source("widgets.R")
+source("markdownParse.R")
 
 ui <- dashboardPage(
   dashboardHeader(title = "OMOP Queries"),
@@ -19,7 +20,7 @@ ui <- dashboardPage(
     fluidRow(
       column(width = 9,
              selectInput(
-               inputId = 'selectedMarkdown',
+               inputId = 'selectedFileName',
                label = 'Select File',
                choice = list.files('../', recursive = TRUE, pattern='*.md')
              )
@@ -28,18 +29,11 @@ ui <- dashboardPage(
     fluidRow(
       column(width = 9, 
              box(
-               title = "Description", 
-               width = NULL, 
+               # title = "Description",
+               width = NULL,
                status = "primary",
                uiOutput(outputId = "markdown")
              ), 
-             
-             box(
-               title = "Source: OHDSI Sql #TODO",
-               width = NULL,
-               status = "primary",
-               textAreaInput("source", NULL, width = "100%", height = "300px")
-             ),
              
              box(
                title = "Target: Rendered translation", 
@@ -68,19 +62,22 @@ ui <- dashboardPage(
 )
 
 server <- shinyServer(function(input, output, session) {
-
-  output$markdown <- renderUI({
-    includeMarkdown(paste0("../", input$selectedMarkdown))
-  })
   
-  #TODO: extract sql from markdown and render separately to target
+  inputFileName <- reactive({paste0("../", input$selectedFileName)})
+  
+  sourceSql <- reactive({getSqlFromMarkdown(inputFileName())})
   
   parameters <- reactive({
-    params <- regmatches(input$source, gregexpr("@[a-zA-Z0-9_]+", input$source))[[1]]
+    sql <- sourceSql()
+    params <- regmatches(sql, gregexpr("@[a-zA-Z0-9_]+", sql))[[1]]
     params <- unique(params)
     params <- params[order(params)]
     params <- substr(params, 2, nchar(params))
     return(params)
+  })
+
+  output$markdown <- renderUI({
+    includeMarkdown(inputFileName())
   })
   
   output$target <- renderText({
@@ -91,7 +88,7 @@ server <- shinyServer(function(input, output, session) {
         parameterValues[[param]] <- value
       }
     }
-    sql <- do.call("renderSql", append(input$source, parameterValues))$sql
+    sql <- do.call("renderSql", append(sourceSql(), parameterValues))$sql
     warningString <- c()
     handleWarning <- function(e) {
       output$warnings <- e$message
@@ -107,15 +104,15 @@ server <- shinyServer(function(input, output, session) {
   
   output$parameterInputs <- renderUI({
     params <- parameters()
-    sourceSql <- input$source
+    sql <- sourceSql()
     
-    createRow <- function(param, sourceSql) {
+    createRow <- function(param, sql) {
       # Get current values if already exists:
       value <- isolate(input[[param]])
       
       if (is.null(value)) {
         # Get default values:
-        value <- regmatches(sourceSql, regexpr(paste0("\\{\\s*DEFAULT\\s*@", param, "\\s=[^}]+}"), sourceSql))
+        value <- regmatches(sql, regexpr(paste0("\\{\\s*DEFAULT\\s*@", param, "\\s=[^}]+}"), sql))
         if (length(value) == 1) {
           value = sub(paste0("\\{\\s*DEFAULT\\s*@", param, "\\s=\\s*"), "", sub("\\}$", "", value)) 
         } else {
@@ -124,7 +121,7 @@ server <- shinyServer(function(input, output, session) {
       }
       textInput(param, param, value = value)
     }
-    lapply(params, createRow, sourceSql = sourceSql)
+    lapply(params, createRow, sql = sql)
   })
   
   observeEvent(input$open, {
@@ -137,7 +134,8 @@ server <- shinyServer(function(input, output, session) {
       paste('query-', Sys.Date(), '.sql', sep='')
     },
     content = function(con) {
-      SqlRender::writeSql(sql = input$source, targetFile = con)
+      # SqlRender::writeSql(sql = output$source, targetFile = con) 
+      # TODO: save rendered sql
     }
   )
 })
