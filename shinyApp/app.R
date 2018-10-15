@@ -25,37 +25,34 @@ ui <- dashboardPage(
       )
     ),
     fluidRow(
-      column(width = 9, 
+      column(width = 8, 
              box(
                # title = "Description",
                width = NULL,
                status = "primary",
                uiOutput(outputId = "markdown")
-             ), 
-             
-             box(
-               title = "Target: Rendered translation", 
-               width = NULL,
-               pre(
-                 textOutput(outputId = "target")
-               )
              )
-      ),
-      column(width = 3,
+        ),
+      column(width = 4,
+             box(
+               title = "Sql Render translation", 
+               width = NULL,
+               pre(textOutput(outputId = "target"))
+             ),
              box(background = "light-blue",
                  h4("Target dialect"), width = NULL,
                  selectInput("dialect", NULL, choices = c("BigQuery", "Impala", "Netezza", "Oracle", "PDW", "PostgreSQL", "RedShift", "SQL Server" ), selected = "SQL Server"),
                  
                  h4("Oracle temp schema"),
                  textInput("oracleTempSchema", NULL),
-                
+                 
                  h4("Parameters"),
                  uiOutput("parameterInputs"),
-                  
+                 
                  textOutput("warnings")
              )
-      )
-    )
+          )
+        )
   )
 )
 
