@@ -1,0 +1,146 @@
+library(shiny)
+library(shinydashboard)
+library(SqlRender)
+source("widgets.R")
+
+ui <- dashboardPage(
+  dashboardHeader(title = "OMOP Queries"),
+  
+  dashboardSidebar(
+    sidebarMenu(
+      menuItem("Open new tab", href = "", icon = shiny::icon("plus-square")),
+      menuItemCopyDivToClipboard("target", "Copy target to clipboard")
+      # TODO: save target query
+      # menuItemDownloadLink("save", "Save"),
+    )
+  ),
+  
+  dashboardBody(
+    fluidRow(
+      column(width = 9,
+             selectInput(
+               inputId = 'selectedMarkdown',
+               label = 'Select File',
+               choice = list.files('../', recursive = TRUE, pattern='*.md')
+             )
+      )
+    ),
+    fluidRow(
+      column(width = 9, 
+             box(
+               title = "Description", 
+               width = NULL, 
+               status = "primary",
+               uiOutput(outputId = "markdown")
+             ), 
+             
+             box(
+               title = "Source: OHDSI Sql #TODO",
+               width = NULL,
+               status = "primary",
+               textAreaInput("source", NULL, width = "100%", height = "300px")
+             ),
+             
+             box(
+               title = "Target: Rendered translation", 
+               width = NULL,
+               pre(
+                 textOutput(outputId = "target")
+               )
+             )
+      ),
+      column(width = 3,
+             box(background = "light-blue",
+                 h4("Target dialect"), width = NULL,
+                 selectInput("dialect", NULL, choices = c("BigQuery", "Impala", "Netezza", "Oracle", "PDW", "PostgreSQL", "RedShift", "SQL Server" ), selected = "SQL Server"),
+                 
+                 h4("Oracle temp schema"),
+                 textInput("oracleTempSchema", NULL),
+                
+                 h4("Parameters"),
+                 uiOutput("parameterInputs"),
+                  
+                 textOutput("warnings")
+             )
+      )
+    )
+  )
+)
+
+server <- shinyServer(function(input, output, session) {
+
+  output$markdown <- renderUI({
+    includeMarkdown(paste0("../", input$selectedMarkdown))
+  })
+  
+  #TODO: extract sql from markdown and render separately to target
+  
+  parameters <- reactive({
+    params <- regmatches(input$source, gregexpr("@[a-zA-Z0-9_]+", input$source))[[1]]
+    params <- unique(params)
+    params <- params[order(params)]
+    params <- substr(params, 2, nchar(params))
+    return(params)
+  })
+  
+  output$target <- renderText({
+    parameterValues <- list()
+    for (param in parameters()) {
+      value <- input[[param]]
+      if (!is.null(value)) {
+        parameterValues[[param]] <- value
+      }
+    }
+    sql <- do.call("renderSql", append(input$source, parameterValues))$sql
+    warningString <- c()
+    handleWarning <- function(e) {
+      output$warnings <- e$message
+    }
+    oracleTempSchema <- input$oracleTempSchema
+    if (oracleTempSchema == "")
+      oracleTempSchema <- NULL
+    sql <- withCallingHandlers(suppressWarnings(translateSql(sql, targetDialect = tolower(input$dialect), oracleTempSchema = oracleTempSchema)$sql), warning = handleWarning)
+    if (!is.null(warningString))
+      output$warnings <- warningString
+    return(sql)
+  })
+  
+  output$parameterInputs <- renderUI({
+    params <- parameters()
+    sourceSql <- input$source
+    
+    createRow <- function(param, sourceSql) {
+      # Get current values if already exists:
+      value <- isolate(input[[param]])
+      
+      if (is.null(value)) {
+        # Get default values:
+        value <- regmatches(sourceSql, regexpr(paste0("\\{\\s*DEFAULT\\s*@", param, "\\s=[^}]+}"), sourceSql))
+        if (length(value) == 1) {
+          value = sub(paste0("\\{\\s*DEFAULT\\s*@", param, "\\s=\\s*"), "", sub("\\}$", "", value)) 
+        } else {
+          value = ""
+        }
+      }
+      textInput(param, param, value = value)
+    }
+    lapply(params, createRow, sourceSql = sourceSql)
+  })
+  
+  observeEvent(input$open, {
+    sql <- SqlRender::readSql(input$open$datapath)
+    updateTextAreaInput(session, "source", value = sql)
+  })
+  
+  output$save <- downloadHandler(
+    filename = function() {
+      paste('query-', Sys.Date(), '.sql', sep='')
+    },
+    content = function(con) {
+      SqlRender::writeSql(sql = input$source, targetFile = con)
+    }
+  )
+})
+
+# Run the application 
+shinyApp(ui = ui, server = server)
