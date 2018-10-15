@@ -9,10 +9,8 @@ ui <- dashboardPage(
   
   dashboardSidebar(
     sidebarMenu(
-      menuItem("Open new tab", href = "", icon = shiny::icon("plus-square")),
-      menuItemCopyDivToClipboard("target", "Copy target to clipboard")
-      # TODO: save target query
-      # menuItemDownloadLink("save", "Save"),
+      menuItemCopyDivToClipboard("target", "Copy query to clipboard"),
+      menuItemDownloadLink("save", "Save query to file")
     )
   ),
   
@@ -75,12 +73,8 @@ server <- shinyServer(function(input, output, session) {
     params <- substr(params, 2, nchar(params))
     return(params)
   })
-
-  output$markdown <- renderUI({
-    includeMarkdown(inputFileName())
-  })
   
-  output$target <- renderText({
+  targetSql <- reactive({
     parameterValues <- list()
     for (param in parameters()) {
       value <- input[[param]]
@@ -100,6 +94,14 @@ server <- shinyServer(function(input, output, session) {
     if (!is.null(warningString))
       output$warnings <- warningString
     return(sql)
+  })
+
+  output$markdown <- renderUI({
+    includeMarkdown(inputFileName())
+  })
+  
+  output$target <- renderText({
+    targetSql()
   })
   
   output$parameterInputs <- renderUI({
@@ -123,19 +125,13 @@ server <- shinyServer(function(input, output, session) {
     }
     lapply(params, createRow, sql = sql)
   })
-  
-  observeEvent(input$open, {
-    sql <- SqlRender::readSql(input$open$datapath)
-    updateTextAreaInput(session, "source", value = sql)
-  })
-  
+
   output$save <- downloadHandler(
     filename = function() {
       paste('query-', Sys.Date(), '.sql', sep='')
     },
     content = function(con) {
-      # SqlRender::writeSql(sql = output$source, targetFile = con) 
-      # TODO: save rendered sql
+      SqlRender::writeSql(sql = targetSql(), targetFile = con)
     }
   )
 })
