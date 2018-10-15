@@ -1,5 +1,6 @@
 # D10: Find ingredient by drug class
 
+## Description
 This query is designed to extract all ingredients that belong to a therapeutic class. The query accepts a therapeutic class concept ID as the input and returns all drugs that are included under that class.
 Therapeutic classes could be obtained using query  [D02](http://vocabqueries.omop.org/drug-queries/d2) and are derived from one of the following:
 
@@ -14,7 +15,7 @@ Therapeutic classes could be obtained using query  [D02](http://vocabqueries.omo
 
 -  VA Class, VOCABULARY_ID = 32
 
-## Sample query
+## Query
 ```sql
 SELECT  c.concept_id    ingredient_concept_id,
         c.concept_name  ingredient_concept_name,
@@ -29,7 +30,7 @@ SELECT  c.concept_id    ingredient_concept_id,
    AND  sysdate BETWEEN c.valid_start_date AND c.valid_end_date;
 ```
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
@@ -38,7 +39,7 @@ SELECT  c.concept_id    ingredient_concept_id,
 
 
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -47,7 +48,7 @@ SELECT  c.concept_id    ingredient_concept_id,
 |  Ingredient_Concept_Class |  Concept class of ingredient concept included in therapeutic class |
 |  Ingredient_Concept_Code |  RxNorm source code of ingredient concept |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

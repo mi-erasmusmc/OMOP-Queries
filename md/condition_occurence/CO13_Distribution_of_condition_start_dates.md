@@ -1,8 +1,9 @@
 # CO13: Distribution of condition start dates
 
+## Description
 This query is used to to provide summary statistics for condition occurrence start dates (condition_occurrence_start_date) across all condition occurrence records: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. No input is required for this query.
 
-## Sample query
+## Query
 ```sql
 with end_rank as (
   SELECT
@@ -58,11 +59,11 @@ FROM
   ) AS condition_start_date_75percentile;
 ```
 
-### Input
+## Input
 
 None
 
-### Output
+## Output
 
 | Field |  Description |
 | --- | --- |
@@ -76,7 +77,7 @@ None
 | condition_start_date_median | A start date where half of the other end dates are earlier and half are later |
 | condition_start_date_75percentile | A start date where 75 percent of the other end dates are earlier |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

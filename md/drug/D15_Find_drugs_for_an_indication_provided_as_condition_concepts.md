@@ -1,8 +1,9 @@
 # D15: Find drugs for an indication provided as condition concepts
 
+## Description
 This query provides all clinical/branded drugs that are indicated for a certain indication. Indications have to be provided as SNOMED-CT concept (vocabulary_id=1).
 
-## Sample query
+## Query
 ```sql
 SELECT DISTINCT
   drug.concept_id as drug_concept_id,
@@ -24,14 +25,14 @@ WHERE
   sysdate BETWEEN drug.valid_start_date AND drug.valid_end_date;
 ```
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  Indication Concept ID |  253954 |  Yes | SNOMED-CT indication concept ID |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-### Output
+## Output
 
 | Field |  Description |
 | --- | --- |
@@ -39,7 +40,7 @@ WHERE
 |  Drug_Concept_Name |  Name of the drug |
 |  Drug_Concept_Code |  Concept code of the drug |
 
-### Sample output record
+## Sample output record
 
 | Field |  Value |
 | --- | --- |

@@ -1,15 +1,16 @@
 # C09: Find all SNOMED-CT condition concepts that can be caused by a given pathogen or causative agent
 
+## Description
 This query accepts a SNOMED-CT pathogen ID as input and returns all conditions caused by the pathogen or disease causing agent identified using queries  [C07](http://vocabqueries.omop.org/condition-queries/c7) or  [C08](http://vocabqueries.omop.org/condition-queries/c8).
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  SNOMED-CT Concept ID |  4248851 |  Yes | Concept Identifier for 'Treponema pallidum' |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-## Sample query
+## Query
 The following is a sample run of the query to list conditions caused by pathogen or causative agent. Sample parameter substitution is highlighted in  blue.
 
 ```sql
@@ -44,9 +45,9 @@ sysdate
   BETWEEN CR.valid_start_date AND CR.valid_end_date;
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -63,7 +64,7 @@ sysdate
 |  Causative_Agent_Vocab_ID |  Vocabulary the pathogen concept is derived from as vocabulary ID |
 |  Causative_Agent_Vocab_Name |  Name of the vocabulary the pathogen concept is derived from |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

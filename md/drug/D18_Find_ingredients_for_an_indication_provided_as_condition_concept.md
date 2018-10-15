@@ -1,8 +1,9 @@
 # D18: Find ingredients for an indication provided as condition concept
 
+## Description
 This query provides all ingredients that are indicated for a certain indication. Indications have to be provided as SNOMED-CT concept ID (vocabulary_id=1).
 
-## Sample query
+## Query
 ```sql
 SELECT DISTINCT
   ingredient.concept_id as ingredient_concept_id,
@@ -24,14 +25,14 @@ WHERE
   sysdate BETWEEN ingredient.valid_start_date AND ingredient.valid_end_date;
 ```
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  Indication Concept ID |  253954 |  Yes | SNOMED-CT indication concept ID |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -39,7 +40,7 @@ WHERE
 |  Ingredient_Concept_Name |  Name of the ingredient |
 |  Ingredient_Concept_Code |  Concept code of the ingredient |
 
-### Sample output record
+## Sample output record
 
 | Field |  Value |
 | --- | --- |

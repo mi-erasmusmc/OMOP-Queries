@@ -1,14 +1,15 @@
 # DEX28: Counts of drug types
 
+## Description
 | This query is used to count the drug type concepts (drug_type_concept_id, in CDM V2 drug_exposure_type) across all drug exposure records. The input to the query is a value (or a comma-separated list of values) of a drug_type_concept_id. If the input is omitted, all possible values are summarized.
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes | 
 | --- | --- | --- | --- |
 | list of drug_type_concept_id | 38000175, 38000180 | Yes | 
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue 
 
 ```sql
@@ -19,9 +20,9 @@ AND drug_type_concept_id in (38000175, 38000180)
 GROUP BY drug_type_concept_id ;
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- | 
@@ -29,7 +30,7 @@ GROUP BY drug_type_concept_id ;
 | exposure_occurrence_count | The number of individual drug exposure occurrences used to construct the drug era. |
 
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- | 

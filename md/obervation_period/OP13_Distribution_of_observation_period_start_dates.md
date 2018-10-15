@@ -1,8 +1,9 @@
 # OP13: Distribution of observation period start dates
 
+## Description
 This query is used to to provide summary statistics for observation period start dates (observation_period_start_date) across all observation period records: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. No input is required for this query.
 
-## Sample query
+## Query
 ```sql
 WITH op AS
         ( SELECT to_number( to_char( observation_period_start_date, 'J' ), 9999999)::INT AS start_date FROM observation_period )
@@ -19,11 +20,11 @@ FROM
 ;
 ```
 
-### Input
+## Input
 
 None
 
-### Output
+## Output
 
 | Field |  Description |
 | --- | --- |
@@ -35,7 +36,7 @@ None
 |  median |  Median of start date |
 |  percentile_75 |  75th percentile of start date |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

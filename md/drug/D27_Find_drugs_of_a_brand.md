@@ -1,9 +1,10 @@
 # D27: Find drugs of a brand
 
+## Description
 This query is designed to extract all clinical and branded drugs associated with a branded ingredient (or simply a brand name). Since the brand names are not part of the standard drug hierarchy in the OMOP vocabulary, the association between brand name and generic/branded drugs is made using a set of relationships.
 The query requires a brand name concept ID as the input. Brand name concept IDs can be obtained by querying the Concept table for a concept class of 'Brand Name'.
 
-## Sample query
+## Query
 ```sql
 SELECT  A.Concept_Id               drug_concept_id,
         A.Concept_Name             drug_name,
@@ -55,7 +56,7 @@ AND    sysdate BETWEEN CR006.valid_start_date AND CR006.valid_end_date
 AND    sysdate BETWEEN CR007.valid_start_date AND CR007.valid_end_date;
 ```
 
-### Input
+## Input
 
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
@@ -63,7 +64,7 @@ AND    sysdate BETWEEN CR007.valid_start_date AND CR007.valid_end_date;
 Brand name concept IDs are listed in the CONCEPT table with a concept class of 'Brand name' |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -76,7 +77,7 @@ Brand name concept IDs are listed in the CONCEPT table with a concept class of '
 |  Brand_Concept_code |  Concept code of the brand name |
 |  Brand_Concept_class |  Concept Class of the brand name |
 
-### Sample output record
+## Sample output record
 
 | Field |  Value |
 | --- | --- |

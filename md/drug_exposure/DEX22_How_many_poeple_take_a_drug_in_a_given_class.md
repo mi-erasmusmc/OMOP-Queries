@@ -1,12 +1,13 @@
 # DEX22: How many poeple take a drug in a given class?
 
-### Input
+## Description
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | ancestor_concept_id | 4324992 |  Yes | Antithrombins | 
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue. S
 
 ```sql
@@ -17,15 +18,15 @@ and ca.ancestor_concept_id = 4324992
 group by ca.ancestor_concept_id ;
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- | 
 | person_count | A foreign key that refers to a standard concept identifier in the vocabulary for the drug concept. |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- | 

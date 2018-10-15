@@ -1,10 +1,11 @@
 # CE12: Distribution of condition era start dates
 
+## Description
 This query is used to to provide summary statistics for condition era start dates (condition_era_start_date) across all condition era records: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. No input is required for this query.
 
-### Input <None>
+## Input <None>
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue
 
 ```sql
@@ -24,9 +25,9 @@ SELECT condition_concept_id
   GROUP BY condition_concept_id;
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -39,7 +40,7 @@ SELECT condition_concept_id
 | median |   |
 | percentile_75 |   |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

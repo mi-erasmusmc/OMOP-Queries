@@ -1,15 +1,16 @@
 # DEX38: Counts of stop reasons
 
+## Description
 | This query is used to count stop reasons (stop_reason) across all drug exposure records. The input to the query is a value (or a comma-separated list of values) of a stop_reason. If the input is omitted, all existing values are summarized.
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes | 
 | --- | --- | --- | --- |
 | stop_reason | 1 | Yes |   
 
 
-## Sample query
+## Query
 
 The following is a sample run of the query. The input parameters are highlighted in  blue 
 
@@ -19,10 +20,10 @@ where d.stop_reason in ('INVALID')
 group by d.stop_reason ;
 ```
 
-### Output
+## Output
 
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- | 
@@ -30,7 +31,7 @@ group by d.stop_reason ;
 | stop_reason | The reason the medication was stopped, where available. Reasons include regimen completed, changed, removed, etc. |
 
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- | 

@@ -1,8 +1,9 @@
 # DER11: Distribution of drug era start dates
 
+## Description
 This query is used to to provide summary statistics for drug era start dates (drug_era_start_date) across all drug era records: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. No input is required for this query.
 
-## Sample query
+## Query
 ```sql
 SELECT distinct min(tt.start_date) over () AS min_date , max(tt.start_date) over () AS max_date ,
 avg(tt.start_date_num) over () + tt.min_date AS avg_date , (round(stdDev(tt.start_date_num) over ())) AS stdDev_days ,
@@ -16,11 +17,11 @@ FROM drug_era t ) tt
 GROUP BY tt.start_date, tt.start_date_num, tt.min_date;
 ```
 
-### Input
+## Input
 
 None
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- | 
@@ -32,7 +33,7 @@ None
 | median_date | Median of the drug era start date |
 | percentile_75_date | the 75th percentile of the drug era start date |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

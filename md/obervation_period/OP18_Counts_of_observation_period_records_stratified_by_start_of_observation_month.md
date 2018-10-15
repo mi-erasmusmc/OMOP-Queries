@@ -1,8 +1,9 @@
 # OP18 :Counts of observation period records stratified by start of observation month
 
+## Description
 This query is used to count the observation period records stratified by observation month and person end. person end is an indicator whether a person has initiated the first observation period in a given observation month. All possible values are summarized.
 
-## Sample query
+## Query
 ```sql
 SELECT EXTRACT( month
 FROM observation_period_start_date ) observation_month , count(*) AS num_observations
@@ -11,18 +12,18 @@ GROUP BY observation_month
 ORDER BY 1;
 ```
 
-### Input
+## Input
 
 None
 
-### Output
+## Output
 
 | Field |  Description |
 | --- | --- |
 | observation_month | Month of start of observation period |
 | num_observations | Number of observations within specific month of observation |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

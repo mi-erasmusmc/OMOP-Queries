@@ -1,15 +1,16 @@
 # C10: Find an anatomical site by keyword
 
+## Description
 This query enables a search of all anatomical sites using a keyword entered as input. The resulting concepts could be used in query  [C11](http://vocabqueries.omop.org/condition-queries/c11) to identify diseases occurring at a certain anatomical site.
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  Keyword for pathogen |  'Epiglottis' |  Yes | Keyword should be placed in a single quote |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-## Sample query
+## Query
 The following is a sample run of the query to list all anatomical site concept IDs specified using a keyword as input. The sample parameter substitutions are highlighted in  blue.
 
 ```sql
@@ -33,7 +34,7 @@ sysdate
 BETWEEN C.valid_start_date AND C.valid_end_date;
 ```
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -45,7 +46,7 @@ BETWEEN C.valid_start_date AND C.valid_end_date;
 |  Anatomical_site_vocab_ID |  Vocabulary ID of the vocabulary from which the anatomical site  concept is derived from |
 |  Anatomical_site_vocab_name |  Name of the vocabulary from which the anatomical site concept is derived from |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

@@ -1,8 +1,9 @@
 # OP07:Distribution of age across all observation period records
 
+## Description
 Count distribution of age across all observation period records:  the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. No input is required for this query.
 
-## Sample query
+## Query
 ```sql
 WITH t AS (
 SELECT DISTINCT
@@ -26,11 +27,11 @@ SELECT DISTINCT
         FROM t;
 ```
 
-### Input
+## Input
 
 None
 
-### Output
+## Output
 
 | Field |  Description |
 | --- | --- |
@@ -43,7 +44,7 @@ None
 |  median_age |  50th percentile of the age group |
 |  percentile_75 |  75th percentile of the age group |
 
-### Sample output record
+## Sample output record
 
 | Field |  Value |
 | --- | --- |

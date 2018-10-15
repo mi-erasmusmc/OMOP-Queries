@@ -1,14 +1,15 @@
 # DEX16: Adherence/compliance - what is adherence rate for given drug?
 
+## Description
 Define adherence as sum of days supply divided by length of treatment period.
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes | 
 | --- | --- | --- | --- | 
 | drug_concept_id | 996416 | Yes | Finasteride | 
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue  S
 
 ```sql
@@ -44,10 +45,10 @@ WHERE treatment_length > 100 and null_day_supply > 0
 GROUP BY concept_name;
 ```
 
-### Output
+## Output
 
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- | 
@@ -64,7 +65,7 @@ GROUP BY concept_name;
 | ancestor_concept_id | A foreign key to the concept code in the concept table for the higher-level concept that forms the ancestor in the relationship. |
 
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- | 

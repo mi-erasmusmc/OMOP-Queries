@@ -1,8 +1,9 @@
 # CO24: Counts of genders, stratified by condition
 
+## Description
 This query is used to count all genders (gender_concept_id), stratified by condition (condition_concept_id). All existing value combinations are summarized. Since some of the conditions have values only for one of the genders, in order not to present the concept id and name twice, a CASE clause is used.
 
-## Sample query
+## Query
 ```sql
 SELECT  ( CASE WHEN (male_id<> null)
             THEN (male_id)
@@ -41,11 +42,11 @@ GROUP BY  condition_concept_id, concept_name) as female_list
           on male_list.condition_concept_id=female_list.condition_concept_id)
 ```
 
-### Input
+## Input
 
 None
 
-### Output
+## Output
 
 | Field |  Description |
 | --- | --- |
@@ -54,7 +55,7 @@ None
 | count_male | Number of concepts for male patients |
 | count_female | Number of concepts for female patients |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

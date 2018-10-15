@@ -1,8 +1,9 @@
 # OP15: Counts of age, stratified by gender
 
+## Description
 This query is used to count the age across all observation records stratified by gender (gender_concept_id). The age value is defined by the earliest observation date. Age is summarized for all existing gender_concept_id values.
 
-## Sample query
+## Query
 ```sql
 SELECT        age,
                 gender,
@@ -34,11 +35,11 @@ ORDER BY        age,
                         gender
 ```
 
-### Input
+## Input
 
 None
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -46,7 +47,7 @@ None
 | gender | Gender concept name stratification |
 | num_people | Number of person within group |
 
-### Sample output record
+## Sample output record
 
 | Field |  Description |
 | --- | --- |

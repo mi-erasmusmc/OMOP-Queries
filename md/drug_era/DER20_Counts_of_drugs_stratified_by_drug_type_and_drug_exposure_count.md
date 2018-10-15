@@ -1,8 +1,9 @@
 # DER20: Counts of drugs, stratified by drug type and drug exposure count
 
+## Description
 This query is used to count drugs (drug_concept_id) across all drug exposure records stratified by drug exposure type (drug_type_concept_id, in CDM V2 drug_exposure_type) and drug exposure count (drug_exposure_count) for each era. The input to the query is a value (or a comma-separated list of values) of a drug_concept_id, a drug_type_concept_id and a drug_exposure_count. If the input is omitted, all existing value combinations are summarized.
 
-## Sample query
+## Query
 ```sql
 with tt as (
   SELECT
@@ -30,14 +31,14 @@ group by drug_concept_id;
 
 
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | concept_id |   | Yes |   |
 | drug_exposure_count |   | Yes |   |
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -50,7 +51,7 @@ group by drug_concept_id;
 | median_value |   |
 | percentile_75 |   |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

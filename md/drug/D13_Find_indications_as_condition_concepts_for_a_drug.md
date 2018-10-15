@@ -1,8 +1,9 @@
 # D13 :Find indications as condition concepts for a drug
 
+## Description
 This query accepts a mapped drug code instead of a standard drug concept ID as the input. The result set from the returns detailed of indications associated with the drug.
 
-## Sample query
+## Query
 ```sql
 SELECT
   rn.relationship_name as type_of_indication,
@@ -75,14 +76,14 @@ FROM
     sysdate BETWEEN c.valid_start_date AND c.valid_end_date;
 ```
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |   Drug Concept ID |   19005968 |  Yes | Drugs concepts from RxNorm with a concept class of 'Branded Drug' |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -95,7 +96,7 @@ FROM
 |  Indication_Vocabulary_ID |  Vocabulary the indication is derived from, expressed as vocabulary ID |
 |  Indication_Vocabulary_Name |  Name of the vocabulary the indication is derived from |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

@@ -1,8 +1,9 @@
 # DER15: Distribution of drug era records per person
 
+## Description
 This query is used to provide summary statistics for the number of drug era records (drug_era_id) for all persons: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. There is no input required for this query.
 
-## Sample query
+## Query
 ```sql
 with tt as
 (
@@ -21,11 +22,11 @@ SELECT
 FROM tt;
 ```
 
-### Input
+## Input
 
 None
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -37,7 +38,7 @@ None
 | median_date | Median number of drug era record for all persons |
 | percentile_75_date | the 75th percentile number of drug era record for all persons |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

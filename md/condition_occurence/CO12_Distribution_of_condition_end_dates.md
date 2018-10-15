@@ -1,8 +1,9 @@
 # CO12 : Distribution of condition end dates.
 
+## Description
 This query is used to to provide summary statistics for condition occurrence end dates (condition_occurrence_end_date) across all condition occurrence records: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. No input is required for this query.
 
-## Sample query
+## Query
 ```sql
 with end_rank as (
   SELECT
@@ -58,13 +59,13 @@ FROM
   ) AS condition_end_date_75percentile;
 ```
 
-### Input
+## Input
 
 None
 
 
 
-### Output
+## Output
 
 | Field |  Description |
 | --- | --- |
@@ -78,7 +79,7 @@ None
 | condition_end_date_median |  An end date where half of the other end dates are earlier and half are later |
 | condition_end_date_75percentile |  An end date where 75 percent of the other end dates are earlier |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

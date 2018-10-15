@@ -1,12 +1,13 @@
 # COC05: Mortality rate after initial diagnosis
 
-### Input
+## Description
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | concept_name | OMOP Acute Myocardial Infarction 1 | Yes |   |
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue  
 
 ```sql
@@ -49,16 +50,16 @@ LEFT OUTER JOIN death /* death within a year */
 ```
 
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- |
 | all_infarctions |   |
 | death_from_infarction |   |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

@@ -1,6 +1,7 @@
 # COC10: Lenght of condition as function of treatment
 
-### Input
+## Description
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
@@ -10,7 +11,7 @@
 | concept_code | '97001', '97140', '97002' | Yes |   |
 | concept_code | G0283 | Yes |   |
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue  
 
 ```sql
@@ -125,9 +126,9 @@ GROUP BY treatment
 ORDER BY treatment;
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -137,7 +138,7 @@ ORDER BY treatment;
 | max |   |
 | avg_condition_days |   |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

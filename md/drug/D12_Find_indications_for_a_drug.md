@@ -1,5 +1,6 @@
 # D12: Find indications for a drug
 
+## Description
 This query is designed to extract indications associated with a drug. The query accepts a standard drug concept ID (e.g. as identified from query  [G03](http://vocabqueries.omop.org/general-queries/g3)) as the input and returns all available indications associated with the drug.
 The vocabulary includes indications available from more than one source vocabulary:
 
@@ -8,7 +9,7 @@ The vocabulary includes indications available from more than one source vocabula
 
 FDB also distinguishes indications based on their presence in the drug label (or package insert) as FDA approved or off-label. NDF-RT distinguishes between treatment or prevention indication. The segmentation is preserved in the vocabulary through separate concept relationships.
 
-## Sample query
+## Query
 ```sql
 SELECT
   r.relationship_name as type_of_indication,
@@ -79,14 +80,14 @@ FROM
     sysdate BETWEEN c.valid_start_date AND c.valid_end_date;
 ```
 
-### Input
+## Input
 
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |   Drug Concept ID |   19005968 |  Yes | Drugs concepts from RxNorm with a concept class of 'Clinical drug or pack |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -99,7 +100,7 @@ FROM
 |  Indication_Vocabulary_ID |  Vocabulary the indication is derived from, expressed as vocabulary ID |
 |  Indication_Vocabulary_Name |  Name of the vocabulary the indication is derived from |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

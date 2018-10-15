@@ -1,14 +1,15 @@
 # DEX02: Counts of persons taking a drug, by age, gender, and year of exposure
 
+## Description
 | This query is used to count the persons with exposure to a certain drug (drug_concept_id), grouped by age, gender, and year of exposure. The input to the query is a value (or a comma-separated list of values) of a drug_concept_id. See  [vocabulary queries](http://vocabqueries.omop.org/drug-queries) for obtaining valid drug_concept_id values. If the input is omitted, all drugs in the data table are summarized.
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes | 
 | --- | --- | --- | --- |
 | list of drug_concept_id | 40165254, 40165258 | No | Crestor 20 and 40 mg tablets | 
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue. s
 
 ```sql
@@ -27,9 +28,9 @@ EXTRACT( YEAR FROM drug_exposure_start_date ) - year_of_birth
 ORDER BY concept_name, year_of_exposure, age, gender
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -39,7 +40,7 @@ ORDER BY concept_name, year_of_exposure, age, gender
 |  gender | The gender of the person. |
 |  num_persons | The patient count |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Content |
 | --- | --- | 

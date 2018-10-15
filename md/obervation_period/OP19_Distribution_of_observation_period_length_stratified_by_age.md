@@ -1,8 +1,9 @@
 # OP19 :Distribution of observation period length, stratified by age.
 
+## Description
 This query is used to provide summary statistics for the observation period length across all observation period records stratified by age: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. The length of an is defined as the difference between the start date and the end date. The age value is defined at the time of the observation date. All existing age values are summarized.
 
-## Sample query
+## Query
 ```sql
 SELECT
   age,
@@ -50,11 +51,11 @@ GROUP BY
   percentile_75;
 ```
 
-### Input
+## Input
 
 None
 
-### Output
+## Output
 
 | Field |  Description |
 | --- | --- |
@@ -68,7 +69,7 @@ None
 | median | Median of observation periods stratified by age |
 | percentile_75   | 75th percentile of observation periods stratified by age |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

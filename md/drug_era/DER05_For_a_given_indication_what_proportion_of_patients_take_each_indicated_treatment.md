@@ -1,6 +1,7 @@
 # DER05: For a given indication, what proportion of patients take each indicated treatment?
 
-## Sample query
+## Description
+## Query
 ```sql
 SELECT tt.concept_id, tt.concept_name, 100*(tt.cntPersons*1.0/tt.total*1.0) AS proportion FROM (
 SELECT c.concept_id, c.concept_name, t.cntPersons, sum(cntPersons) over() AS total
@@ -20,7 +21,7 @@ WHERE t.drug_concept_id = c.concept_id
 ) tt
 ```
 
-### Input
+## Input
 
 
 |  Parameter |  Example |  Mandatory |  Notes |
@@ -30,7 +31,7 @@ WHERE t.drug_concept_id = c.concept_id
 
 
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -38,7 +39,7 @@ WHERE t.drug_concept_id = c.concept_id
 | Concept_name | Standardized drug name |
 | Proportion | Drug that proportion of patients take |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

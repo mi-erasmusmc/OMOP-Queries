@@ -1,16 +1,17 @@
 # C01: Find condition by concept ID
 
+## Description
 Find condition by condition ID is the lookup for obtaining condition or disease concept details associated with a concept identifier. This query is a tool for quick reference for the name, class, level and source vocabulary details associated with a concept identifier, either SNOMED-CT clinical finding or MedDRA.
 This query is equivalent to  [G01](http://vocabqueries.omop.org/general-queries/g1), but if the concept is not in the condition domain the query still returns the concept details with the Is_Disease_Concept_Flag field set to 'No'.
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  Concept ID |  192671 |  Yes | Concept Identifier for 'GI - Gastrointestinal haemorrhage' |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-## Sample query
+## Query
 The following is a sample run of the query to run a search for specific disease concept ID. 
 
 The input parameters are highlighted in  blue.
@@ -36,9 +37,9 @@ WHERE
   sysdate BETWEEN valid_start_date AND valid_end_date;
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -51,7 +52,7 @@ WHERE
 |  Is_Disease_Concept_Flag |  Flag indicating whether the Concept ID belongs to a disease concept. 'Yes' if disease concept, 'No' if not a disease concept |
 
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- | 

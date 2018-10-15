@@ -1,14 +1,15 @@
 # CE09: Counts of condition record
 
+## Description
 This query is used to count conditions (condition_concept_id) across all condition era records. The input to the query is a value (or a comma-separated list of values) of a condition_concept_id. If the input is omitted, all possible values are summarized.
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | list of condition_concept_id | 254761, 257011, 320128, 432867, 25297 | No |   |
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue
 
 ```sql
@@ -22,9 +23,9 @@ SELECT condition_concept_id, concept_name, count(*) records_count
  ORDER BY records_count DESC;
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -32,7 +33,7 @@ SELECT condition_concept_id, concept_name, count(*) records_count
 | condition_concept_id | A foreign key that refers to a standard condition concept identifier in the vocabulary. |
 | count |   |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

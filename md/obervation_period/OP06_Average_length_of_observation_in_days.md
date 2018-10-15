@@ -1,24 +1,25 @@
 # OP06: Average length of observation, in days.
 
+## Description
 Count average number of observation days.
 
-## Sample query
+## Query
 ```sql
 SELECT avg( observation_period_end_date - observation_period_start_date ) AS num_days
 FROM observation_period;
 ```
 
-### Input
+## Input
 
 None
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
 | num_days |  Average length of observation, in days |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

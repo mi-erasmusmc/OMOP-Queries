@@ -1,5 +1,6 @@
 # D23:  Find drugs by class and route of administration
 
+## Description
 This query is designed to return a list of drug concept IDs that belong to a drug class and require a certain route of administration. For example, it can be used to find all steroid drugs used intravaginally. The query ties together:
 
 - Concept ancestor data to link drug concepts to therapeutic class
@@ -21,7 +22,7 @@ The results are combined to present a list of drugs from a specific therapeutic 
 - Urethral
 - Vaginal
 
-## Sample query
+## Query
 ```sql
 SELECT        C.concept_id drug_concept_id,
                 C.concept_name drug_concept_name,
@@ -44,7 +45,7 @@ AND        sysdate                                        BETWEEN CRF.valid_star
 AND        POSITION(LOWER(REPLACE(REPLACE(route.route_of_administration, ' ', ''), '-', '')) IN LOWER(REPLACE(REPLACE('vaginal' , ' ', ''), '-', ''))) > 0
 ```
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
@@ -52,7 +53,7 @@ AND        POSITION(LOWER(REPLACE(REPLACE(route.route_of_administration, ' ', ''
 |  Dose Form String |  'vaginal' |  Yes | Route of administration string. |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -60,7 +61,7 @@ AND        POSITION(LOWER(REPLACE(REPLACE(route.route_of_administration, ' ', ''
 |  Drug_Name |  Name of drug with specified therapeutic class and dose form |
 |  Drug_Concept_Code |  Source code of drug |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

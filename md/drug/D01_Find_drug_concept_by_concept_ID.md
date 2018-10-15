@@ -1,9 +1,10 @@
 # D01: Find drug concept by concept ID
 
+## Description
 This is the lookup for obtaining drug concept details associated with a concept identifier. This query is intended as a tool for quick reference for the name, class, level and source vocabulary details associated with a concept identifier.
 This query is equivalent to  [G01](http://vocabqueries.omop.org/general-queries/g1), but if the concept is not in the drug domain the query still returns the concept details with the Is_Drug_Concept_Flag field set to 'No'.
 
-## Sample query
+## Query
 ```sql
 SELECT
         C.concept_id Drug_concept_id,
@@ -35,14 +36,14 @@ WHERE
 
 
 
-### Input
+## Input
 
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  Concept ID |  1545999 |  Yes | Concept Identifier from RxNorm for 'atorvastatin 20 MG Oral Tablet [Lipitor]' |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-### Output
+## Output
 
 | Field |  Description |
 | --- | --- |
@@ -56,7 +57,7 @@ WHERE
 |  Is_Drug_Concept_Flag |  Flag indicating whether the Concept ID belongs to a drug concept
 'Yes' if drug concept, 'No' if not a drug concept |
 
-### Sample output record
+## Sample output record
 
 | Field |  Value |
 | --- | --- |

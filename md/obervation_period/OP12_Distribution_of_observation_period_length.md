@@ -1,8 +1,9 @@
 # OP12: Distribution of observation period length
 
+## Description
 This query is used to provide summary statistics for the observation period length across all observation period records: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. The length of an is defined as the difference between the start date and the end date. No input is required for this query.
 
-## Sample query
+## Query
 ```sql
 SELECT
         min( period_length ) OVER() AS min_period,
@@ -21,11 +22,11 @@ FROM /* period_length */
         )
 ```
 
-### Input
+## Input
 
 None
 
-### Output
+## Output
 
 | Field |  Description |
 | --- | --- |
@@ -37,7 +38,7 @@ None
 | median | Median value of of observation period |
 | percentile_75 | 25th percentile of observation period days  |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

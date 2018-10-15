@@ -1,8 +1,9 @@
 # D06: Find branded drugs by ingredient
 
+## Description
 This query is designed to extract all branded drugs that have a specified ingredient. The query accepts an ingredient concept ID as the input and returns all branded drugs that have the ingredient. It should be noted that the query returns both generics that have a single ingredient (i.e. the specified ingredient) and those that are combinations which include the specified ingredient. The query requires the ingredient concept ID as the input. A list of these ingredient concepts can be extracted by querying the CONCEPT table for concept class of 'Ingredient'.
 
-## Sample query
+## Query
 ```sql
 SELECT        A.concept_id Ingredient_concept_id,
                 A.concept_name Ingredient_concept_name,
@@ -23,14 +24,14 @@ AND        D.concept_class_id                        = 'Branded Drug'
 AND        sysdate                                                BETWEEN A.valid_start_date AND A.valid_end_date AND sysdate BETWEEN D.valid_start_date AND D.valid_end_date
 ```
 
-### Input
+## Input
 
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  Ingredient Concept ID |  966991 |  Yes | Concept ID for 'Simethicone'. |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-### Output
+## Output
 
 | Field |  Description |
 | --- | --- |
@@ -43,7 +44,7 @@ AND        sysdate                                                BETWEEN A.vali
 |  Branded_Drug_Concept_Code |  Concept code of the branded drug with the ingredient |
 |  Branded_Drug_Concept_Class |  Concept class of branded drug with the ingredient |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

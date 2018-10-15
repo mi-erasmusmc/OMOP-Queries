@@ -1,8 +1,9 @@
 # G04: Find synonyms for a given concept
 
+## Description
 This query extracts all synonyms in the vocabulary for a given Concept ID.
 
-## Sample query
+## Query
 ```sql
 SELECT C.concept_id, S.concept_synonym_name
 FROM concept C, concept_synonym S, vocabulary V
@@ -12,21 +13,21 @@ AND C.vocabulary_id = V.vocabulary_id
 AND sysdate BETWEEN C.valid_start_date AND C.valid_end_date;
 ```
 
-### Input
+## Input
 
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  Concept ID |  192671 |  Yes | GI - Gastrointestinal hemorrhage |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
 |  Concept_ID |  Unique identifier of the concept related to the input concept |
 |  Concept_Synonym_Name |  Synonym of the concept |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

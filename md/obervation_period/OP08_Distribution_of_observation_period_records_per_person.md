@@ -1,8 +1,9 @@
 # OP08: Distribution of observation period records per person
 
+## Description
 Counts the number of observation period records (observation_period_id) for all persons: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. There is no input required for this query.
 
-## Sample query
+## Query
 ```sql
 WITH obser_person AS
 (
@@ -23,11 +24,11 @@ FROM
         obser_person
 ```
 
-### Input
+## Input
 
 None
 
-### Output
+## Output
 
 | Field |  Description |
 | --- | --- |
@@ -39,7 +40,7 @@ None
 |  median |  Median of periods |
 |  percentile_75 |  75th percentile of periods |
 
-### Sample output record
+## Sample output record
 
 | Field |  Value |
 | --- | --- |

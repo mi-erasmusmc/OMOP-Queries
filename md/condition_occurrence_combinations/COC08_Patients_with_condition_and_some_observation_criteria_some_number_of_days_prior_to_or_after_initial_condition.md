@@ -1,13 +1,14 @@
 # COC08: Patients with condition and some observation criteria some number of days prior to or after initial condition
 
-### Input
+## Description
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | concept_name | OMOP Aplastic Anemia 1 | Yes |   |
 | list of observation_concept_id | 3000905, 3003282, 3010813 |   | Leukocytes #/volume in blood |
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue  
 
 ```sql
@@ -38,9 +39,9 @@ WHERE
   value_as_number <= 3.5;
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -48,7 +49,7 @@ WHERE
 | observation_date |   |
 | condition_era_start_date | The start date for the condition era constructed from the individual instances of condition occurrences. It is the start date of the very first chronologically recorded instance of the condition. |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

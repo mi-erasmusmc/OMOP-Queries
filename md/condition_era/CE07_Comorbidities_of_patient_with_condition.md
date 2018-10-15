@@ -1,14 +1,15 @@
 # CE07: Comorbidities of patient with condition
 
+## Description
 This query counts the top ten comorbidities for patients with diabetes
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | condition_era_end_date |   |   |   |
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue
 
 ```sql
@@ -61,16 +62,16 @@ FROM /* top 10 */ (
 limit 10;
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- |
 | comorbidity |   |
 | frequency |   |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

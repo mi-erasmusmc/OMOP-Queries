@@ -1,8 +1,9 @@
 # D25: Find the generic drugs in a list of drugs
 
+## Description
 This query is designed to identify generic drug concepts among from a list of standard drug concept IDs. The query identifies branded drugs from the CONCEPT table based on a concept class setting of 'Clinical Drug'
 
-## Sample query
+## Query
 ```sql
 SELECT C.concept_id drug_concept_id,
         C.concept_name drug_name,
@@ -19,14 +20,14 @@ FROM concept C,
         AND sysdate BETWEEN C.valid_start_date AND C.valid_end_date
 ```
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  Drug Concept ID list |  1396833, 19060643 |  Yes | List of drug concept id's |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -37,7 +38,7 @@ FROM concept C,
 |  Drug_Vocabulary_ID |  Vocabulary the generic drug concept has been derived from, expressed as vocabulary ID |
 |  Drug_Vocabulary_Name |  Name of the Vocabulary the generic drug concept has been derived from |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

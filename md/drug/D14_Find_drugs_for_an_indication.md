@@ -1,8 +1,9 @@
 # D14: Find drugs for an indication
 
+## Description
 This query provides all clinical or branded drugs that are indicated for a certain indication. Indications have to be given as FDB indications (vocabulary_id=19) or NDF-RT indications (vocabulary_id=7). Indications can be identified using the generic query  [G03](http://vocabqueries.omop.org/general-queries/g3), or, if at least one drug is known for this indication, query  [D04](http://vocabqueries.omop.org/drug-queries/d4).
 
-## Sample query
+## Query
 ```sql
 SELECT
         drug.concept_id      as drug_concept_id,
@@ -18,14 +19,14 @@ SELECT
  AND    sysdate BETWEEN drug.valid_start_date AND drug.valid_end_date
 ```
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  Indication Concept ID |  21000039 |  Yes | FDB indication concept ID |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-### Output
+## Output
 
 | Field |  Description |
 | --- | --- |
@@ -33,7 +34,7 @@ SELECT
 |  Drug_Concept_Name |  Name of the drug |
 |  Drug_Concept_Code |  Concept code of the drug |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

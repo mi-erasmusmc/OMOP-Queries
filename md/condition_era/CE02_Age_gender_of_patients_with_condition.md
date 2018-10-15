@@ -1,15 +1,16 @@
 # CE02: Age/gender of patients with condition
 
+## Description
 List of patient counts of specific age and gender for specific medical condition
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- | 
 | concept_name | OMOP Hip Fraction 1 |  Yes |  Concept ID=500000601 |
 
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue
 
 ```sql
@@ -35,9 +36,9 @@ GROUP BY gender, age
 ORDER BY gender, age;
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -45,7 +46,7 @@ ORDER BY gender, age;
 | age | The year of birth of the person. For data sources with date of birth, the year is extracted. For data sources where the year of birth is not available, the approximate year of birth is derived based on any age group categorization available. |
 | num_patients | Number of patients for specific gender and age and selected condition |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

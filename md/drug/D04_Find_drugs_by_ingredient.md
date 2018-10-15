@@ -1,9 +1,10 @@
 # D04: Find drugs by ingredient
 
+## Description
 This query is designed to extract all drugs that contain a specified ingredient. The query accepts an ingredient concept ID as the input and returns all drugs that have the ingredient. It should be noted that the query returns both generics that have a single ingredient (i.e. the specified ingredient) and those that are combinations which include the specified ingredient.
 The query requires the ingredient concept ID as the input. A list of these ingredient concepts can be extracted by querying the concept table for concept class of 'Ingredient', e.g. using query  [D02](http://vocabqueries.omop.org/drug-queries/d2).
 
-## Sample query
+## Query
 ```sql
 SELECT
         A.concept_id Ingredient_concept_id,
@@ -26,7 +27,7 @@ WHERE
         AND CA.ancestor_concept_id = 966991;
 ```
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
@@ -34,7 +35,7 @@ WHERE
 Ingredient concepts can be extracted from CONCEPT table as records of concept class of 'Ingredient' |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-### Output
+## Output
 
 | Field |  Description |
 | --- | --- |
@@ -47,7 +48,7 @@ Ingredient concepts can be extracted from CONCEPT table as records of concept cl
 |  Generic_Concept_Code |  Concept code of the drug with the ingredient |
 |  Generic_Concept_Class |  Concept class of drug with the ingredient |
 
-### Sample output record
+## Sample output record
 
 | Field |  Value |
 | --- | --- |

@@ -1,8 +1,9 @@
 # CO16: Counts of number of distinct conditions persons have
 
+## Description
 This query is used to count the number of different distinct conditions (condition_concept_id) of all persons. The input to the query is a value for a concept identifier.
 
-## Sample query
+## Query
 ```sql
 SELECT count(c.condition_concept_id) conditions_count, c.person_id
 FROM condition_occurrence c
@@ -12,20 +13,20 @@ ORDER BY 1
 DESC;
 ```
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | condition_concept_id | 201820 | Yes | Condition concept identifier for 'Diabetes mellitus' |
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
 | conditions_count | Number of conditions recorded for the person |
 | person_id | Person identifier |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

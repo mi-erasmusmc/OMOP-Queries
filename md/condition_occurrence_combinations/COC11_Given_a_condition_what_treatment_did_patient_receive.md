@@ -1,12 +1,13 @@
 # COC11: Given a condition, what treatment did patient receive
 
-### Input
+## Description
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | concept_code | '22851', '20936', '22612', '22523', '22630', '22614', '22842' , '22632', '20930', '22524', '27130', '22525' | Yes |   |
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue  
 
 ```sql
@@ -109,14 +110,14 @@ GROUP BY treatment ORDER BY treatment;
 
  Output:
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- |
 | treatment |   |
 | count |   |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

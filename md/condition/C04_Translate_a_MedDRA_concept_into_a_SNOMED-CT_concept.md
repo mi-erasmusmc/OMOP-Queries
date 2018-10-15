@@ -1,16 +1,17 @@
 # C04: Translate a MedDRA concept into a SNOMED-CT concept
 
+## Description
 This query accepts a MedDRA concept ID as input and returns details of the equivalent SNOMED-CT concepts.
 The existing relationships in the vocabulary associate MedDRA 'Preferred Term' to SNOMED-CT 'clinical findings'. The respective hierarchy for MedDRA and SNOMED-CT can be used to traverse up and down the hierarchy of each of these individual vocabularies.
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  MedDRA Concept ID |  35205180 |  Yes | Concept Identifier for 'Acute myocardial infarction' |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-## Sample query
+## Query
 The following is a sample run of the query to list all MedDRA concepts that have SNOMED-CT equivalents. Sample parameter substitution is highlighted in  blue.
 
 ```sql
@@ -34,9 +35,9 @@ AND sysdate BETWEEN CR.valid_start_date
 AND CR.valid_end_date;
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -51,7 +52,7 @@ AND CR.valid_end_date;
 |  SNOMED-CT_Concept_Code |  Concept Code of matching SNOMED-CT concept |
 |  SNOMED-CT_Concept_Class |  Concept class of matching SNOMED-CT concept |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

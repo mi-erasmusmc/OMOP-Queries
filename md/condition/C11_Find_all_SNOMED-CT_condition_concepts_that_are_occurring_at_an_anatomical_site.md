@@ -1,5 +1,6 @@
 # C11: Find all SNOMED-CT condition concepts that are occurring at an anatomical site
 
+## Description
 This query accepts a SNOMED-CT body structure ID as input and returns all conditions occurring in the anatomical site, which can be identified using query  [C10](http://vocabqueries.omop.org/condition-queries/c10). Input:
 
 |  Parameter |  Example |  Mandatory |  Notes |
@@ -7,7 +8,7 @@ This query accepts a SNOMED-CT body structure ID as input and returns all condit
 |  SNOMED-CT Concept ID |  4103720 |  Yes | Concept Identifier for 'Posterior epiglottis' |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-## Sample query
+## Query
 The following is a sample run of the query to list conditions located in the anatomical site.
 
 ```sql

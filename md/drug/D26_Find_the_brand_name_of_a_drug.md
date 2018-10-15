@@ -1,8 +1,9 @@
 # D26: Find the brand name of a drug
 
+## Description
 This query is designed to accept a drug concept (both clinical and branded) as input and return a the brand name (or branded ingredient) associated with it. The query is useful to check for a brand names associated with a clinical drug. Drug concepts can be obtained using queries  [G03](http://vocabqueries.omop.org/general-queries/g3) or  [D02](http://vocabqueries.omop.org/drug-queries/d2).
 
-## Sample query
+## Query
 ```sql
 SELECT A.Concept_Id               drug_concept_id,
         A.Concept_Name            drug_name,
@@ -52,14 +53,14 @@ AND    A.concept_Id           = 939355
 AND    sysdate BETWEEN CR006.VALID_START_DATE AND CR006.VALID_END_DATE
 ```
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  Drug Concept ID |  939355 |  Yes | Can be both clinical and branded drug concepts |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-### Output
+## Output
 
 | Field |  Description |
 | --- | --- |
@@ -72,7 +73,7 @@ AND    sysdate BETWEEN CR006.VALID_START_DATE AND CR006.VALID_END_DATE
 |  Brand_Concept_code |  Concept code of the brand name |
 |  Brand_Concept_class |  Concept Class of the brand name |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

@@ -1,25 +1,26 @@
 # DER08: Counts of drug records
 
+## Description
 This query is used to count the drug concepts across all drug era records. The input to the query is a value (or a comma-separated list of values) of a drug_concept_id. If the input is omitted, all possible values are summarized. values are summarized.
 
-## Sample query
+## Query
 ```sql
 SELECT count(1) AS total_count FROM drug_era r WHERE r.drug_concept_id in (1304643, 1549080);
 ```
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | list of drug_concept_id | 1304643, 1549080 | Yes |   |
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
 | Total_count |  Total count of the drug concepts for all drug era records |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

@@ -1,8 +1,9 @@
 # DER17: Counts of drug era records stratified by observation month
 
+## Description
 This query is used to count the drug era records stratified by observation month. The input to the query is a value (or a comma-separated list of values) of a month. If the input is ommitted, all possible values are summarized.
 
-## Sample query
+## Query
 ```sql
 SELECT extract(month
 FROM er.drug_era_start_date) month_num, COUNT(1) as eras_in_month_count
@@ -15,20 +16,20 @@ FROM er.drug_era_start_date)
 ORDER BY 1;
 ```
 
-### Input
+## Input
 
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | list of month numbers | 3, 5 | Yes |   |
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
 | month_num | Month number (ex. 3 is March) |
 | eras_in_month_count | Number of drug era count per month |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

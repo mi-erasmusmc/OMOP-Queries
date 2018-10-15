@@ -1,5 +1,6 @@
 # C05: Translate a source code to condition concepts
 
+## Description
 This query enables to search all Standard SNOMED-CT concepts that are mapped to a condition (disease) source code. It can be used to translate e.g. ICD-9-CM, ICD-10-CM or Read codes to SNOMED-CT.
 
 Source codes are not unique across different source vocabularies, therefore the source vocabulary ID must also be provided.
@@ -11,7 +12,7 @@ The following source vocabularies have condition/disease codes that map to SNOME
 - OXMIS,         Vocabulary_id=18
 - ICD-10-CM,   Vocabulary_id=34
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
@@ -19,7 +20,7 @@ The following source vocabularies have condition/disease codes that map to SNOME
 |  Source Vocabulary ID |  2 |  Yes | The source vocabulary is mandatory, because the source ID is not unique across different vocabularies. |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-## Sample query
+## Query
 The following is a sample run of the query to list SNOMED-CT concepts that a set of mapped codes entered as input map to. The sample parameter substitutions are highlighted in  blue 
 
 ```sql
@@ -58,9 +59,9 @@ sysdate
 BETWEEN c1.valid_start_date AND c1.valid_end_date;
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -76,7 +77,7 @@ BETWEEN c1.valid_start_date AND c1.valid_end_date;
 |  Target_Concept_Vocab_ID |  Vocabulary the target condition concept is derived from as vocabulary code |
 |  Target_Concept_Vocab_Name |  Name of the vocabulary the condition concept is derived from |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

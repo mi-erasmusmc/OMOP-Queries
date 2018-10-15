@@ -1,26 +1,27 @@
 # DER12: Counts of drug types
 
+## Description
 This query is used to count the drug types (drug_type_concept_id) across all drug era records. The input to the query is a value (or a comma-separated list of values) of a drug_type_concept_id. If the input is ommitted, all possible values are summarized.
 
-## Sample query
+## Query
 ```sql
 select count(1) as cntRecs, r.drug_type_concept_id
 from drug_exposure r
 group by r.drug_type_concept_id;
 ```
 
-### Input
+## Input
 
 None
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
 | cntrecs |  Count of drug types |
 | drug_type_concept_id | Drug type standardized unique identifier |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

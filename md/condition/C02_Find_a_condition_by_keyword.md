@@ -1,17 +1,18 @@
 # C02: Find a condition by keyword
 
+## Description
 This query enables search of vocabulary entities by keyword. The query does a search of standard concepts names in the CONDITION domain (SNOMED-CT clinical findings and MedDRA concepts) and their synonyms to return all related concepts.
 
 It does not require prior knowledge of where in the logic of the vocabularies the entity is situated.
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  Keyword |  'myocardial infarction' |  Yes | Keyword should be placed in a single quote |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-## Sample query
+## Query
 The following is a sample run of the query to run a search of the Condition domain for keyword 'myocardial infarction'. The input parameters are highlighted in  blue.
 
 ```sql
@@ -49,9 +50,9 @@ ORDER BY 6,2;
 ```
 
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -64,7 +65,7 @@ ORDER BY 6,2;
 |  Entity_Vocabulary_Name |  Name of the vocabulary associated with the concept |
 
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

@@ -1,8 +1,9 @@
 # CO25: Counts of condition records per person, stratified by condition.
 
+## Description
 Count number of condition per person stratified by condition.
 
-## Sample query
+## Query
 ```sql
 SELECT condition_concept_id, num_of_occurrences, count(*) num_of_patients
 FROM (
@@ -13,13 +14,13 @@ GROUP BY person_id, condition_concept_id)
 GROUP BY condition_concept_id, num_of_occurrences;
 ```
 
-### Input
+## Input
 
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | condition_concept_id | 200219 | Yes | Condition concept identifier for 'Abdominal pain' |
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -27,7 +28,7 @@ GROUP BY condition_concept_id, num_of_occurrences;
 | num_occurrences | Number of condition occurrences |
 | num_of_patients | Number of patients with num_occurrences |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

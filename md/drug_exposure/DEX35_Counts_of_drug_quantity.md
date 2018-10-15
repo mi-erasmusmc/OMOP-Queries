@@ -1,14 +1,15 @@
 # DEX35: Counts of drug quantity
 
+## Description
 This query is used to count the drug quantity (quantity) across all drug exposure records. The input to the query is a value (or a comma-separated list of values) of a quantity. If the input is omitted, all possible values are summarized.
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | quantity (list of numbers) | 10,20 | Yes |  
 
-## Sample query
+## Query
 The following is a sample run of the query. 
 
 ```sql
@@ -18,16 +19,16 @@ WHERE d.quantity in (10, 20)
 GROUP BY d.quantity ;
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- | 
 | drug_quantity_count |   |
 | quantity | The quantity of drug as recorded in the original prescription or dispensing record. |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- | 

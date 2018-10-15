@@ -1,14 +1,15 @@
 # DEX05: Counts of drug records for a particular drug
 
+## Description
 This query is used to count the drug exposure records for a certain drug (drug_concept_id). The input to the query is a value (or a comma-separated list of values) of a drug_concept_id. See  [vocabulary queries](http://vocabqueries.omop.org/drug-queries) for obtaining valid drug_concept_id values. If the input is omitted, all drugs in the data table are summarized.
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | list of drug_concept_id | 40165254, 40165258 | No | Crestor 20 and 40 mg tablets | 
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue. S
 
 
@@ -24,10 +25,10 @@ and drug_concept_id IN (40165254,40165258)
 GROUP BY concept_name, drug_concept_id;
 ```
 
-### Output
+## Output
 
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- | 
@@ -36,7 +37,7 @@ GROUP BY concept_name, drug_concept_id;
 | num_records | The number of drug exposure records |
 
 
-### Sample output record
+## Sample output record
 
 |  Field |  Content |
 | --- | --- | 

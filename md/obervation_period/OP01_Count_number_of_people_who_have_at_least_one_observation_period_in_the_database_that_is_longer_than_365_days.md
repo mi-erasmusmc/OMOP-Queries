@@ -1,23 +1,24 @@
 # OP01: Count number of people who have at least one observation period in the database that is longer than 365 days.
 
-## Sample query
+## Description
+## Query
 ```sql
 SELECT COUNT(DISTINCT person_ID) AS NUM_persons
 FROM observation_period
 WHERE observation_period_END_DATE - observation_period_START_DATE >= 365;
 ```
 
-### Input
+## Input
 
 None
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
 | Num_Persons | Number of patients who have at least one observation period in the database that is longer than 365 days |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

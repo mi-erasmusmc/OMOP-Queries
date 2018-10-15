@@ -1,9 +1,10 @@
 # DEX36: Distribution of drug refills
 
+## Description
 | This query is used to provide summary statistics for drug refills (refills) across all drug exposure records: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. No input is required for this query.
 
-### Input <None>
-## Sample query
+## Input <None>
+## Query
 The following is a sample run of the query. 
 
 ```sql
@@ -23,9 +24,9 @@ FROM (
     ) tt ; 
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- | 
@@ -37,7 +38,7 @@ FROM (
 | median_value |   |
 | percentile_75 |   |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- | 

@@ -1,5 +1,6 @@
 # D08: Find drug classes for a drug or ingredient
 
+## Description
 This query is designed to return the therapeutic classes that associated with a drug. The query accepts a standard drug concept ID (e.g. as identified from query  [G03](http://vocabqueries.omop.org/general-queries/g3)) as the input. The drug concept can be a clinical or branded drug or pack (concept_level=1), or an ingredient (concept_level=2). The query returns one or more therapeutic classes associated with the drug based on the following classifications.).
 
 - Enhanced Therapeutic Classification (ETC)
@@ -11,7 +12,7 @@ This query is designed to return the therapeutic classes that associated with a 
 
 By default, the query returns therapeutic classes based on all the classification systems listed above. Additional clauses can be added to restrict the query to a single classification system.
 
-## Sample query
+## Query
 ```sql
 SELECT
  c1.concept_id                 Class_Concept_Id,
@@ -35,14 +36,14 @@ AND    sysdate BETWEEN c1.valid_start_date AND c1.valid_end_date;
 
 
 
-### Input
+## Input
 
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |   Drug Concept ID |  1545999 |  Yes | Concept Identifier from RxNorm for 'atorvastatin 20 MG Oral Tablet [Lipitor]' |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -54,7 +55,7 @@ AND    sysdate BETWEEN c1.valid_start_date AND c1.valid_end_date;
 |  Class_Vocabulary_Name |  Name of the vocabulary the therapeutic class is derived from |
 |  Levels_of_Separation |  Levels of separation between the drug concept and the therapeutic class. Important for hierarchic classification systems to identify classes and subclasses for the drug. |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

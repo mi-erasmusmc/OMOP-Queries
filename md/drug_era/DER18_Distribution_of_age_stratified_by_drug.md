@@ -1,8 +1,9 @@
 # DER18: Distribution of age, stratified by drug
 
+## Description
 This query is used to provide summary statistics for the age across all drug era records stratified by drug (drug_concept_id): the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. The age value is defined by the earliest exposure. The input to the query is a value (or a comma-separated list of values) of a drug_concept_id. If the input is omitted, age is summarized for all existing drug_concept_id values.
 
-## Sample query
+## Query
 ```sql
 SELECT DISTINCT tt.drug_concept_id,
         min(tt.stat_value) over () AS min_value,
@@ -24,13 +25,13 @@ SELECT DISTINCT tt.drug_concept_id,
 
 
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | list of concept_id | 1300978, 1304643, 1549080 | Yes |   |
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -42,7 +43,7 @@ SELECT DISTINCT tt.drug_concept_id,
 | median_date | Median number of drug era records for drug |
 | percentile_75_date | the 75th percentile number of drug era records for drug |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

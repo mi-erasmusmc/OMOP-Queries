@@ -1,10 +1,11 @@
 # DEX06: Counts of distinct drugs in the database
 
+## Description
 | This query is used to determine the number of distinct drugs (drug_concept_id). See  [vocabulary queries](http://vocabqueries.omop.org/drug-queries) for obtaining valid drug_concept_id values.
 
-### Input None.
+## Input None.
 
-## Sample query
+## Query
 The following is a sample run of the query.  
 
 ```sql
@@ -17,15 +18,15 @@ WHERE
 lower(domain_id)='drug' and vocabulary_id='RxNorm' and standard_concept='S'; 
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- | 
 | number_drugs | The count of distinct drug concepts. |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- | 

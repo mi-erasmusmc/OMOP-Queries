@@ -1,8 +1,9 @@
 # OP11: Distribution of observation period end dates
 
+## Description
 This query is used to to provide summary statistics for observation period end dates (observation_period_end_date) across all observation period records: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. No input is required for this query.
 
-## Sample query
+## Query
 ```sql
 WITH op AS
 ( SELECT to_number( to_char( observation_period_end_date, 'J' ), 9999999 )::INT AS end_date
@@ -17,11 +18,11 @@ SELECT to_date( min( end_date ), 'J' ) AS min_end_date
   FROM op; /* end_date */
 ```
 
-### Input
+## Input
 
 None
 
-### Output
+## Output
 
 | Field |  Description |
 | --- | --- |
@@ -33,7 +34,7 @@ None
 | median |  Median value of observation period end date |
 | percentile_75 |  75th percentile of observation period end date |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

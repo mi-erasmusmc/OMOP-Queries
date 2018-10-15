@@ -1,13 +1,14 @@
 # CE10: Counts of persons with conditions
 
+## Description
 This query is used to count the persons with any number of eras of a certain condition (condition_concept_id). The input to the query is a value (or a comma-separated list of values) of a condition_concept_id. If the input is omitted, all possible values are summarized.
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | list of condition_concept_id | 320128, 432867, 254761, 257011, 257007 | No |   |
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue
 
 ```sql
@@ -21,9 +22,9 @@ SELECT condition_concept_id, concept_name, count( distinct person_id ) num_peopl
  ORDER BY num_people DESC;
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -31,7 +32,7 @@ SELECT condition_concept_id, concept_name, count( distinct person_id ) num_peopl
 | condition_concept_id | A foreign key that refers to a standard condition concept identifier in the vocabulary. |
 | num_people |   |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

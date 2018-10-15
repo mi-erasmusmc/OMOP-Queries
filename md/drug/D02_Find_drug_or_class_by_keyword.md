@@ -1,5 +1,6 @@
 # D02: Find drug or class by keyword
 
+## Description
 This query enables search of vocabulary entities in the drug domain by keyword. The query does a search of standard concepts names in the DRUG domain including the following:
 
 - RxNorm standard drug concepts
@@ -8,7 +9,7 @@ This query enables search of vocabulary entities in the drug domain by keyword. 
 - Synonyms of drug concepts
 - Mapped drug codes from NDC, GPI, Multum, Multilex
 
-## Sample query
+## Query
 ```sql
 SELECT c.concept_id Entity_Concept_Id, c.concept_name Entity_Name, c.concept_code Entity_Code, 'Concept' Entity_Type, c.concept_class_id Entity_concept_class_id, c.vocabulary_id Entity_vocabulary_id
 FROM concept c
@@ -36,14 +37,14 @@ AND REGEXP_INSTR(LOWER(REPLACE(REPLACE(s.concept_synonym_name, ' ', ''), '-', ''
 AND sysdate BETWEEN c.valid_start_date AND c.valid_end_date;
 ```
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  Keyword |  'Lipitor' |  Yes | Keyword should be placed in single quote |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -59,7 +60,7 @@ AND sysdate BETWEEN c.valid_start_date AND c.valid_end_date;
 |  Entity_Vocabulary_ID |  Vocabulary the concept with string match is derived from as vocabulary ID |
 |  Entity_Vocabulary_Name |  Name of the vocabulary the concept with string match is derived from as vocabulary code |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

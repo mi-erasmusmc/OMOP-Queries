@@ -1,8 +1,9 @@
 # D11: Find source codes by drug class
 
+## Description
 This query is designed to extract codes from a non-standard drug vocabulary that belong to a therapeutic class. The query accepts a therapeutic class concept ID and the vocabualry ID of the desired source vocabulary as input and returns all codes that are included under that class and that belong to a source vocabulary. This query could be used to derive e.g. all NDC codes that belong to a certain drug class.
 
-## Sample query
+## Query
 ```sql
 SELECT  d.concept_code,
         d.vocabulary_id,
@@ -17,7 +18,7 @@ SELECT  d.concept_code,
    AND sysdate BETWEEN d.valid_start_date AND d.valid_end_date;
 ```
 
-### Input
+## Input
 
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
@@ -25,7 +26,7 @@ SELECT  d.concept_code,
 |  Source Vocabulary ID |  9 |  Yes | One of the above drug vocabulary ID's |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-### Output
+## Output
 
 | Field |  Description |
 | --- | --- |
@@ -34,7 +35,7 @@ SELECT  d.concept_code,
 |  Source_Vocabulary_Name |  Vocabulary name of source vocabulary |
 |  Source_Code_Description |  Description of source code |
 
-### Sample output record
+## Sample output record
 
 | Field |  Value |
 | --- | --- |

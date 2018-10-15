@@ -1,8 +1,9 @@
 # G01: Find concept by concept ID
 
+## Description
 This is the most generic look-up for obtaining concept details associated with a concept identifier. The query is intended as a tool for quick reference for the name, class, level and source vocabulary details associated with a concept identifier.
 
-## Sample query
+## Query
 ```sql
 SELECT C.concept_id, C.concept_name, C.concept_code, C.concept_class_id, C.standard_concept, C.vocabulary_id, V.vocabulary_name
 FROM concept C, vocabulary V
@@ -12,14 +13,14 @@ AND sysdate BETWEEN valid_start_date
 AND valid_end_date;
 ```
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  Concept ID |  192671 |  Yes | Concept Identifier for "GI - Gastrointestinal hemorrhage" |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -31,7 +32,7 @@ AND valid_end_date;
 |  Vocabulary_ID |  Vocabulary the standard concept is derived from as vocabulary code |
 |  Vocabulary_Name |  Name of the vocabulary the standard concept is derived from |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

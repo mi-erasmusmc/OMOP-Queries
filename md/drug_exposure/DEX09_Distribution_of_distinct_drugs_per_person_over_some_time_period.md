@@ -1,15 +1,16 @@
 # DEX09: Distribution of distinct drugs per person over some time period
 
+## Description
 | This query is to determine the distribution of distinct drugs patients are exposed to during a certain time period. If the time period is omitted, the entire time span of the database is considered.
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | date from | 01-Jan-2008 | Yes |   |
 | date to | 31-Dec-2008 | Yes |   | 
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue.  
 
 ```sql
@@ -25,10 +26,10 @@ MAX ( drugs ) AS max,
  WHERE drug_exposure_start_date BETWEEN '2017-01-01' AND '2017-12-31' GROUP BY person_id ) USING( person_id ) );
 ```
 
-### Output
+## Output
 
 
-### Output field list
+## Output field list
 
 | Field |  Description |
 | --- | --- | 
@@ -41,7 +42,7 @@ MAX ( drugs ) AS max,
 | stddev | The standard deviation of the age distribution |
 
 
-### Sample output record
+## Sample output record
 
 | Field |  Content |
 | --- | --- |

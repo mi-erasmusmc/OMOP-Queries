@@ -1,8 +1,9 @@
 # DER26: Counts of genders, stratified by drug
 
+## Description
 This query is used to count all genders (gender concept_id), stratified by drug (drug_concept_id). The input to the query is a value (or a comma-separated list of values) of a gender_concept_id and a drug_concept_id. If the input is ommitted, all existing value combinations are summarized.
 
-## Sample query
+## Query
 ```sql
 SELECT p.gender_concept_id, count(1) AS stat_value, t.drug_concept_id
 FROM drug_era t, person p
@@ -15,14 +16,14 @@ GROUP BY t.drug_concept_id, p.gender_concept_id
 ORDER BY t.drug_concept_id, p.gender_concept_id;
 ```
 
-### Input
+## Input
 
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | list of gender_concept_id | 8507, 8532 | Yes | Male, Female |
 | list of drug_concept_id | 1300978, 1304643, 1549080 | Yes |   |
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- | 
@@ -30,7 +31,7 @@ ORDER BY t.drug_concept_id, p.gender_concept_id;
 | stat_valu |   |
 | drug_concept_id |   |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

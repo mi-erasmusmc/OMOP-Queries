@@ -1,8 +1,9 @@
 # G09: Find descendants for a given concept
 
+## Description
 For a concept identifier entered as the input parameter, this query lists all descendants in the hierarchy of the domain. Descendant are concepts have a relationship to the given concept that is defined as hierarchical in the relationship table, and any secondary, tertiary etc. concepts going down in the hierarchy. The resulting output provides the descendant concept details and the minimum and maximum level of separation.
 
-## Sample query
+## Query
 ```sql
 SELECT C.concept_id as descendant_concept_id, C.concept_name as descendant_concept_name, C.concept_code as descendant_concept_code, C.concept_class_id as descendant_concept_class_id, C.vocabulary_id, VA.vocabulary_name, A.min_levels_of_separation, A.max_levels_of_separation
 FROM concept_ancestor A, concept C, vocabulary VA
@@ -15,14 +16,14 @@ AND valid_end_date
 ORDER BY 5,7;
 ```
 
-### Input
+## Input
 
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  Concept ID |  192671 |  Yes | GI - Gastrointestinal hemorrhage |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-### Output
+## Output
 
 | Field |  Description |
 | --- | --- |
@@ -35,7 +36,7 @@ ORDER BY 5,7;
 |  Min_Levels_of_Separation |  The length of the shortest path between the concept and the descendant |
 |  Max_Levels_of_Separation |  The length of the longest path between the concept and the descendant |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

@@ -1,10 +1,11 @@
 # D20: Find dose form of a drug
 
+## Description
 This query accepts concept IDs for a drug product (clinical or branded drug or pack) and identifies the dose form.
 
 The query relies on RxNorm concept relationship (4 – 'Has dose form (RxNorm)') for this.
 
-## Sample query
+## Query
 ```sql
 SELECT
         A.concept_id drug_concept_id,
@@ -29,14 +30,14 @@ WHERE
         ;
 ```
 
-### Input
+## Input
 
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  Drug Concept ID |  19060647 |  Yes | Must be a level 1 Clinical or Branded Drug or Pack |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-### Output
+## Output
 
 | Field |  Description |
 | --- | --- |
@@ -47,7 +48,7 @@ WHERE
 |  Dose_Form_Concept_name |  Name of the dose form |
 |  Dose_Form_Concept_code |  Concept code of dose form |
 
-### Sample output record
+## Sample output record
 
 | Field |  Description |
 | --- | --- |

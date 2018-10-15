@@ -1,8 +1,9 @@
 # G14: Statistics about relationships between concepts
 
+## Description
 This query produces list and frequency of all relationships between concepts (Standard and non-standard) and their class
 
-## Sample query
+## Query
 ```sql
 SELECT
   R.relationship_id,
@@ -41,11 +42,11 @@ ORDER BY
   C1.concept_class_id;
 ```
 
-### Input
+## Input
 
 None
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -59,7 +60,7 @@ None
 |  to_concept_class |  Concept class the related concept is derived from |
 |  num_records |  Number of records  |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

@@ -1,12 +1,13 @@
 # DEX19: How many people are taking a drug for a given indication?
 
-### Input
+## Description
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | concept_name | Acute Tuberculosis | Yes | 
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in 
 
 ```sql
@@ -28,9 +29,9 @@ SELECT concept_name, count( distinct person_id )
 ON concept_id = drug_concept_id GROUP BY concept_name;
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- | 
@@ -38,7 +39,7 @@ ON concept_id = drug_concept_id GROUP BY concept_name;
 | count |   |
 
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- | 

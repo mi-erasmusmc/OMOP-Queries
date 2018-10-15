@@ -1,8 +1,9 @@
 # DER03: What is the number of distinct ingredients per patient?
 
+## Description
 Average number of distinct ingredients for all patients.
 
-## Sample query
+## Query
 ```sql
 SELECT
         avg(cnt)
@@ -18,17 +19,17 @@ from
         )
 ```
 
-### Input
+## Input
 
 None
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
 | avg |  Average count of distinct ingredient for all patients |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

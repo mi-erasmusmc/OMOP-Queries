@@ -1,14 +1,15 @@
 # DEX33: Counts of drug exposure records stratified by observation month
 
+## Description
 | This query is used to count the drug exposure records stratified by observation month. The input to the query is a value (or a comma-separated list of values) of a month. If the input is omitted, all possible values are summarized.
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes | 
 | --- | --- | --- | --- |
 | list of month numbers | 3, 5 |  Yes |  
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue 
 
 ```sql
@@ -18,9 +19,9 @@ where extract(month from d.drug_exposure_start_date) in (3, 5)
 group by extract(month from d.drug_exposure_start_date) order by 1 
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- | 
@@ -28,7 +29,7 @@ group by extract(month from d.drug_exposure_start_date) order by 1
 | month |   |
 
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- | 

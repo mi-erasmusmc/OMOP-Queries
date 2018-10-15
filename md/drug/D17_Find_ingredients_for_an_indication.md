@@ -1,8 +1,9 @@
 # D17: Find ingredients for an indication
 
+## Description
 This query provides ingredients that are designated for a certain indication. Indications have to be given as FDB indications (vocabulary_id=19) or NDF-RT indications (vocabulary_id=7). Indications can be identified using the generic query  [G03](http://vocabqueries.omop.org/general-queries/g3), or, if at least one drug is known for this indication, query  [D04](http://vocabqueries.omop.org/drug-queries/d4).
 
-## Sample query
+## Query
 ```sql
 SELECT
   ingredient.concept_id as ingredient_concept_id,
@@ -19,14 +20,14 @@ WHERE
   sysdate BETWEEN ingredient.valid_start_date AND ingredient.valid_end_date;
 ```
 
-### Input
+## Input
 
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  Indication Concept ID |  4345991 |  Yes | FDB indication concept for 'Vomiting' |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-### Output
+## Output
 
 | Field |  Description |
 | --- | --- |
@@ -34,7 +35,7 @@ WHERE
 |  Ingredient_Concept_Name |  Name of the ingredient |
 |  Ingredient_Concept_Code |  Concept code of the ingredient |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

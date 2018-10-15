@@ -1,8 +1,9 @@
 # D03: Find ingredients of a drug
 
+## Description
 This query is designed to accept a drug concept (both clinical or branded) as input and return the list of ingredients that constitute them. Drug concept IDs can be obtained using query G03 or D02.
 
-## Sample query
+## Query
 ```sql
 SELECT
         D.Concept_Id drug_concept_id,
@@ -26,14 +27,14 @@ WHERE
         AND CA.descendant_concept_id IN (939355, 19102189, 19033566)
 ```
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  List of drug Concept ID |  939355, 19102189, 19033566 |  Yes | Includes both clinical and branded drug concepts |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -46,7 +47,7 @@ WHERE
 |  Ingredient_Concept_Code |  Concept code of the clinical ingredient |
 |  Ingredient_Concept_Class |  Concept Class of the clinical ingredient |
 
-### Sample output record
+## Sample output record
 
 | Field |  Value |
 | --- | --- |

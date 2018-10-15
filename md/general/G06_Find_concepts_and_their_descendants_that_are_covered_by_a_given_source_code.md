@@ -1,12 +1,13 @@
 # G06: Find concepts and their descendants that are covered by a given source code
 
+## Description
 This query returns all concepts that are direct maps and the descendants of these directly mapped concepts. This is useful if the target standard vocabulary is organized in a tall hierarchy, while the source vocabulary organization is flat.
 
 Additional constraints can be added at the end of the query if only a specific target domain or target vocabulary is desired. For example, if only SNOMED-CT as the standard vocabulary for conditions needs be returned, the target vocabulary can be set to 1.
 
 In the query only FDB indications and contraindications are returned, but not NDF-RT indications or contraindications. That is because no direct mapping between ICD-9-CM and NDF-RT exists. In order to query for drug indications please see queries D12 through D18.
 
-## Sample query
+## Query
 ```sql
 WITH dm AS ( -- collect direct maps
 SELECT  c1.concept_code as source_code,
@@ -40,7 +41,7 @@ JOIN concept dc ON ca.descendant_concept_id = dc.concept_id
 WHERE dc.standard_concept = 'S';
 ```
 
-### Input
+## Input
 
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
@@ -50,7 +51,7 @@ WHERE dc.standard_concept = 'S';
 The list of vocabulary codes can be found in the VOCABULARY table. |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-### Output
+## Output
 
 | Field |  Description |
 | --- | --- |
@@ -66,7 +67,7 @@ The list of vocabulary codes can be found in the VOCABULARY table. |
 - Concepts that are descendants of direct maps
  |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

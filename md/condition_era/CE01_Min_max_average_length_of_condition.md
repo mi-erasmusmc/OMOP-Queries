@@ -1,14 +1,15 @@
 # CE01: Min/max/average length of condition
 
+## Description
 Compute minimum, maximum an average length of the medical condition.
 
-### Input
+## Input
 
 | --- | --- | --- | --- |
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in blue.
 
 ```sql
@@ -123,9 +124,9 @@ ORDER BY treatment;
 ```
 
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -135,7 +136,7 @@ ORDER BY treatment;
 | max |   |
 | avg_condition_days |   |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

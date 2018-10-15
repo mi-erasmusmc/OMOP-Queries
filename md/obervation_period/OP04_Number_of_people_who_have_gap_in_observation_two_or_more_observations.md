@@ -1,8 +1,9 @@
 # OP04:Number of people who have gap in observation (two or more observations)
 
+## Description
 Count number of people who have two or more observations.
 
-## Sample query
+## Query
 ```sql
 SELECT count( person_id ) AS num_persons
 FROM -- more than one observatio period
@@ -11,17 +12,17 @@ FROM observation_period GROUP BY person_id
 HAVING COUNT( person_id ) > 1 );
 ```
 
-### Input
+## Input
 
 None
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
 | num_persons |  Number of patients who have two or more observations |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

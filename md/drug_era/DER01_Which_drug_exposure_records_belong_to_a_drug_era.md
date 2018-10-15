@@ -1,8 +1,9 @@
 # DER01: Which drug_exposure records belong to a drug_era?
 
+## Description
 This query is used to count all gender values (gender_concept_id) for all exposed persons stratified by drug (drug_concept_id). The input to the query is a value (or a comma-separated list of values) of a gender_concept_id and drug_concept_id. If the input is omitted, all existing value combinations are summarized.
 
-## Sample query
+## Query
 ```sql
 select *
  from        drug_exposure e
@@ -22,13 +23,13 @@ select *
                 )
 ```
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | drug_era_id | 20 | Yes |   |
 
-### Output
+## Output
 
 | Field |  Description |
 | --- | --- |
@@ -37,7 +38,7 @@ select *
 | drug_exposure_start_date | The start date for the current instance of drug utilization. Valid entries include a start date of a prescription, the date a prescription was filled, or the date on which a drug administration procedure was recorded. |
 | drug_exposure_end_date | The end date for the current instance of drug utilization. |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

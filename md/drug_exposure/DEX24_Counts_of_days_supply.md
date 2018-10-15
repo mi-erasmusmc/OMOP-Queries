@@ -1,14 +1,15 @@
 # DEX24: Counts of days supply
 
+## Description
 | This query is used to count days supply values across all drug exposure records. The input to the query is a value (or a comma-separated list of values) of a days_supply. If the clause is omitted, all possible values of days_supply are summarized.
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes | 
 | --- | --- | --- | --- |
 | days_supply | 2,3 | Yes |   | 
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue.  
 
 ```sql
@@ -19,16 +20,16 @@ GROUP BY t.days_supply
 ORDER BY days_supply;
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- | 
 | days_supply | The number of days of supply of the medication as recorded in the original prescription or dispensing record. |
 | cnt | Counts of records with the days_supply value |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- | 

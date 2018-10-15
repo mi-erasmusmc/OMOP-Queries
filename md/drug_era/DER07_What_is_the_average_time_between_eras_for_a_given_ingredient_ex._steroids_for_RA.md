@@ -1,6 +1,7 @@
 # DER07: What is the average time between eras for a given ingredient? ex. steroids for RA
 
-## Sample query
+## Description
+## Query
 ```sql
 select
         avg(t.next_era_start - t.drug_era_end_date) as num_days
@@ -17,19 +18,19 @@ where
         t.next_era_start is not null
 ```
 
-### Input
+## Input
 
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | drug_concept_id | 1304643 | Yes | darbepoetin alfa |
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
 | Num_days |  Average number of days between drug eras |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

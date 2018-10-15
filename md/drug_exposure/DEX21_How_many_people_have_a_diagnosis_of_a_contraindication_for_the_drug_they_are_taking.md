@@ -1,13 +1,14 @@
 # DEX21: How many people have a diagnosis of a contraindication for the drug they are taking?
 
-### Input
+## Description
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes | 
 | --- | --- | --- | --- |
 |   |   |   |  |
 
 
-## Sample query
+## Query
 
 The following is a sample run of the query. The input parameters are highlighted in  blue  ;
 
@@ -38,15 +39,15 @@ where
     d.drug_exposure_start_date >= c.condition_start_date 
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- | 
 | count |   |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- | 

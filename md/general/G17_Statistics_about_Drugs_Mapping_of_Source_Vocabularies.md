@@ -1,8 +1,9 @@
 # G17: Statistics about Drugs Mapping of Source Vocabularies
 
+## Description
 The following query contains the coverage for mapped source vocabularies in the Drug domains to RxNorm.
 
-## Sample query
+## Query
 ```sql
 SELECT
   mapped.vocabulary_id,
@@ -47,11 +48,11 @@ FROM (
 ) mapped;
 ```
 
-### Input
+## Input
 
 None
 
-### Output
+## Output
 
 | Field |  Description |
 | --- | --- |
@@ -65,7 +66,7 @@ None
 |  concepts_in_level |  Number of mapped concepts  |
 |  pct_mapped_concepts |  Percentile of of mapped concepts |
 
-### Sample output record
+## Sample output record
 
 | Field |  Value |
 | --- | --- |

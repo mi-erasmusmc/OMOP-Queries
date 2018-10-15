@@ -1,8 +1,9 @@
 # CO05 :Breakout of condition by gender, age
 
+## Description
 Returns the distribution of condition breakouts per gender and age.
 
-## Sample query
+## Query
 ```sql
 SELECT
   concept_name AS gender,
@@ -40,13 +41,13 @@ LEFT JOIN concept as concept_list ON gender_id_age_count.gender_concept_id=conce
 ORDER BY gender_age_freq DESC;
 ```
 
-### Input
+## Input
 
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | condition_concept_id | 31967 | Yes | Condition concept ID for 'Nausea' |
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -54,7 +55,7 @@ ORDER BY gender_age_freq DESC;
 | age | A person's age in years |
 | gender_age_freq | The frequency of a condition breakout for person gender at a certain age. |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

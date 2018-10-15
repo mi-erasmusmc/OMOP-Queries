@@ -1,13 +1,14 @@
 # CE06: Conditions most likely to result in death
 
+## Description
 | Most prevalent conditions within thirty days of death
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | Number of days since condition era end | 30 |  Yes |   |
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue
 
 ```sql
@@ -23,9 +24,9 @@ ORDER BY conditions_count
 DESC;
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -33,7 +34,7 @@ DESC;
 | count |   |
 | condition_concept_id | A foreign key that refers to a standard condition concept identifier in the vocabulary. |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

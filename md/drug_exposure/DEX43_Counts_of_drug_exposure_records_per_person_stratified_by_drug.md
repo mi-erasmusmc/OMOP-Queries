@@ -1,14 +1,15 @@
 # DEX43: Counts of drug exposure records per person, stratified by drug
 
+## Description
 | This query is used to count the number of drug exposure records for all exposed persons stratified by drug (drug_concept_id). The input to the query is a value (or a comma-separated list of values) of a drug_concept_id. If the input is omitted, all existing values are summarized.
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes | 
 | --- | --- | --- | --- |
 | list of drug_concept_id | 906805, 1517070, 19010522 | Yes |  
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue 
 
 ```sql
@@ -19,9 +20,9 @@ group by t.person_id, t.drug_concept_id
 order by t.drug_concept_id, t.person_id;
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- | 
@@ -30,7 +31,7 @@ order by t.drug_concept_id, t.person_id;
 | count |   |
 
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- | 

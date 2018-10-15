@@ -1,6 +1,7 @@
 # PP02: Patient distribution by plan type
 
-## Sample query
+## Description
+## Query
 ```sql
 select
   t.plan_source_value,
@@ -14,11 +15,11 @@ from (
 order by t.plan_source_value;
 ```
 
-### Input
+## Input
 
 None
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -26,7 +27,7 @@ None
 | num_patients | Number of patients |
 | perc_of_total_count | Total count |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

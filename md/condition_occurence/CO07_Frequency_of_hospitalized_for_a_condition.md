@@ -1,8 +1,9 @@
 # CO07 :Frequency of hospitalized for a condition
 
+## Description
 Returns the distribution of number of times a person has been hospitalized where a certain condition was reported.
 
-## Sample query
+## Query
 ```sql
 SELECT
   number_of_hospitlizations,
@@ -58,20 +59,20 @@ ORDER BY persons_freq desc
 ;
 ```
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | condition_concept_id | 31967 | Yes | Condition concept identifier for 'Nausea' |
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
 | number_of_hospitlizations | Number of times a person was reported to be hospitalized with a certain condition. |
 | persons_freq | Number of persons which were reported to have a certain number of hospilizations with a certain condition. |
 
-### Sample output record
+## Sample output record
 
 | Field |  Description |
 | --- | --- |

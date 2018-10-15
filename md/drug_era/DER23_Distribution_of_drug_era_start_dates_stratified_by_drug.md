@@ -1,8 +1,9 @@
 # DER23: Distribution of drug era start dates, stratified by drug
 
+## Description
 This query is used to summary statistics of the drug era start dates (drug_era_start_date) across all drug era records, stratified by drug (drug_concept_id): the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. The input to the query is a value (or a comma-separated list of values) of a drug_concept_id. If the input is omitted, all possible values are summarized.
 
-## Sample query
+## Query
 ```sql
 with tt as (
   SELECT
@@ -30,13 +31,13 @@ order by
 ;
 ```
 
-### Input
+## Input
 
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | drug_concept_id | 1300978, 1304643, 1549080 | Yes |   |
 
-### Output
+## Output
 
 | Field |  Description |
 | --- | --- |
@@ -49,7 +50,7 @@ order by
 | median_value |      |
 | percentile_75 |      |
 
-### Sample output record
+## Sample output record
 
 | Field |  Description |
 | --- | --- |

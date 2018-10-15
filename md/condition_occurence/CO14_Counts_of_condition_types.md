@@ -1,8 +1,9 @@
 # CO14: Counts of condition types
 
+## Description
 This query is used to count the condition type concepts (condition_type_concept_id, in the CDM V2 condition_occurrence_type) across all condition occurrence records. The input to the query is a value of a condition_type_concept_id.
 
-## Sample query
+## Query
 ```sql
 SELECT condition_type_freq, condition_type_concept_id, concept_name
 FROM (
@@ -18,13 +19,13 @@ FROM concept) AS type_concept ON condition_type_count.condition_type_concept_id=
 ORDER BY condition_type_freq;
 ```
 
-### Input
+## Input
 
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | condition_concept_id | 31967 | Yes | Condition concept identifier for 'Nausea' |
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -32,7 +33,7 @@ ORDER BY condition_type_freq;
 | condition_type_concept_id | Unique ID for condition_type |
 | concept_name |  Description of the condition's data source |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

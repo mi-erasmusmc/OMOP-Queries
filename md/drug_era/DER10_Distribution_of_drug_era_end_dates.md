@@ -1,8 +1,9 @@
 # DER10: Distribution of drug era end dates
 
+## Description
 This query is used to to provide summary statistics for drug era end dates (drug_era_end_date) across all drug era records: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. No input is required for this query.
 
-## Sample query
+## Query
 ```sql
 SELECT DISTINCT min(tt.end_date) over () AS min_date
      , max(tt.end_date) over () AS max_date
@@ -23,11 +24,11 @@ SELECT DISTINCT min(tt.end_date) over () AS min_date
         GROUP BY tt.min_date, tt.end_date, tt.end_date_num;
 ```
 
-### Input
+## Input
 
 None
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -38,7 +39,7 @@ None
 | median_date | Median of the drug era end date |
 | percentile_75_date | the 75th percentile of the drug era end date |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

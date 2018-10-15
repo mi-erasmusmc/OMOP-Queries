@@ -1,12 +1,13 @@
 #  CE08: Number of comorbidity for patients with condition
 
-### Input
+## Description
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | condition_era_end_date |   |   |   |
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in blue
 
 ```sql
@@ -56,9 +57,9 @@ FROM tt;
 ```
 
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -69,7 +70,7 @@ FROM tt;
 | median |   |
 | percentile_75 |   |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

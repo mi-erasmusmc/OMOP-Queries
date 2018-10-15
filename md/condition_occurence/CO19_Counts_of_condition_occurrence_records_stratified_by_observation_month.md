@@ -1,8 +1,9 @@
 # CO19: Counts of condition occurrence records stratified by observation month
 
+## Description
 This query is used to count the condition occurrence records stratified by observation month.
 
-## Sample query
+## Query
 ```sql
 SELECT extract(month
 from condition_start_date) month_number, count(*) as number_of_conditions_in_month
@@ -12,18 +13,18 @@ from condition_start_date)
 ORDER BY 1;
 ```
 
-### Input
+## Input
 
 None
 
-### Output
+## Output
 
 | Field |  Description |
 | --- | --- |
 | Month_number | Month number |
 | Number_of_conditions_in_month |  The number of the condition occurrences is a specified month. |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

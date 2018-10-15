@@ -1,14 +1,15 @@
 # DEX12: Distribution of forms used for a given ingredient
 
+## Description
 | This query determines the percent distribution of forms of drug products containing a given ingredient. See  [vocabulary queries](http://vocabqueries.omop.org/drug-queries) for obtaining valid drug_concept_id values.
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  ingredient.concept_id |  1125315 |  Yes |  Acetaminophen |
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameter is highlighted in  blue. 
 
 ```sql
@@ -45,9 +46,9 @@ WHERE tt.total_forms > 0 --avoid division by 0
 ORDER BY percent_forms desc;
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- | 
@@ -55,7 +56,7 @@ ORDER BY percent_forms desc;
 | percent_forms | The percent of forms drug products have containing the ingredient |
 
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- | 

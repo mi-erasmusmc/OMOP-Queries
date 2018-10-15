@@ -1,9 +1,10 @@
 # DEX17: Why do people stop treatment?
 
+## Description
 | This query provides a list of stop treatment and their frequency.
 
-### Input <None>
-## Sample query
+## Input <None>
+## Query
 
 The following is a sample run of the query. The input parameters are highlighted in  blue. S
 
@@ -14,9 +15,9 @@ WHERE
 stop_reason IS NOT null GROUP BY stop_reason ORDER BY reason_freq DESC;
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- | 
@@ -24,7 +25,7 @@ stop_reason IS NOT null GROUP BY stop_reason ORDER BY reason_freq DESC;
 | reason_freq |  Frequency of stop reason |
 
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- | 

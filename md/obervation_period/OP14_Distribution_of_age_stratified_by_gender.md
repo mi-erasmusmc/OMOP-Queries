@@ -1,8 +1,9 @@
 # OP14 :Distribution of age, stratified by gender
 
+## Description
 This query is used to provide summary statistics for the age across all observation records stratified by gender (gender_concept_id): the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. The age value is defined by the earliest observation date. Age is summarized for all existing gender_concept_id values.
 
-## Sample query
+## Query
 ```sql
 WITH t AS /* person, gender, age */
      ( SELECT person_id, NVL( concept_name, 'MISSING' ) AS gender
@@ -33,11 +34,11 @@ SELECT gender
 GROUP BY gender
 ```
 
-### Input
+## Input
 
 None
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -51,7 +52,7 @@ None
 |  median |  Median age across observation within specific gender |
 |  percentile_75 |  75th percentile age across observation within specific gender |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

@@ -1,15 +1,16 @@
 # DEX37: Counts of drug refills
 
+## Description
 | This query is used to count the drug refills (refills) across all drug exposure records. The input to the query is a value (or a comma-separated list of values) of refills. If the input is omitted, all existing values are summarized.
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | refills count (list of numbers) | 10,20 | Yes |
 
 
-## Sample query
+## Query
 
 The following is a sample run of the query. The input parameters are highlighted in  blue 
 
@@ -20,10 +21,10 @@ WHERE d.refills in (10, 20)
 GROUP BY d.refills ;
 ```
 
-### Output
+## Output
 
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- | 
@@ -31,7 +32,7 @@ GROUP BY d.refills ;
 | Refills_Count | The number of refills after the initial prescription. The initial prescription is not counted, values start with 0. |
 
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- | 

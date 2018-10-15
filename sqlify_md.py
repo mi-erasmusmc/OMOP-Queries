@@ -34,11 +34,11 @@ def parse_non_chunk_line(line):
     if line.strip() == '---':
         return None
     elif is_section_heading(line):
-        return '# ' + line
+        return '# %s\n## Description' % line
     elif re.match(r'Sample query( run)?:', line):
-        return '## Sample query'
+        return '## Query'
     elif re.match(r'(Input|Output.*|Sample.+|):', line):
-        return '### ' + line.replace(':', '')
+        return '## ' + line.replace(':', '')
     else:
         return line
 
@@ -63,7 +63,7 @@ def sql_chunks(the_md):
         c_lp3, c_lp2, c_lp1, c_l, c_ln1, c_ln2, c_ln3 = look_around(the_md, r'^(\ {4}|\t)', i, 3)
         n_lp2, n_lp1, _, n_ln1, n_ln2 = look_around(the_md, r'\n', i, 2)
 
-        #nextlines_code = (c_ln1 and c_ln2) or (n_ln1 and c_ln2) or (n_ln1 and n_ln2 and c_ln3)
+        # nextlines_code = (c_ln1 and c_ln2) or (n_ln1 and c_ln2) or (n_ln1 and n_ln2 and c_ln3)
         nextlines_code = c_ln1 or c_ln2 or c_ln3
         prevlines_code = c_lp1 or c_lp2 or c_lp3
         new_codeline = c_l and not prevlines_code

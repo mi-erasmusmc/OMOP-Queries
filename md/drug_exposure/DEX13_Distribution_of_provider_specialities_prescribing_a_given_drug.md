@@ -1,14 +1,15 @@
 # DEX13: Distribution of provider specialities prescribing a given drug
 
+## Description
 | This query provides the provider specialties prescribing a given drug, and the frequencies for each provider prescribing the drug (drug exposure records). Note that many databases do not record the prescribing provider for drugs. See  [vocabulary queries](http://vocabqueries.omop.org/drug-queries) for obtaining valid drug_concept_id values.
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | drug_concept_id | 2213473 | Yes | Influenza virus vaccine |
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue.
 
 ```sql
@@ -29,10 +30,10 @@ SELECT  concept_name AS specialty,
   ORDER BY prescriptions_count desc;
 ```
 
-### Output
+## Output
 
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- | 
@@ -40,7 +41,7 @@ SELECT  concept_name AS specialty,
 | prescriptions_count | The count of drug exposure records providers from the specialties are listed as prescribing provider. |
 
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

@@ -1,14 +1,15 @@
 # DEX01: Counts of persons with any number of exposures to a certain drug
 
+## Description
 | This query is used to count the persons with at least one exposures to a certain drug (drug_concept_id).  See  [vocabulary queries](http://vocabqueries.omop.org/drug-queries) for obtaining valid drug_concept_id values. The input to the query is a value (or a comma-separated list of values) of a drug_concept_id. If the input is omitted, all drugs in the data table are summarized.
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes | 
 | --- | --- | --- | --- |
 | list of drug_concept_id | 40165254, 40165258 | No | Crestor 20 and 40 mg tablets | 
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue.  
 
 ```sql
@@ -22,9 +23,9 @@ and drug_concept_id in (40165254, 40165258 )
 GROUP BY concept.concept_name, drug_concept_id;
 ```
    
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -32,7 +33,7 @@ GROUP BY concept.concept_name, drug_concept_id;
 | drug_concept_id | A foreign key that refers to a standard concept identifier in the vocabulary for the drug concept.  |
 | num_persons | The patients count |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Content |
 | --- | --- | 

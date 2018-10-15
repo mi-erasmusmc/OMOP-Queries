@@ -1,8 +1,9 @@
 # PE12: Distribution of year of birth
 
+## Description
 This query is used to to provide summary statistics for the age across all patient records: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum. No input is required for this query.
 
-## Sample query
+## Query
 ```sql
 SELECT percentile_25
      , median
@@ -41,11 +42,11 @@ FROM
 GROUP BY percentile_25, median, percentile_75
 ```
 
-### Input
+## Input
 
 None
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -57,7 +58,7 @@ None
 |  mean |  Mean patient year of birth |
 |  stddev |  Standard deviation of year of birth |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

@@ -1,9 +1,10 @@
 # DEX29: Distribution of number of distinct drugs persons take
 
+## Description
 | This query is used to provide summary statistics for the number of number of different distinct drugs (drug_concept_id) of all exposed persons: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. No input is required for this query.
 
-### Input <None>
-## Sample query
+## Input <None>
+## Query
 
 The following is a sample run of the query. The input parameters are highlighted in  blue
 
@@ -23,9 +24,9 @@ FROM (
         group by t.person_id ) tt ;
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- | 
@@ -37,7 +38,7 @@ FROM (
 | median_value |   |
 | percentile_75 |   |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- | 

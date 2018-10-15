@@ -1,8 +1,9 @@
 # OP20: Distribution of observation period length, stratified by gender.
 
+## Description
 This query is used to provide summary statistics for the observation period length across all observation period records stratified by gender (gender_concept_id): the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. The length of an is defined as the difference between the start date and the end date. All existing gender_concept_id values are summarized.
 
-## Sample query
+## Query
 ```sql
 SELECT
   gender,
@@ -51,11 +52,11 @@ GROUP BY
   percentile_75;
 ```
 
-### Input
+## Input
 
 None
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -69,7 +70,7 @@ None
 | median | Median of observation periods in days |
 | percentile_75 | 75th percentile of observation periods in days |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

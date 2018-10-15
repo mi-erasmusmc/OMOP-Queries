@@ -1,5 +1,6 @@
 # G07: Find concepts that have a relationship with a given concept
 
+## Description
 For a concept identifier entered as the input parameter, the query lists all existing relationships with other concepts. The resulting output includes:
 
 - Type of relationship (including both relationship ID and description)
@@ -12,7 +13,7 @@ o    Polarity of "Is Related by" implies the input concept is the second concept
 
 In vocabulary Version 4.0 and above all relationships are bi-directional, ie. all relationships are repeated as a mirrored version, where CONCEPT_ID_1 and CONCEPT_ID_2 are swapped and the inverse relationship ID is provided.
 
-## Sample query
+## Query
 ```sql
 SELECT 'Relates to' relationship_polarity, CR.relationship_ID, RT.relationship_name, D.concept_Id concept_id, D.concept_Name concept_name, D.concept_Code concept_code, D.concept_class_id concept_class_id, D.vocabulary_id concept_vocab_ID, VS.vocabulary_name concept_vocab_name
 FROM concept_relationship CR, concept A, concept D, vocabulary VA, vocabulary VS, relationship RT
@@ -36,14 +37,14 @@ AND sysdate BETWEEN CR.valid_start_date
 AND CR.valid_end_date;
 ```
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  Concept ID |  192671 |  Yes | GI - Gastrointestinal hemorrhage |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -60,7 +61,7 @@ AND CR.valid_end_date;
 |  Concept_Vocab_ID |  ID of the vocabulary the related concept is derived from |
 |  Concept_Vocab_Name |  Name of the vocabulary the related concept is derived from |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

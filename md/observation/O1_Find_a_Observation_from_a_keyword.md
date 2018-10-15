@@ -1,9 +1,10 @@
 # O1: Find a Observation from a keyword
 
+## Description
 This query enables the search of LOINC and UCUM descriptions that are used in the observation domain of the vocabulary by keyword.
 It does not require prior knowledge of where in the logic of the vocabularies the entity is situated.
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
@@ -12,7 +13,7 @@ It does not require prior knowledge of where in the logic of the vocabularies th
 
 
 
-## Sample query
+## Query
 The following is a sample run of the query to run a search of the Observation domain for keyword 'LDL'. The input parameters are highlighted in  blue.
 
 ```sql
@@ -45,7 +46,7 @@ WHERE  REGEXP_INSTR(LOWER(REPLACE(REPLACE(T.Entity_Name, ' ', ''), '-', '')),
 AND     sysdate BETWEEN T.valid_start_date AND T.valid_end_date
 ```
 
-### Output
+## Output
 
 Output field list
 
@@ -61,7 +62,7 @@ Output field list
 
 
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

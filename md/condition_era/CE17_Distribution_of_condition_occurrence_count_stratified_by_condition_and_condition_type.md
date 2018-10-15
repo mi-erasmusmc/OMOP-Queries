@@ -1,14 +1,15 @@
 # CE17: Distribution of condition occurrence count, stratified by condition and condition type
 
+## Description
 This query is used to provide summary statistics for condition occurrence count (condition_occurrence_count) across all condition era records stratified by condition (condition_concept_id) and condition type (condition_type_concept_id, in CDM V2 condition_occurrence_type): the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. The input to the query is a value (or a comma-separated list of values) of a condition_concept_id and a condition_type_concept_id. If the input is omitted, all existing value combinations are summarized.
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | condition_concept_id | 254761, 257011, 320128, 432867, 25297 | No |   |
 | condition_type_concept_id |   | No |   |
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue
 
 ```sql
@@ -47,9 +48,9 @@ GROUP BY
   percentile_75
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -62,7 +63,7 @@ GROUP BY
 | median |   |
 | percentile_75 |   |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

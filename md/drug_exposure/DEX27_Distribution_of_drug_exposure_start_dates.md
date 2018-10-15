@@ -1,9 +1,10 @@
 # DEX27: Distribution of drug exposure start dates
 
+## Description
 | This query is used to to provide summary statistics for drug exposure start dates (drug_exposure_start_date) across all drug exposure records: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. No input is required for this query.
 
-### Input <None>
-## Sample query
+## Input <None>
+## Query
 The following is a sample run of the query.  
 
 ```sql
@@ -25,9 +26,9 @@ FROM (
 GROUP BY tt.min_date ; 
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- | 
@@ -39,7 +40,7 @@ GROUP BY tt.min_date ;
 | median_value |   |
 | percentile_75 |   |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- | 

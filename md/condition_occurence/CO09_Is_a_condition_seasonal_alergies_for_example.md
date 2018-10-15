@@ -1,5 +1,6 @@
 # CO09 :Is a condition seasonal, alergies for example
 
+## Description
 Returns the distribution of condition occurrence per season in the northern hemisphere, defined in the following way:
 
 |  Spring |  March 21 - June 21 |
@@ -8,7 +9,7 @@ Returns the distribution of condition occurrence per season in the northern hemi
 |  Fall |  September 23 - December 21 |
 |  Winter |  December 22 - March 20 |
 
-## Sample query
+## Query
 ```sql
 SELECT season, COUNT(*) as season_freq
 FROM (
@@ -29,20 +30,20 @@ GROUP BY season
 ORDER BY season_freq;
 ```
 
-### Input
+## Input
 
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | condition_concept_id | 31967 | Yes | Condition concept identifier for 'Nausea' |
 
-### Output
+## Output
 
 | Field |  Description |
 | --- | --- |
 | season | Season as defined in the northern hemisphere. |
 | season_freq | Frequency of condition occurrence in the season. |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

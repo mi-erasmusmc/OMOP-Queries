@@ -1,8 +1,9 @@
 # OP10: Observation period records stratified by observation month
 
+## Description
 Counts the observation period records stratified by observation month. All possible values are summarized.
 
-## Sample query
+## Query
 ```sql
 SELECT
   month,
@@ -61,18 +62,18 @@ FROM (
 ) GROUP BY month order by month;
 ```
 
-### Input
+## Input
 
 None
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
 |  month |  Month number 1-12 |
 |  num_observations |  Number of observation in a specific month |
 
-### Sample output record
+## Sample output record
 
 | Field |  Value |
 | --- | --- |

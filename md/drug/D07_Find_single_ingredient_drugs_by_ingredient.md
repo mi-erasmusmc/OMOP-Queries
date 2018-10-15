@@ -1,8 +1,9 @@
 # D07: Find single ingredient drugs by ingredient
 
+## Description
 This query accepts accepts an ingredient concept ID and returns all drugs which contain only one ingredient specified in the query. This query is useful when studying drug outcomes for ingredients where the outcome or drug-drug interaction effect of other ingredients needs to be avoided. Indications have to be provided as FDB (vocabulary_id=19) or NDF-RT indications (vocabulary_id=7).
 
-## Sample query
+## Query
 ```sql
 SELECT
       c.concept_id     as drug_concept_id,
@@ -25,14 +26,14 @@ INNER JOIN (
 WHERE sysdate BETWEEN valid_start_date AND valid_end_date
 ```
 
-### Input
+## Input
 
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  Ingredient Concept ID |  1000560 |  Yes | Concept ID for ingredient 'Ondansetron' |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -40,7 +41,7 @@ WHERE sysdate BETWEEN valid_start_date AND valid_end_date
 |  Drug_Concept_Name |  Name of drug Concept |
 |  Drug_Concept_Class |  Concept Code of drug |
 
-### Sample output record
+## Sample output record
 
 | Field |  Value |
 | --- | --- |

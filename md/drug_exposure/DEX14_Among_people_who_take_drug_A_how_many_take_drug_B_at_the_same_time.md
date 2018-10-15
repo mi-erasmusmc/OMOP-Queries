@@ -1,13 +1,14 @@
 # DEX14: Among people who take drug A, how many take drug B at the same time?
 
-### Input
+## Description
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes | 
 | --- | --- | --- | --- |
 | concept_id | 21502747 | Yes | Statins | 
 | ancestor_concept_id | 21500223 | Yes | Antihypertensive Therapy Agents |
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue  S
 
 ```sql
@@ -42,10 +43,10 @@ FROM /* people taking statin and possible taking antihypertensive agent */
     GROUP BY statin.person_id );
 ```
 
-### Output
+## Output
 
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- | 
@@ -56,7 +57,7 @@ FROM /* people taking statin and possible taking antihypertensive agent */
 | drug_exposure_end_date | The end date for the current instance of drug utilization. It is not available from all sources. |
 
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

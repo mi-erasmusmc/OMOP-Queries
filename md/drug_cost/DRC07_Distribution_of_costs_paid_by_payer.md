@@ -1,8 +1,9 @@
 #  DRC07:Distribution of costs paid by payer.
 
+## Description
 This query is used to to provide summary statistics for costs paid by coinsurance (paid_coinsurance) across all drug cost records: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. No input is required for this query.
 
-## Sample query
+## Query
 ```sql
 with tt as (
   SELECT t.paid_patient_coinsurance AS stat_value
@@ -21,11 +22,11 @@ FROM
  tt;
 ```
 
-### Input
+## Input
 
 None
 
-### Output
+## Output
 
 |   |
 | --- |
@@ -35,7 +36,7 @@ None
 | avg_value |   |
 | stdDev_value |   |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

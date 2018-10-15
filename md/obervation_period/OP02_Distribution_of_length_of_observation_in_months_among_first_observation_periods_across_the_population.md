@@ -1,8 +1,9 @@
 # OP02 : Distribution of length of observation, in months, among first observation periods across the population
 
+## Description
 Count distribution of length of observation, in months, among first observation periods across the population.
 
-## Sample query
+## Query
 ```sql
 SELECT        DATEDIFF(month, observation_period_start_date, observation_period_end_date) as num_months,
                 COUNT(distinct person_id) AS num_persons
@@ -21,18 +22,18 @@ GROUP BY        DATEDIFF(month,observation_period_START_DATE, observation_period
 ORDER BY        DATEDIFF(month,observation_period_START_DATE, observation_period_END_DATE) ASC
 ```
 
-### Input
+## Input
 
 None
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
 | num_month | Number of month duration |
 | num_persons | Number of patients whose observation period with num_month duration |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

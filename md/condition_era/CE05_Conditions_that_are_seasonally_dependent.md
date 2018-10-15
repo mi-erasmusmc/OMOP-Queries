@@ -1,14 +1,15 @@
 # CE05: Conditions that are seasonally dependent
 
+## Description
 This query is used to count conditions (condition_concept_id) across all condition era records stratified by year, age group and gender (gender_concept_id). The age groups are calculated as 10 year age bands from the age of a person at the condition era start date. The input to the query is a value (or a comma-separated list of values) of a condition_concept_id , year, age_group (10 year age band) and gender_concept_id. If the input is ommitted, all existing value combinations are summarized..
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | condition_concept_id |   |   |   |
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in blue
 
 ```sql
@@ -49,16 +50,16 @@ ON snomed_asthma = condition_concept_id
 ) GROUP BY season;
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- |
 | season |   |
 | cases |   |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

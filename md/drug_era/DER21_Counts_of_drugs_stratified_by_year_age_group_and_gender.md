@@ -1,8 +1,9 @@
 # DER21: Counts of drugs, stratified by year, age group and gender
 
+## Description
 This query is used to count drugs (drug_concept_id) across all drug era records stratified by year, age group and gender (gender_concept_id). The age groups are calculated as 10 year age bands from the age of a person at the drug era start date. The input to the query is a value (or a comma-separated list of values) of a drug_concept_id , year, age_group (10 year age band) and gender_concept_id. If the input is omitted, all existing value combinations are summarized.
 
-## Sample query
+## Query
 ```sql
 SELECT
   tt.drug_concept_id,
@@ -39,14 +40,14 @@ order by
 ;
 ```
 
-### Input
+## Input
 
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | list of concept_id | 1300978, 1304643, 1549080 | Yes |   |
 | list of year_of_era | 2007, 2008 | Yes |   |
 
-### Output
+## Output
 
 | Field |  Description |
 | --- | --- |
@@ -56,7 +57,7 @@ order by
 | year_of_era | A foreign key to the predefined concept identifier in the vocabulary reflecting the type of drug exposure recorded. It indicates how the drug exposure was represented in the source data: as medication history, filled prescriptions, etc. |
 | gender_concept_id | A foreign key that refers to a standard concept identifier in the vocabulary for the gender of the person. |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

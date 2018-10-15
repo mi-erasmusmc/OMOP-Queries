@@ -1,13 +1,14 @@
 # COC01: Determines first line of therapy for a condition
 
-### Input
+## Description
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | list of condition_concept_id | 432791, 4080130, 4081073, 4083996, 4083997, 4083998, 4084171, 4084172, 4084173, 4084174, 4086741, 4086742, 4086744, 4120778, 4125819, 4140613, 4161207, 4224624, 4224625, 4270861, 4270862, 4270865, 4292365, 4292366, 4292524, 4299298, 4299302, 4301157, 4307793 | Yes | Angioedema 1 |
 | ancestor_concept_id | 21003378 | Yes | Angioedema |
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue  
 
 ```sql
@@ -59,7 +60,7 @@ ORDER BY num_patients DESC;
 
  Output:
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -67,7 +68,7 @@ ORDER BY num_patients DESC;
 | ingredient_concept_id |   |
 | count |   |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

@@ -1,8 +1,9 @@
 # CO17: Distribution of condition occurrence records per person
 
+## Description
 This query is used to provide summary statistics for the number of condition occurrence records (condition_occurrence_id) for all persons: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. There is no input required for this query.
 
-## Sample query
+## Query
 ```sql
 with ranked as
   (
@@ -59,11 +60,11 @@ SELECT
  ) AS condition_num_75percentile
 ```
 
-### Input
+## Input
 
 None
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -77,7 +78,7 @@ None
 | condition_num_median | A condition occurence number where half of the other numbers are lower and half are higher |
 | condition_num_75percentile | A condition occurence number where 75 percent of the other numbers are lower |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

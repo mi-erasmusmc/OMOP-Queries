@@ -1,8 +1,9 @@
 # CO06:What are a person's comorbidities.
 
+## Description
 Returns all coexisting conditions for a given person as defined in the condition_era table.
 
-## Sample query
+## Query
 ```sql
 SELECT DISTINCT
   CASE WHEN concept_name_1>concept_name_2 THEN concept_name_1 ELSE concept_name_2 END as condition1,
@@ -33,20 +34,20 @@ FROM (
 ) AS condition_pairs;
 ```
 
-### Input
+## Input
 
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | person_id | 136931019 | Yes | Randomly picked person identifier |
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
 | Condition 1 | Name of one condition in the comorbidity. |
 | Condition 2 | Name of the other condition in the comorbidity. |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

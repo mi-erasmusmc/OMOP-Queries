@@ -1,6 +1,7 @@
 # DER06: For a given class, what proportion of patients take each treatment in the class?
 
-## Sample query
+## Description
+## Query
 ```sql
 select        tt.concept_id,
                 tt.concept_name,
@@ -28,13 +29,13 @@ from
         ) tt;
 ```
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | ancestor_concept_id | 4324992 | Yes | Antithrombins |
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -42,7 +43,7 @@ from
 | Concept_name | Standardized drug name |
 | Proportion_count | Proportion of patients take each treatment in the class |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

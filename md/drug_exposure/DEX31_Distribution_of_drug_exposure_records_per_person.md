@@ -1,9 +1,10 @@
 # DEX31: Distribution of drug exposure records per person
 
+## Description
 | This query is used to provide summary statistics for the number of drug exposure records (drug_exposure_id) for all persons: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. There is no input required for this query.
 
-### Input <None>
-## Sample query
+## Input <None>
+## Query
 The following is a sample run of the query. 
 
 ```sql
@@ -22,9 +23,9 @@ FROM (
     ) tt ; 
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- | 
@@ -36,7 +37,7 @@ FROM (
 | median_value |   |
 | percentile_75 |   |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- | 

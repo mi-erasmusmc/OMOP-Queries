@@ -1,10 +1,11 @@
 # DEX23: Distribution of days supply
 
+## Description
 | This query is used to provide summary statistics for days supply (days_supply) across all drug exposure records: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. No input is required for this query.
 
-### Input <None>
+## Input <None>
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue  
 
 ```sql
@@ -20,9 +21,9 @@ FROM
     ( SELECT t.days_supply AS stat_value FROM drug_exposure t where t.days_supply > 0 ) tt ;
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- | 
@@ -35,7 +36,7 @@ FROM
 | percentile_75 |   |
 
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- | 

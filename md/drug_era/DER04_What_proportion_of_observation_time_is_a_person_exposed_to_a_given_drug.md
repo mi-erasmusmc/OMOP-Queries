@@ -1,6 +1,7 @@
 # DER04: What proportion of observation time is a person exposed to a given drug?
 
-## Sample query
+## Description
+## Query
 ```sql
 SELECT        decode(o.totalObs, 0, 0, 100*(e.totExposure*1.0/o.totalObs*1.0)) as proportion
 FROM
@@ -22,19 +23,19 @@ where
         o.person_id = e.person_id
 ```
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | drug_concept_id | 1549080 | Yes | Estrogens, Conjugated (USP) |
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
 | proportion | proportion of observation time is a person exposed to a given drug |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

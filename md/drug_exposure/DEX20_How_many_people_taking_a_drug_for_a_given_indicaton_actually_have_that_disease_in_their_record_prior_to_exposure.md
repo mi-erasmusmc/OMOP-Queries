@@ -1,13 +1,14 @@
 # DEX20: How many people taking a drug for a given indicaton actually have that disease in their record prior to exposure?
 
-### Input
+## Description
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | concept_name | Acute Tuberculosis | Yes |   
 
 
-## Sample query
+## Query
 
 The following is a sample run of the query. The input parameters are highlighted in  blue 
 
@@ -51,15 +52,15 @@ LEFT OUTER JOIN /*patient with Acute Tuberculosis diagnosis */
     ) diagnosed 
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- | 
 | count |   |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- | 

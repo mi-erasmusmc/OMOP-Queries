@@ -1,10 +1,11 @@
 # G11: Find children for a given concept
 
+## Description
 This query lists all standard vocabulary concepts that are child concepts of a given concept entered as input. The query accepts a concept ID as the input and returns all concepts that are its immediate child concepts.
 
 The query returns only the immediate child concepts that are directly linked to the input concept and not all descendants.
 
-## Sample query
+## Query
 ```sql
 SELECT D.concept_id Child_concept_id, D.concept_name Child_concept_name, D.concept_code Child_concept_code, D.concept_class_id Child_concept_class_id, D.vocabulary_id Child_concept_vocab_ID, VS.vocabulary_name Child_concept_vocab_name
 FROM concept_ancestor CA, concept D, vocabulary VS
@@ -16,14 +17,14 @@ AND sysdate BETWEEN D.valid_start_date
 AND D.valid_end_date;
 ```
 
-### Input
+## Input
 
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  Concept ID |  192671 |  Yes | GI - Gastrointestinal hemorrhage |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -34,7 +35,7 @@ AND D.valid_end_date;
 |  Child_Concept_Vocab_ID |  ID of the vocabulary the child concept is derived from |
 |  Child_Concept_Vocab_Name |  Name of the vocabulary the child concept is derived from |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

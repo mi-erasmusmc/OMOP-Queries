@@ -1,8 +1,9 @@
 # PE07: Number of patients grouped by residence state location
 
+## Description
 This query is used to count the locations (location_id) across all person records. All possible values for location are summarized.
 
-## Sample query
+## Query
 ```sql
 SELECT NVL( state, 'XX' )
 AS state_abbr, count(*) as Num_Persons_count
@@ -13,18 +14,18 @@ GROUP BY NVL( state, 'XX' )
 ORDER BY 1;
 ```
 
-### Input
+## Input
 
 None
 
-### Output
+## Output
 
 | Field |  Description |
 | --- | --- |
 | State | State of residence |
 | Num_Persons_count | Number of patients in the dataset residing in specific state |
 
-### Sample output record
+## Sample output record
 
 | Field |  Value |
 | --- | --- |

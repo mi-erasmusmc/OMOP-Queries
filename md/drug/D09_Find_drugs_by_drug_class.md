@@ -1,5 +1,6 @@
 # D09: Find drugs by drug class
 
+## Description
 This query is designed to extract all drugs that belong to a therapeutic class. The query accepts a therapeutic class concept ID as the input and returns all drugs that are included under that class .
 Therapeutic classes could be obtained using query  [D02](http://vocabqueries.omop.org/drug-queries/d2) and are derived from one of the following:
 
@@ -14,7 +15,7 @@ Therapeutic classes could be obtained using query  [D02](http://vocabqueries.omo
 
 - VA Class, Vocabulary ID = 32
 
-## Sample query
+## Query
 ```sql
 SELECT  c.concept_id      drug_concept_id,
         c.concept_name   drug_concept_name,
@@ -30,14 +31,14 @@ WHERE   ca.ancestor_concept_id = 21506108
            AND sysdate BETWEEN c.valid_start_date AND c.valid_end_date;
 ```
 
-### Input
+## Input
 
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  Therapeutic Class Concept ID |  21506108 |  Yes | Concept ID for 'ACE Inhibitors and ACE Inhibitor Combinations' |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-### Output
+## Output
 
 | Field |  Description |
 | --- | --- |
@@ -46,7 +47,7 @@ WHERE   ca.ancestor_concept_id = 21506108
 |  Drug_Concept_Class |  Concept class of drug concept included in therapeutic class |
 |  Drug_Concept_Code |  RxNorm source code of drug concept |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

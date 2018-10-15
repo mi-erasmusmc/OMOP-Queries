@@ -1,12 +1,13 @@
 # COC06: Time until death after initial diagnosis
 
-### Input
+## Description
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | concept_name | OMOP Acute Myocardial Infarction 1 | Yes |   |
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue  
 
 ```sql
@@ -44,9 +45,9 @@ SELECT COUNT( DISTINCT diagnosed.person_id ) AS all_infarction_deaths
     ON death.person_id = diagnosed.person_id
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -55,7 +56,7 @@ SELECT COUNT( DISTINCT diagnosed.person_id ) AS all_infarction_deaths
 | max_years |   |
 | avg_years |   |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

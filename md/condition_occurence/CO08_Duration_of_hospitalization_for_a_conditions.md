@@ -1,8 +1,9 @@
 # CO08 :Duration of hospitalization for a conditions
 
+## Description
 Returns the the average length in days of all hospitalizations where a certain condition was reported
 
-## Sample query
+## Query
 ```sql
 SELECT
   avg(hosp_no_days) AS average_hosp_duration_count
@@ -34,19 +35,19 @@ FROM (
 
 
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | condition_concept_id | 31967 | Yes | Condition concept identifier for 'Nausea' |
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
 | average_hosp_duration_count | Average length in days of all hospitalization where a certain condition was reported. +1 was added for partial days (e.g. 1.5 days were counted as 2 days). |
 
-### Sample output record
+## Sample output record
 
 | Field |  Description |
 | --- | --- |

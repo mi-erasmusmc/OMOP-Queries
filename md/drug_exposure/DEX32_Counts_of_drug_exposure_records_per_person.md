@@ -1,14 +1,15 @@
 # DEX32: Counts of drug exposure records per person
 
+## Description
 | This query is used to count the number of drug exposure records (drug_exposure_id) for all persons. The input to the query is a value (or a comma-separated list of values) for a number of records per person. If the input is omitted, all possible values are summarized.
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes | 
 | --- | --- | --- | --- |
 | count | 3, 4 |  Yes |   
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue  S
 
 ```sql
@@ -18,9 +19,9 @@ group by person_id
 having count(1) in (3,4);
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- | 
@@ -28,7 +29,7 @@ having count(1) in (3,4);
 | count | The number of individual drug exposure occurrences used to construct the drug era. |
 
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- | 

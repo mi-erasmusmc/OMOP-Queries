@@ -1,8 +1,9 @@
 # CO15: Distribution of number of distinct conditions persons have
 
+## Description
 This query is used to provide summary statistics for the number of different distinct conditions (condition_concept_id) of all persons: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. No input is required for this query.
 
-## Sample query
+## Query
 ```sql
 with ranked as (
   SELECT
@@ -67,11 +68,11 @@ FROM
   ) AS condition_end_date_75percentile;
 ```
 
-### Input
+## Input
 
 None
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -85,7 +86,7 @@ None
 | condition_dist_num_median | A distinct condition occurrence number where half of the other numbers are lower and half are higher |
 | condition_dist_num_75percentile | A distinct condition occurrence number where 75 percent of the other numbers are lower |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

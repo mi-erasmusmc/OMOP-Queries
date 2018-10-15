@@ -1,6 +1,7 @@
 # DRC03: What is out-of-pocket cost for a given drug?
 
-## Sample query
+## Description
+## Query
 ```sql
 SELECT avg(c.paid_by_patient - c.paid_patient_copay) AS avg_out_pocket_cost, d.drug_concept_id
 FROM cost c, drug_exposure d
@@ -11,13 +12,13 @@ IN (906805, 1517070, 19010522)
 GROUP BY d.drug_concept_id;
 ```
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | list of drug_concept_id | 906805, 1517070, 19010522 | Yes |   |
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -25,7 +26,7 @@ GROUP BY d.drug_concept_id;
 | total_out_of_pocket | The total amount paid by the person as a share of the expenses, excluding the copay. |
 | avg_out_pocket_cost | The average amount paid by the person as a share of the expenses, excluding the copay. |
 
-### Sample output record
+## Sample output record
 
 |   |
 | --- |

@@ -1,8 +1,9 @@
 # CO04: Count In what place of service where condition diagnoses.
 
+## Description
 Returns the distribution of the visit place of service where the condition was reported.
 
-## Sample query
+## Query
 ```sql
 SELECT concept_name AS place_of_service_name, place_freq
 FROM (
@@ -26,7 +27,7 @@ FROM concept) AS place_concept ON place_id_count.care_site_id=place_concept.conc
 ORDER BY place_freq;
 ```
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
@@ -36,14 +37,14 @@ ORDER BY place_freq;
 
 
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
 | place_of_service_name | The place of service where the condition was reported. |
 | place_freq | Frequency of the place of service. |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

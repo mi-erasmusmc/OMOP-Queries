@@ -1,6 +1,7 @@
 # DRC01: What is the average/max/min cost per pill (total cost / quantity) per drug concept?
 
-## Sample query
+## Description
+## Query
 ```sql
 SELECT avg(t.cost_per_pill) avg_val_num, max(t.cost_per_pill) max_val_num, min(t.cost_per_pill) min_val_num, t.drug_concept_id
 from (
@@ -15,14 +16,14 @@ GROUP BY t.drug_concept_id
 ORDER BY t.drug_concept_id;
 ```
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | list of drug_concept_id | 906805, 1517070, 19010522 | Yes |
 
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -33,7 +34,7 @@ ORDER BY t.drug_concept_id;
 
 
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

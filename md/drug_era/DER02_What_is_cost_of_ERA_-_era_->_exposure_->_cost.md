@@ -1,8 +1,9 @@
 # DER02: What is cost of ERA? - era -> exposure -> cost
 
+## Description
 This query is used to count all gender values (gender_concept_id) for all exposed persons stratified by drug (drug_concept_id). The input to the query is a value (or a comma-separated list of values) of a gender_concept_id and drug_concept_id. If the input is omitted, all existing value combinations are summarized.
 
-## Sample query
+## Query
 ```sql
 SELECT        sum(nvl(c.total_paid, 0)) as total_cost4era
 FROM        drug_exposure e,
@@ -23,19 +24,19 @@ WHERE
 AND e. drug_exposure_id = c.cost_event_id
 ```
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | drug_era_id | 20 | Yes |   |
 
-### Output
+## Output
 
 | Field |  Description |
 | --- | --- |
 | Total_cost4era | Total cost for drug era |
 
-### Sample output record
+## Sample output record
 
 | Field |  Description |
 | --- | --- |

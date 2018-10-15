@@ -1,15 +1,16 @@
 # DEX42: Counts of genders, stratified by drug
 
+## Description
 | This query is used to count all gender values (gender_concept_id) for all exposed persons stratified by drug (drug_concept_id). The input to the query is a value (or a comma-separated list of values) of a gender_concept_id and drug_concept_id. If the input is omitted, all existing value combinations are summarized.
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes | 
 | --- | --- | --- | --- |
 | list of drug_concept_id | 906805, 1517070, 19010522 | Yes |   
 | list of gender_concept_id | 8507, 8532 | Yes | Male, Female | 
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue
 
 ```sql
@@ -22,9 +23,9 @@ group by t.drug_concept_id, p.gender_concept_id
 order by t.drug_concept_id, p.gender_concept_id; 
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- | 
@@ -33,7 +34,7 @@ order by t.drug_concept_id, p.gender_concept_id;
 | Count | The number of individual drug exposure occurrences used to construct the drug era. |
 
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- | 

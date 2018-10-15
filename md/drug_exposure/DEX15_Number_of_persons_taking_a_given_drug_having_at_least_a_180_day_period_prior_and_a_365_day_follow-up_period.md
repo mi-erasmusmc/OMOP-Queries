@@ -1,12 +1,13 @@
 # DEX15: Number of persons taking a given drug having at least a 180 day period prior and a 365 day follow-up period
 
-### Input
+## Description
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | concept_id | 21502747 | Yes | Statins |
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue.
 
 ```sql
@@ -38,9 +39,9 @@ GROUP BY floor( ( observation_period_end_date - index_date ) / 365 )
 ORDER BY 1; 
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- | 
@@ -51,7 +52,7 @@ ORDER BY 1;
 | observation_period_start_date | The start date of the observation period for which data are available from the data source. |
 | observation_period_end_date | The end date of the observation period for which data are available from the data source. |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- | 

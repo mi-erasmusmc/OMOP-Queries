@@ -1,8 +1,9 @@
 # C06: Translate a given condition to source codes
 
+## Description
 This query allows to search all source codes that are mapped to a SNOMED-CT clinical finding concept. It can be used to translate SNOMED-CT to ICD-9-CM, ICD-10-CM, Read or OXMIS codes.
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
@@ -10,7 +11,7 @@ This query allows to search all source codes that are mapped to a SNOMED-CT clin
 |  Source Vocabulary ID |  2 |  Yes | 2 represents ICD9-CM |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-## Sample query
+## Query
 The following is a sample run of the query to list all source codes that map to a SNOMED-CT concept entered as input. The sample parameter substitutions are highlighted in  blue.
 
 ```sql
@@ -48,9 +49,9 @@ sysdate
 BETWEEN c2.valid_start_date AND c2.valid_end_date;
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -66,7 +67,7 @@ BETWEEN c2.valid_start_date AND c2.valid_end_date;
 |  Target_Concept_Vocab_ID |  Vocabulary of concept entered as input is derived from, as vocabulary ID |
 |  Target_Concept_Vocab_Name |  Name of vocabulary the concept entered as input is derived from |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

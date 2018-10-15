@@ -1,12 +1,13 @@
 # COC09: Condition that is regionally dependent
 
-### Input
+## Description
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | source_code | 088.81 | Yes | lyme disease |
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue  
 
 ```sql
@@ -40,9 +41,9 @@ GROUP BY    state
 ORDER BY    4 DESC;
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -51,7 +52,7 @@ ORDER BY    4 DESC;
 | lyme_cases |   |
 | percent |   |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

@@ -1,8 +1,9 @@
 # PE09: Number of patients by gender, stratified by year of birth
 
+## Description
 Count the genders (gender_concept_id) across all person records, arrange into groups by year of birth. All possible values for gender concepts stratified by year of birth are summarized.
 
-## Sample query
+## Query
 ```sql
 SELECT gender_concept_id, c.concept_name AS gender_name, year_of_birth, COUNT(p.person_id) AS num_persons
 FROM person p
@@ -11,11 +12,11 @@ GROUP BY gender_concept_id, c.concept_name, year_of_birth
 ORDER BY concept_name, year_of_birth;
 ```
 
-### Input
+## Input
 
 None
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -24,7 +25,7 @@ None
 |  year_of_birth |  Stratification by year of birth |
 |  num_persons |  Number of patients in the dataset of specific gender / year of birth |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

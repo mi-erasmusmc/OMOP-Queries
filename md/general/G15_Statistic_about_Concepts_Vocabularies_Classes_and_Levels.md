@@ -1,8 +1,9 @@
 # G15: Statistic about Concepts, Vocabularies, Classes and Levels
 
+## Description
 This query generates the list of all vocabularies in the CONCEPT table (Standard and non-standard), their class, level and frequency.
 
-## Sample query
+## Query
 ```sql
 SELECT
   voc.vocabulary_id,
@@ -25,11 +26,11 @@ JOIN vocabulary r ON voc.vocabulary_id=r.vocabulary_ID
 ORDER BY 1,2,4,3;
 ```
 
-### Input
+## Input
 
 None
 
-### Output
+## Output
 
 | Field |  Description |
 | --- | --- |
@@ -39,7 +40,7 @@ None
 |  concept_level |  Concept Level Number |
 |  cnt |  Number of concepts |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

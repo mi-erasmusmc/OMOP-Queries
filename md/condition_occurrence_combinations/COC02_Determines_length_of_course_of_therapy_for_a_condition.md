@@ -1,12 +1,13 @@
 # COC02: Determines length of course of therapy for a condition
 
-### Input
+## Description
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | condition_concept_id | 500000201 | Yes | SNOMed codes for OMOP Aplastic Anemia 1 |
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue  
 
 ```sql
@@ -63,9 +64,9 @@ ORDER BY    num_patients DESC;
 ```
 
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -73,7 +74,7 @@ ORDER BY    num_patients DESC;
 | ingredient_concept_id |   |
 | count |   |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

@@ -1,9 +1,10 @@
 # G05: Translate a code from a source to a standard vocabulary.
 
+## Description
 This query enables search of all Standard Vocabulary concepts that are mapped to a code from a specified source vocabulary. It will return all possible concepts that are mapped to it, as well as the target vocabulary. The source code could be obtained using queries G02 or G03.
 Note that to unambiguously identify a source code, the vocabulary id has to be provided, as source codes are not unique identifiers across different vocabularies.
 
-## Sample query
+## Query
 ```sql
 SELECT DISTINCT
         c1.domain_id,
@@ -22,7 +23,7 @@ AND c1.vocabulary_id = 'ICD9CM'
 AND sysdate BETWEEN cr.valid_start_date AND cr.valid_end_date;
 ```
 
-### Input
+## Input
 
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
@@ -32,7 +33,7 @@ AND sysdate BETWEEN cr.valid_start_date AND cr.valid_end_date;
 The list of vocabulary codes is listed in the VOCABULARY table. Vocabulary ID of 2 represents ICD9-CM |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -46,7 +47,7 @@ The list of vocabulary codes is listed in the VOCABULARY table. Vocabulary ID of
 |  Target_Concept_Domain |  Vocabulary domain that includes the entity. The domains include:
 DRUG, CONDITION, PROCEDURE, OBSERVATION, OBSERVATION UNIT, VISIT, DEMOGRAPHIC, DEATH, COST, PROVIDER |
 
-### Sample output record
+## Sample output record
 
 | Field |  Value |
 | --- | --- |

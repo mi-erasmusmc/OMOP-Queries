@@ -1,8 +1,9 @@
 # PE06: Number of patients grouped by year of birth
 
+## Description
 Counts the year of birth (year_of_birth) across all person records. All existing values for year of birth are summarized.
 
-## Sample query
+## Query
 ```sql
 SELECT year_of_birth, COUNT(person_id) AS Num_Persons_count
 FROM person
@@ -10,18 +11,18 @@ GROUP BY year_of_birth
 ORDER BY year_of_birth;
 ```
 
-### Input
+## Input
 
 None
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
 |  year_of_birth |  Year of birth of the patient |
 |  Num_Persons_count |  Number of patients in the dataset of specific year of birth |
 
-### Sample output record
+## Sample output record
 
 | Field |  Value |
 | --- | --- |

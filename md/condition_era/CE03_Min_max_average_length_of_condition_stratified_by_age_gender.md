@@ -1,12 +1,13 @@
 # CE03: Min/max, average length of condition stratified by age/gender
 
-### Input
+## Description
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | concept_name | OMOP Hip Fracture 1 |  Yes |  concept_id=500000601 |
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in blue
 
 ```sql
@@ -61,9 +62,9 @@ ORDER BY age_grp, gender
 ```
 
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -74,7 +75,7 @@ ORDER BY age_grp, gender
 | max_duration | Maximum duration of condition in days |
 | avg_duration | Average duration of condition in days |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

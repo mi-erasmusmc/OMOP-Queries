@@ -1,14 +1,15 @@
 # COC07: Patients with condition in conjunction with a procedure some number of days prior to or after initial condition.
 
+## Description
 Aplastic Anemia AND Occurrence of at least one diagnostic procedure code for bone marrow aspiration or biopsy within 60 days prior to the diagnostic code.
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | concept_name | OMOP Aplastic Anemia 1 | Yes |   |
 | list of procedure_concept_id | 2002382, 2002403, 2108452, 2108453, 2212660, 2212662, 3045142 , 3048879, 36359239, 37586183 |   | Bone marrow aspiration or biopsy |
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue  
 
 
@@ -39,9 +40,9 @@ WHERE
 AND procedure_date BETWEEN condition_era_start_date - 60 AND condition_era_start_date;
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -50,7 +51,7 @@ AND procedure_date BETWEEN condition_era_start_date - 60 AND condition_era_start
 | procedure_date |   |
 | condition_era_start_date |   |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

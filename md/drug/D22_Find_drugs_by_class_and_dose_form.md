@@ -1,5 +1,6 @@
 # D22: Find drugs by class and dose form
 
+## Description
 This query is designed to return a list of drug concept IDs that belong to a drug class and are of a certain dose form. The query ties together:
 
 - Concept ancestor data to link drug concepts to therapeutic class
@@ -7,7 +8,7 @@ This query is designed to return a list of drug concept IDs that belong to a dru
 
 The results are combined to present a list of drugs from a specific therapeutic class with a specific dose form.
 
-## Sample query
+## Query
 ```sql
 SELECT C.concept_id drug_concept_id,
 C.concept_name drug_concept_name,
@@ -28,7 +29,7 @@ WHERE CA.ancestor_concept_id = 4318008
         AND sysdate BETWEEN CRF.valid_start_date AND CRF.valid_end_date
 ```
 
-### Input
+## Input
 
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
@@ -36,7 +37,7 @@ WHERE CA.ancestor_concept_id = 4318008
 |  Dose Form String |  'Nasal spray' |  Yes | Dose form string. Valid dose forms can be obtained using query  [D19](http://vocabqueries.omop.org/drug-queries/d19). |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -44,7 +45,7 @@ WHERE CA.ancestor_concept_id = 4318008
 |  Drug_Name |  Name of drug with specified therapeutic class and dose form |
 |  Drug_Concept_Code |  Source code of drug |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

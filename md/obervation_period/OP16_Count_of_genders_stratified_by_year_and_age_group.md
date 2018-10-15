@@ -1,8 +1,9 @@
 # OP16: Count of genders, stratified by year and age group
 
+## Description
 This query is used to count the genders (gender_concept_id) across all observation period records stratified by year and age group. The age groups are calculated as 10 year age bands from the age of a person at the observation period start date. All possible value combinations are summarized.
 
-## Sample query
+## Query
 ```sql
 SELECT
   observation_year,
@@ -55,11 +56,11 @@ ORDER BY
   gender;
 ```
 
-### Input
+## Input
 
 None
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -70,7 +71,7 @@ None
 
 
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

@@ -1,8 +1,9 @@
 # DEX18: What is the distribution of DRUG_TYPE_CONCEPT_ID (modes of distribution) for a given drug?
 
-### Input <None>
+## Description
+## Input <None>
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in blue.
 
 ```sql
@@ -14,9 +15,9 @@ ON concept_id = drug_type_concept_id
 GROUP BY concept_name ORDER BY drug_type_count DESC; 
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- | 
@@ -24,7 +25,7 @@ GROUP BY concept_name ORDER BY drug_type_count DESC;
 | drug_type_count |   |
 
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

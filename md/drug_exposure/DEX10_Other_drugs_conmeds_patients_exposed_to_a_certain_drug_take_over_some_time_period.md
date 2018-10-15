@@ -1,7 +1,8 @@
 # DEX10: Other drugs (conmeds) patients exposed to a certain drug take over some time period
 
+## Description
 This query is used to establish the medication (conmeds) taken by patients who also are exposed to a certain drug in a given time period. The query returns the number of patients taking the drug at least once. The input to the query is a value (or a comma-separated list of values) of a drug_concept_id and the time period. See  [vocabulary queries](http://vocabqueries.omop.org/drug-queries) for obtaining valid drug_concept_id values. 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
@@ -9,7 +10,7 @@ This query is used to establish the medication (conmeds) taken by patients who a
 | from_date | 01-jan-2008 | Yes |   |
 | to_date | 31-dec-2009 | Yes |   |
 
-## Sample query
+## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue.
 
 ```sql
@@ -37,9 +38,9 @@ JOIN concept ON concept_id = drug_concept_id
 GROUP By concept_name ORDER BY persons DESC;
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- | 
@@ -47,7 +48,7 @@ GROUP By concept_name ORDER BY persons DESC;
 | persons | count of patients taking the drug at least once |
 
 
-### Sample output record
+## Sample output record
 
 | Field |  Value |
 | --- | --- | 

@@ -1,5 +1,6 @@
 # C08: Find a disease causing agent by keyword
 
+## Description
 This query enables a search of various agents that can cause disease by keyword as input. Apart from pathogens (see query  [C07](http://vocabqueries.omop.org/condition-queries/c7)), these agents can be SNOMED-CT concepts of the following classes:
 - Pharmaceutical / biologic product
 - Physical object
@@ -10,14 +11,14 @@ This query enables a search of various agents that can cause disease by keyword 
 
 The resulting concepts could be used in query  [C09](http://vocabqueries.omop.org/condition-queries/c9) to identify diseases caused by the agent.
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  Keyword for pathogen |  'Radiation' |  Yes | Keyword should be placed in a single quote |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-## Sample query
+## Query
 The following is a sample run of the query to list all pathogens specified using a keyword as input. The sample parameter substitutions are highlighted in  blue.
 
 ```sql
@@ -42,9 +43,9 @@ sysdate
 BETWEEN C.valid_start_date AND C.valid_end_date;
 ```
 
-### Output
+## Output
 
-### Output field list
+## Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -56,7 +57,7 @@ BETWEEN C.valid_start_date AND C.valid_end_date;
 |  Agent_Vocab_ID |  Vocabulary ID of the vocabulary from which the agent concept is derived from (1 for SNOMED-CT) |
 |  Agent_Vocab_Name |  Name of the vocabulary from which the agent concept is derived from (SNOMED-CT) |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |

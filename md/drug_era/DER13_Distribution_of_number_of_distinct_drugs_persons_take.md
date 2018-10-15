@@ -1,8 +1,9 @@
 # DER13: Distribution of number of distinct drugs persons take
 
+## Description
 This query is used to provide summary statistics for the number of number of different distinct drugs (drug_concept_id) of all exposed persons: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. No input is required for this query.
 
-## Sample query
+## Query
 ```sql
 with tt as (
   SELECT
@@ -23,11 +24,11 @@ FROM tt
 ;
 ```
 
-### Input
+## Input
 
 None
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -39,7 +40,7 @@ None
 | median_date | Median number of distinct drugs persons take |
 | percentile_75_date | the 75th percentile number of distinct drugs persons take |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Description |
 | --- | --- |

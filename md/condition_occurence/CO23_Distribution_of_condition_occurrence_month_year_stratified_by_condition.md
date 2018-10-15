@@ -1,8 +1,9 @@
 # CO23: Distribution of condition occurrence month/year, stratified by condition.
 
+## Description
 This query is used to summary statistics of the condition month/year start dates across all condition occurrence records, stratified by condition (condition_concept_id).  The input to the query is a value  of a condition_concept_id.
 
-## Sample query
+## Query
 ```sql
 SELECT        condition_concept_id,
                 concept_name,
@@ -25,13 +26,13 @@ GROUP BY        condition_concept_id,
 ORDER BY        m1
 ```
 
-### Input
+## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | condition_concept_id | 192279 | Yes | Condition concept identifier for 'Diabetic Nephropathy' |
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -40,7 +41,7 @@ ORDER BY        m1
 | condition_month_year | The month/year when the instance of the condition is recorded. |
 | occurrences_count |  Number of condition occurrences |
 
-### Sample output record
+## Sample output record
 
 | Field |  Description |
 | --- | --- |

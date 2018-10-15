@@ -1,8 +1,9 @@
 # D19: Find ingredients for an indication by indication type
 
+## Description
 This query provides all ingredients that are indicated for a certain condition. In addition, it provides the type of indication: FDA-approved, off-label (both based on FDB indication classes) and may treat and may prevent (both based on NDF-RT). Indications have to be provided as FDB indications (vocabulary_id=19) or NDF-RT (vocabulary_id=7).
 
-## Sample query
+## Query
 ```sql
 SELECT DISTINCT
   ingredient.concept_id as ingredient_concept_id,
@@ -26,14 +27,14 @@ WHERE
   sysdate BETWEEN ingredient.valid_start_date AND ingredient.valid_end_date;
 ```
 
-### Input
+## Input
 
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  Indication Concept ID |  4345991 |  Yes | FDB indication concept for 'Vomiting' |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
-### Output
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -43,7 +44,7 @@ WHERE
 |  Indication_Type |  One of the FDB, NDF-RT or OMOP inferred indication types |
 |  Relationship_id |  Corresponding relationship ID to the Indication Type |
 
-### Sample output record
+## Sample output record
 
 |  Field |  Value |
 | --- | --- |
