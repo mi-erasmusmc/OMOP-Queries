@@ -1,0 +1,12 @@
+name: QueryLibrary
+title: QueryLibrary
+username:
+account: mi-erasmusmc
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 526751
+bundleId: 1654529
+url: https://mi-erasmusmc.shinyapps.io/QueryLibrary/
+when: 1540157989.20872
+asMultiple: FALSE
+asStatic: FALSE
