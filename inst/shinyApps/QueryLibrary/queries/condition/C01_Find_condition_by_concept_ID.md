@@ -23,7 +23,7 @@ SELECT
     WHEN 'MedDRA' THEN 'Yes'
     ELSE 'No' 
   END Is_Disease_Concept_flag 
-FROM concept C, vocabulary V 
+FROM @cdm.concept C, @vocab.vocabulary V 
 WHERE 
   C.concept_id = 192671 AND 
   C.vocabulary_id = V.vocabulary_id AND 

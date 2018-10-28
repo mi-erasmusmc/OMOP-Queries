@@ -7,6 +7,7 @@ menuItemFileInput <- function(inputId, text, icon = shiny::icon("file-text-o")) 
        tags$li(class = "treeview", a(href = "#", onclick = script, icon, text)))
 }
 
+
 menuItemDownloadLink <- function(inputId, label, icon = shiny::icon("floppy-o")) {
   tags$li(class = "treeview",
           tags$a(id = inputId,
