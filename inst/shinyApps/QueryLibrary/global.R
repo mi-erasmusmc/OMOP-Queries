@@ -1,4 +1,5 @@
 queryFolder = "./queries"
+configFilename = "settings.Rds"
 
 mdFiles = list.files(queryFolder, recursive = TRUE, pattern='*.md')
 queriesTable<-as.data.frame(t(sapply(1:length(mdFiles), function(x) strsplit(mdFiles, "/")[[x]])))

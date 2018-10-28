@@ -124,74 +124,30 @@ $(document).ready(function () {
 </div>
 
 
-<div id="c01-find-condition-by-concept-id" class="section level1">
-<h1>C01: Find condition by concept ID</h1>
+<p><code>{r setup, include=FALSE} knitr::opts_chunk$set(echo=TRUE)</code></p>
+<div id="cs01-care-site-place-of-service-counts" class="section level1">
+<h1>CS01: Care site place of service counts</h1>
 <div id="description" class="section level2">
 <h2>Description</h2>
-<p>Find condition by condition ID is the lookup for obtaining condition or disease concept details associated with a concept identifier. This query is a tool for quick reference for the name, class, level and source vocabulary details associated with a concept identifier, either SNOMED-CT clinical finding or MedDRA. This query is equivalent to <a href="http://vocabqueries.omop.org/general-queries/g1">G01</a>, but if the concept is not in the condition domain the query still returns the concept details with the Is_Disease_Concept_Flag field set to ‘No’.</p>
+<p>This query is used to count the care sites associated with the place of service type. This query is only available from CDM V4 and above.</p>
 </div>
 <div id="query" class="section level2">
 <h2>Query</h2>
-<p>The following is a sample run of the query to run a search for specific disease concept ID.</p>
-<p>The input parameters are highlighted in blue.</p>
-<pre class="sql"><code>SELECT 
-  C.concept_id Condition_concept_id, 
-  C.concept_name Condition_concept_name, 
-  C.concept_code Condition_concept_code, 
-  C.concept_class_id Condition_concept_class,
-  C.vocabulary_id Condition_concept_vocab_ID, 
-  V.vocabulary_name Condition_concept_vocab_name, 
-  CASE C.vocabulary_id 
-    WHEN 'SNOMED' THEN CASE lower(C.concept_class_id)   
-      WHEN 'clinical finding' THEN 'Yes' ELSE 'No' END 
-    WHEN 'MedDRA' THEN 'Yes'
-    ELSE 'No' 
-  END Is_Disease_Concept_flag 
-FROM concept C, vocabulary V 
-WHERE 
-  C.concept_id = 192671 AND 
-  C.vocabulary_id = V.vocabulary_id AND 
-  sysdate BETWEEN valid_start_date AND valid_end_date;</code></pre>
+<pre class="sql"><code>select cs.place_of_service_concept_id, count(1) places_of_service_count
+from @cdm.care_site cs
+group by cs.place_of_service_concept_id
+order by 1;</code></pre>
 </div>
 <div id="input" class="section level2">
 <h2>Input</h2>
-<table style="width:78%;">
-<colgroup>
-<col width="5%"></col>
-<col width="5%"></col>
-<col width="5%"></col>
-<col width="61%"></col>
-</colgroup>
-<thead>
-<tr class="header">
-<th>Parameter</th>
-<th>Example</th>
-<th>Mandatory</th>
-<th>Notes</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Concept ID</td>
-<td>192671</td>
-<td>Yes</td>
-<td>Concept Identifier for ‘GI - Gastrointestinal haemorrhage’</td>
-</tr>
-<tr class="even">
-<td>As of date</td>
-<td>Sysdate</td>
-<td>No</td>
-<td>Valid record as of specific date. Current date – sysdate is a default</td>
-</tr>
-</tbody>
-</table>
+<p>None</p>
 </div>
 <div id="output" class="section level2">
 <h2>Output</h2>
-<table style="width:72%;">
+<table style="width:81%;">
 <colgroup>
-<col width="5%"></col>
-<col width="66%"></col>
+<col width="15%"></col>
+<col width="65%"></col>
 </colgroup>
 <thead>
 <tr class="header">
@@ -201,77 +157,33 @@ WHERE
 </thead>
 <tbody>
 <tr class="odd">
-<td>Condition_Concept_ID</td>
-<td>Condition concept Identifier entered as input</td>
+<td>place_of_service_concept_id</td>
+<td>A foreign key that refers to a place of service concept identifier in the vocabulary.</td>
 </tr>
 <tr class="even">
-<td>Condition_Concept_Name</td>
-<td>Name of the standard condition concept</td>
-</tr>
-<tr class="odd">
-<td>Condition_Concept_Code</td>
-<td>Concept code of the standard concept in the source vocabulary</td>
-</tr>
-<tr class="even">
-<td>Condition_Concept_Class</td>
-<td>Concept class of standard vocabulary concept</td>
-</tr>
-<tr class="odd">
-<td>Condition_Concept_Vocab_ID</td>
-<td>Vocabulary the standard concept is derived from as vocabulary code</td>
-</tr>
-<tr class="even">
-<td>Condition_Concept_Vocab_Name</td>
-<td>Name of the vocabulary the standard concept is derived from</td>
-</tr>
-<tr class="odd">
-<td>Is_Disease_Concept_Flag</td>
-<td>Flag indicating whether the Concept ID belongs to a disease concept. ‘Yes’ if disease concept, ‘No’ if not a disease concept</td>
+<td>places_of_service_count</td>
+<td></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div id="sample-output-record" class="section level2">
 <h2>Sample output record</h2>
-<table style="width:72%;">
-<colgroup>
-<col width="5%"></col>
-<col width="66%"></col>
-</colgroup>
+<table>
 <thead>
 <tr class="header">
 <th>Field</th>
-<th>Value</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Condition_Concept_ID</td>
-<td>192671</td>
+<td>place_of_service_concept_id</td>
+<td>8546</td>
 </tr>
 <tr class="even">
-<td>Condition_Concept_Name</td>
-<td>GI - Gastrointestinal hemorrhage</td>
-</tr>
-<tr class="odd">
-<td>Condition_Concept_Code</td>
-<td>74474003</td>
-</tr>
-<tr class="even">
-<td>Condition_Concept_Class</td>
-<td>Clinical finding</td>
-</tr>
-<tr class="odd">
-<td>Condition_Concept_Vocab_ID</td>
-<td>SNOMED</td>
-</tr>
-<tr class="even">
-<td>Condition_Concept_Vocab_Name</td>
-<td>Systematic Nomenclature of Medicine - Clinical Terms (IHTSDO)</td>
-</tr>
-<tr class="odd">
-<td>Is_Disease_Concept_Flag</td>
-<td>Yes</td>
+<td>places_of_service_count</td>
+<td>1</td>
 </tr>
 </tbody>
 </table>

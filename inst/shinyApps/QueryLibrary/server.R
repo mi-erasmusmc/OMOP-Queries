@@ -1,9 +1,12 @@
 library(shiny)
 library(shinydashboard)
 library(SqlRender)
+library(DatabaseConnector)
 library(DT)
+library(ggplot2) 
 source("global.R")
 source("widgets.R")
+source("helpers.R")
 source("markdownParse.R")
 
 server <- shinyServer(function(input, output, session) {
@@ -14,11 +17,7 @@ server <- shinyServer(function(input, output, session) {
   
   parameters <- reactive({
     sql <- sourceSql()
-    params <- regmatches(sql, gregexpr("@[a-zA-Z0-9_]+", sql))[[1]]
-    params <- unique(params)
-    params <- params[order(params)]
-    params <- substr(params, 2, nchar(params))
-    return(params)
+    parameters <- getParameters(sql)
   })
   
   targetSql <- reactive({
@@ -83,14 +82,9 @@ server <- shinyServer(function(input, output, session) {
       SqlRender::writeSql(sql = targetSql(), targetFile = con)
     }
   )
-  
+
   output$queriesTable <- renderDT({
-    table <- queriesTable
-    selected <- input$perAggregateKey_rows_selected
-    if (!is.null(selected)) {
-      keys <- keyToRows()[, 1]
-      table <- table[table[, input$aggregateKey] == keys[selected], ]
-    }
+    table = queriesTable
     return(table)
   },
   server = FALSE,
@@ -109,5 +103,106 @@ server <- shinyServer(function(input, output, session) {
     buttons = I('colvis'),
     processing=FALSE
   ))
+  
+  output$resultsTable <- renderDT({
+    table <- df()
+    return(table)
+  },
+  server = FALSE,
+  caption =
+    "Table 2: Query results"
+  ,
+  filter = list(position = 'top'),
+  extensions = 'Buttons',
+  rowname = FALSE,
+  selection = 'single',
+  options = list(
+    autoWidth = FALSE,
+    lengthMenu = c(25, 50, 75, 100),
+    searchHighlight = TRUE,
+    dom = 'Blfrtip',
+    buttons = I('colvis'),
+    processing=FALSE
+  ))
+  
+ 
+  output$connected <- eventReactive(input$testButton, {
+    connectionDetails <- createConnectionDetails(dbms = tolower(input$dialect),
+                                                 user = input$user,
+                                                 password = input$password,
+                                                 server = input$server,
+                                                 port = input$port,
+                                                 extraSettings = input$extraSettings)
+    con <-DatabaseConnector::connect(connectionDetails)
+    if (length(con)>0) {
+      disconnect(con)
+      return ("Connection Successful")
+    } else
+     return ("Not Connected")
+   
+  }, ignoreNULL = TRUE)
+  
+  # Load the app configuration settings
+  
+  create_observers <- function(names, input){
+    lapply(names, function(item){   
+      observeEvent({input[[item]]},{
+        message("observing ", item)
+      })
+    })
+  }
+  
+  shinyFileChoose(input, "loadConfig", roots = volumes, session = session)
+  
+  output$loaded <- renderText({
+    if (length(parseFilePaths(roots=volumes,input$loadConfig)$datapath)>0) {
+      configFilename = parseFilePaths(roots=volumes, input$loadConfig)$datapath
+      if(!file.exists(configFilename)) {return(NULL)}
+      
+      savedInputs <- readRDS(configFilename)
+      
+      inputIDs      <- names(savedInputs) 
+      inputvalues   <- unlist(savedInputs) 
+      for (i in 1:length(savedInputs)) { 
+        session$sendInputMessage(inputIDs[i],  list(value=inputvalues[[i]]) )
+      }
+      return (configFilename)
+    } else invisible({NULL})
+  })
+  
+  create_observers(c("dialect", "server"), input)
+  # save the app configuration settings
+  volumes <- c(Home = fs::path_home(), "R Installation" = R.home(), getVolumes()())
+  shinyFileSave(input, "saveConfig", roots = volumes, session = session, restrictions = system.file(package = "base"))
+  
+  output$saved<- renderPrint({
+    if (length(parseSavePath(roots=volumes,input$saveConfig)$datapath)>0) {
+      configFilename = parseSavePath(roots=volumes,input$saveConfig)$datapath
+      saveRDS(isolate(reactiveValuesToList(input))[c("dialect","server","user","password","port","cdm","vocab","oracleTempSchema","extraSettings")], 
+              file = configFilename)
+      return(cat("saved"))
+    } else invisible({NULL})
+    })
+  
+
+  output$testTable = DT::renderDT({mtcars})
+  df <- eventReactive(input$executeButton, {
+    connectionDetails <- createConnectionDetails(dbms = tolower(input$dialect),
+                                                 user = input$user,
+                                                 password = input$password,
+                                                 server = input$server,
+                                                 port = input$port,
+                                                 extraSettings = input$extraSettings)
+    connectionString <- "jdbc:sqlserver://healthdatascience.database.windows.net:1433;database=hds1;user=prijnbeek@healthdatascience;password=pjotter1!;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
+    dbms <- "sql server"
+    
+    connectionDetails <- DatabaseConnector::createConnectionDetails(dbms = dbms,connectionString = connectionString)
+    
+    con <-DatabaseConnector::connect(connectionDetails)
+    sql <- input$sqlToRun
+    results <- DatabaseConnector::querySql(con,sql)
+    disconnect(con)
+    return(as.data.frame(results))
+  }, ignoreNULL = TRUE)
   
 })

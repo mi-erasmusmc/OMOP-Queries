@@ -1,5 +1,6 @@
 library(shiny)
 library(shinydashboard)
+library(shinyFiles)
 library(SqlRender)
 library(DT)
 source("global.R")
@@ -12,7 +13,6 @@ ui <- dashboardPage(
   dashboardSidebar(
     sidebarMenu(
       menuItem("Home", tabName = "select", icon = icon("home")),
-      menuItem("Execute", tabName = "execute", icon = icon("table")),
       menuItemCopyDivToClipboard("target", "Copy query to clipboard"),
       menuItemDownloadLink("save", "Save query to file"),
       menuItem("Configuration", tabName = "configuration", icon = icon("cog")),
@@ -41,44 +41,96 @@ ui <- dashboardPage(
       )
     ),
   
-  dashboardBody(tabItems(
-    tabItem(tabName = "select", h2("Select a query"),
-            fluidRow(
-              column(
-                label = 'selectedQuery',
-                width = 6,
-                offset = 0,
-                DTOutput("queriesTable")
-              ),
-              column(
-                width = 6,
-                box(
-                  title = "Query Description",
-                  width = NULL,
-                  status = "primary",
-                  uiOutput(outputId = "html")
-                )
-              )
-            )),
+  dashboardBody(tabItems(tabItem(
+    tabName = "select",
+    tabsetPanel(
+      tabPanel("Select",
+               h2("Select a query"),
+               fluidRow(
+                 column(
+                   label = 'selectedQuery',
+                   width = 6,
+                   offset = 0,
+                   DTOutput("queriesTable")
+                 ),
+                 column(
+                   width = 6,
+                   box(
+                     title = "Query Description",
+                     width = NULL,
+                     status = "primary",
+                     uiOutput(outputId = "html")
+                   )
+                 )
+               )),
+      tabPanel(
+        "Execute",
+        actionButton("executeButton", "Run"),
+        box(
+          title = "Console",
+          width = NULL,
+          height = '80%',
+          column(width = 6,
+                 pre(textOutput(outputId = "target"))),
+          column(width = 6,
+                 textAreaInput("sqlToRun", NULL, "Add query to execute"))
+          
+        ),
+        
+        box(
+          title = "Results",
+          width = NULL,
+          height = '80%',
+          DT::dataTableOutput("resultsTable")
+        )
+      )
+    )
     
-    tabItem(tabName = "execute", h2("Execute the query"),
-            actionButton("Execute","Execute Query"),
-            box(
-              title = "Console",
-              width = NULL,
-              height = '80%',
-              pre(textOutput(outputId = "target"))
-            ),
-            box(
-              title = "Results",
-              width = NULL,
-              height = '80%',
-              h2("TABLE TO BE ADDED")
-            )
-    ),
+  ), 
+    
+    # tabItem(tabName = "execute", h2("Execute the query"),
+    #         actionButton("executeButton","Execute Query"),
+    #         box(
+    #           title = "Console",
+    #           width = NULL,
+    #           height = '80%',
+    #           column(
+    #             width=6,
+    #             pre(textOutput(outputId = "target"))
+    #           ),
+    #           column(
+    #             width=6,
+    #             textAreaInput("sqlToRun", NULL, "Add query to execute")               
+    #           )
+    # 
+    #         ),
+    # 
+    #         box(
+    #           title = "Results",
+    #           width = NULL,
+    #           height = '80%'#,
+    #          # DT::dataTableOutput("resultsTable")
+    #         )
+    #         ),
 
     tabItem(tabName = "configuration", h2("Configuration"),
             fluidRow(column(
+              width = 6,
+              fluidRow(
+                column(
+                  width = 1,
+                  shinyFilesButton("loadConfig", "Load", "Select Configuration file", multiple = FALSE)
+                ),
+                column(
+                  width = 1,
+                  shinySaveButton("saveConfig", "Save", "Save file as...", filename = configFilename, filetype = list(settings = "Rds"))
+                ),
+                column(width = 10,textOutput("loaded"),
+                       textOutput("saved"))
+              )
+              )
+            ),
+            fluidRow(offset = 5, column(
               width = 6,
               box(
                 background = "light-blue",
@@ -123,11 +175,18 @@ ui <- dashboardPage(
                 h4("Oracle temp schema"),
                 textInput("oracleTempSchema", NULL),
                 
+                h4("Extra Setting"),
+                textInput("extraSettings", NULL),
+                
+                actionButton("testButton","Test Connection")
+                
                 #h4("Parameters"),
                 #uiOutput("parameterInputs"),
-                
-                textOutput("warnings")
-              )
-            )))
+ 
+              ),
+              textOutput("connected"),
+              textOutput("warnings")
+            )
+            ))
   ))
 )
