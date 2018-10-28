@@ -184,8 +184,8 @@ server <- shinyServer(function(input, output, session) {
     } else invisible({NULL})
     })
   
-
-  output$testTable = DT::renderDT({mtcars})
+ 
+  output$testTable = DT::renderDT({mtcars })
   df <- eventReactive(input$executeButton, {
     connectionDetails <- createConnectionDetails(dbms = tolower(input$dialect),
                                                  user = input$user,
