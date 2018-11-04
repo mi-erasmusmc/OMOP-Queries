@@ -23,6 +23,21 @@ getSqlFromMarkdown <- function(filename) {
   return(paste(sqlLines, collapse = "\n"))
 }
 
+getVariableFromMarkdown <- function(filename, key) {
+  markdownLines <- readLines(con <- file(filename))
+  close(con)
+  
+  sqlLines <- character()
+  for (line in markdownLines) {
+    # If line starts with three ticks, it is the start of a snipped
+    if (startsWith(line, key)) {
+      version <- strsplit(line,":")[[1]][2]
+      return (version)
+    }
+  }
+  return("")
+}
+
 
 createRenderedHtml <- function(filename,targetSql) {
   markdownLines <- readLines(con <- file(filename))

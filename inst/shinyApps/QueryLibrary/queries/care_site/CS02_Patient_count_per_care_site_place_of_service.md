@@ -3,6 +3,8 @@
 ## Description
 This query is used to count patients per care site place of service. This query is only available from CDM V4 and above.
 
+CDM Version: 5.0
+
 ## Query
 ```sql
 select cs.place_of_service_concept_id, count(1) num_patients

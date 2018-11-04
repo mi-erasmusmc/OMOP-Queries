@@ -13,6 +13,9 @@ knitr::opts_chunk$set(echo=TRUE)
 ## Description
 This query is used to count the care sites associated with the place of service type. This query is only available from CDM V4 and above.
 
+CDM Version: 5.0
+Author: Patrick Ryan
+
 ## Query
 ```sql
 select cs.place_of_service_concept_id, count(1) places_of_service_count

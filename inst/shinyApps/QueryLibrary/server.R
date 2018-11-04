@@ -116,6 +116,8 @@ server <- shinyServer(function(input, output, session) {
     processing=FALSE
   ))
   
+  output$testTable <- renderTable({query$data})
+  
   # Load the app configuration settings
   shinyFileChoose(input, "loadConfig", roots = volumes, session = session)
   
@@ -209,17 +211,9 @@ server <- shinyServer(function(input, output, session) {
     },
     content = function(con) {
       SqlRender::writeSql(sql =  query$sqlTarget(), targetFile = con)
-      query$saved <- TRUE
     }
   )
   
-  query$saved <- reactive({if (query$saved){
-    shinyalert(title = "Done", text=paste('query-', Sys.Date(), '.sql', 'is saved to your download folder',sep=''), type = "success")
-    return(FALSE)
-  }})
-  
-  reactive({shinyalert(title = "Done", text=paste('query-', Sys.Date(), '.sql', 'is saved to your download folder',sep=''), type = "success")
-           })
   
   output$connected <- eventReactive(input$testButton, {
     connectionDetails <- createConnectionDetails(dbms = tolower(input$dialect),
