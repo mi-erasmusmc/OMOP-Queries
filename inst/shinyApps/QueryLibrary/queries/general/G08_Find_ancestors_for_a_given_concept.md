@@ -6,12 +6,12 @@ For a concept identifier entered as the input parameter, this query lists all an
 ## Query
 ```sql
 SELECT C.concept_id as ancestor_concept_id, C.concept_name as ancestor_concept_name, C.concept_code as ancestor_concept_code, C.concept_class_id as ancestor_concept_class_id, C.vocabulary_id, VA.vocabulary_name, A.min_levels_of_separation, A.max_levels_of_separation
-FROM concept_ancestor A, concept C, vocabulary VA
+FROM @vocab.concept_ancestor A, @vocab.concept C, @vocab.vocabulary VA
 WHERE A.ancestor_concept_id = C.concept_id
 AND C.vocabulary_id = VA.vocabulary_id
 AND A.ancestor_concept_id<>A.descendant_concept_id
 AND A.descendant_concept_id = 192671
-AND sysdate BETWEEN valid_start_date
+AND GETDATE() BETWEEN valid_start_date
 AND valid_end_date
 ORDER BY 5,7;
 ```
@@ -19,14 +19,14 @@ ORDER BY 5,7;
 ## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
+| --- | --- | --- | ------------------------------- |
 |  Concept ID |  192671 |  Yes | GI - Gastrointestinal hemorrhage |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
 ## Output
 
 |  Field |  Description |
-| --- | --- |
+| --- | ------------------ |
 |  Ancestor_Concept_ID |  Unique identifier of the concept related to the ancestor concept |
 |  Ancestor_Concept_Name |  Name of the concept related to the ancestor concept |
 |  Ancestor_Concept_Code |  Concept code of concept related to the ancestor concept |

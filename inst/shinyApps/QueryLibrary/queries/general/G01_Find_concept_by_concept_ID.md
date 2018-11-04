@@ -6,10 +6,10 @@ This is the most generic look-up for obtaining concept details associated with a
 ## Query
 ```sql
 SELECT C.concept_id, C.concept_name, C.concept_code, C.concept_class_id, C.standard_concept, C.vocabulary_id, V.vocabulary_name
-FROM concept C, vocabulary V
+FROM @vocab.concept C, @vocab.vocabulary V
 WHERE C.concept_id = 192671
 AND C.vocabulary_id = V.vocabulary_id
-AND sysdate BETWEEN valid_start_date
+AND GETDATE() BETWEEN valid_start_date
 AND valid_end_date;
 ```
 

@@ -1,34 +1,37 @@
 library(shiny)
 library(shinydashboard)
+library(shinyjs)
+library(shinyalert)
 library(SqlRender)
 library(DatabaseConnector)
 library(DT)
-library(ggplot2) 
 source("global.R")
 source("widgets.R")
 source("helpers.R")
 source("markdownParse.R")
 
 server <- shinyServer(function(input, output, session) {
+  query <- reactiveValues()
   
-  inputFileName <- reactive({paste0(queryFolder, "/",mdFiles[input$queriesTable_rows_selected])})
+  query$saved <- FALSE
   
-  sourceSql <- reactive({getSqlFromMarkdown(inputFileName())})
+  query$name <- reactive({toString(queriesTable$Query[input$queriesTable_rows_selected])})
   
-  parameters <- reactive({
-    sql <- sourceSql()
-    parameters <- getParameters(sql)
-  })
+  query$inputFileName <- reactive({paste0(queryFolder, "/",mdFiles[input$queriesTable_rows_selected])})
   
-  targetSql <- reactive({
+  query$sqlSource <- reactive({getSqlFromMarkdown(query$inputFileName())})
+  
+  query$parameters <- reactive({getParameters(query$sqlSource())})
+  
+  query$sqlTarget <- reactive({
     parameterValues <- list()
-    for (param in parameters()) {
+    for (param in query$parameters()) {
       value <- input[[param]]
       if (!is.null(value)) {
         parameterValues[[param]] <- value
       }
     }
-    sql <- do.call("renderSql", append(sourceSql(), parameterValues))$sql
+    sql <- do.call("renderSql", append(query$sqlSource(), parameterValues))$sql
     warningString <- c()
     handleWarning <- function(e) {
       output$warnings <- e$message
@@ -42,19 +45,15 @@ server <- shinyServer(function(input, output, session) {
     return(sql)
   })
   
-  renderedFilename <- reactive({createRenderedHtml(inputFileName(),targetSql())})
+  renderedFilename <- reactive({createRenderedHtml(query$inputFileName(),query$sqlTarget())})
   
   output$html <- renderText({
     includeHTML(renderedFilename())
   })
   
-  output$target <- renderText({
-    targetSql()
-  })
-  
   output$parameterInputs <- renderUI({
-    params <- parameters()
-    sql <- sourceSql()
+    params <- query$parameters()
+    sql <- query$sqlSource()
     
     createRow <- function(param, sql) {
       # Get current values if already exists:
@@ -74,15 +73,8 @@ server <- shinyServer(function(input, output, session) {
     lapply(params, createRow, sql = sql)
   })
   
-  output$save <- downloadHandler(
-    filename = function() {
-      paste('query-', Sys.Date(), '.sql', sep='')
-    },
-    content = function(con) {
-      SqlRender::writeSql(sql = targetSql(), targetFile = con)
-    }
-  )
-
+  ### TABLES
+  
   output$queriesTable <- renderDT({
     table = queriesTable
     return(table)
@@ -97,17 +89,16 @@ server <- shinyServer(function(input, output, session) {
   selection = 'single',
   options = list(
     autoWidth = FALSE,
-    lengthMenu = c(25, 50, 75, 100),
+    lengthMenu = c(10, 50, 75, 100),
     searchHighlight = TRUE,
     dom = 'Blfrtip',
     buttons = I('colvis'),
     processing=FALSE
   ))
   
-  output$resultsTable <- renderDT({
-    table <- df()
-    return(table)
-  },
+  # obsolete (does not work to have two DTtables in a the app?)
+  output$resultsTable <- renderDataTable(
+  query$data,
   server = FALSE,
   caption =
     "Table 2: Query results"
@@ -125,33 +116,7 @@ server <- shinyServer(function(input, output, session) {
     processing=FALSE
   ))
   
- 
-  output$connected <- eventReactive(input$testButton, {
-    connectionDetails <- createConnectionDetails(dbms = tolower(input$dialect),
-                                                 user = input$user,
-                                                 password = input$password,
-                                                 server = input$server,
-                                                 port = input$port,
-                                                 extraSettings = input$extraSettings)
-    con <-DatabaseConnector::connect(connectionDetails)
-    if (length(con)>0) {
-      disconnect(con)
-      return ("Connection Successful")
-    } else
-     return ("Not Connected")
-   
-  }, ignoreNULL = TRUE)
-  
   # Load the app configuration settings
-  
-  create_observers <- function(names, input){
-    lapply(names, function(item){   
-      observeEvent({input[[item]]},{
-        message("observing ", item)
-      })
-    })
-  }
-  
   shinyFileChoose(input, "loadConfig", roots = volumes, session = session)
   
   output$loaded <- renderText({
@@ -170,7 +135,6 @@ server <- shinyServer(function(input, output, session) {
     } else invisible({NULL})
   })
   
-  create_observers(c("dialect", "server"), input)
   # save the app configuration settings
   volumes <- c(Home = fs::path_home(), "R Installation" = R.home(), getVolumes()())
   shinyFileSave(input, "saveConfig", roots = volumes, session = session, restrictions = system.file(package = "base"))
@@ -184,9 +148,14 @@ server <- shinyServer(function(input, output, session) {
     } else invisible({NULL})
     })
   
- 
-  output$testTable = DT::renderDT({mtcars })
-  df <- eventReactive(input$executeButton, {
+  
+  ### BUTTONS
+  
+  observeEvent(input$importButton,{
+    updateTextAreaInput(session, "target", value = query$sqlTarget())
+  })
+  
+  observeEvent(input$executeButton, {
     connectionDetails <- createConnectionDetails(dbms = tolower(input$dialect),
                                                  user = input$user,
                                                  password = input$password,
@@ -195,10 +164,77 @@ server <- shinyServer(function(input, output, session) {
                                                  extraSettings = input$extraSettings)
     con <-DatabaseConnector::connect(connectionDetails)
     
-    sql <- input$sqlToRun
+    sql <- input$target
     results <- DatabaseConnector::querySql(con,sql)
     disconnect(con)
-    return(as.data.frame(results))
+    #return(as.data.frame(results))
+    # Fill in the reactiveValues to tricker table update
+    query$sql <- sql
+    query$data <- results
+  }, ignoreNULL = TRUE)
+  
+  observeEvent(input$copyClipboardButton, {
+    script <- "
+            element = $('<textarea>').appendTo('body').val(document.getElementById('target').value).select();
+            document.execCommand('copy');
+            element.remove();
+    "
+    runjs("var today = new Date(); alert(today);")
+    runjs("
+            var element = $('<textarea>').appendTo('body').val(document.getElementById('target').value).select();
+            document.execCommand('copy');
+            element.remove();
+    ")
+  })
+  
+  
+  observe({
+    toggleState("executeButton", !is.null(input$target) && input$target != "")
+  })
+ 
+  observe({
+    toggleState("copyClipboardButton", !is.null(input$target) && input$target != "")
+  }) 
+  
+  observe({
+    toggleState("saveToFileButton", !is.null(input$target) && input$target != "")
+  })
+
+  ## OTHER
+  
+  
+  output$save <- downloadHandler(
+    filename = function() {
+      paste('query-', Sys.Date(), '.sql', sep='')
+    },
+    content = function(con) {
+      SqlRender::writeSql(sql =  query$sqlTarget(), targetFile = con)
+      query$saved <- TRUE
+    }
+  )
+  
+  query$saved <- reactive({if (query$saved){
+    shinyalert(title = "Done", text=paste('query-', Sys.Date(), '.sql', 'is saved to your download folder',sep=''), type = "success")
+    return(FALSE)
+  }})
+  
+  reactive({shinyalert(title = "Done", text=paste('query-', Sys.Date(), '.sql', 'is saved to your download folder',sep=''), type = "success")
+           })
+  
+  output$connected <- eventReactive(input$testButton, {
+    connectionDetails <- createConnectionDetails(dbms = tolower(input$dialect),
+                                                 user = input$user,
+                                                 password = input$password,
+                                                 server = input$server,
+                                                 port = input$port,
+                                                 extraSettings = input$extraSettings)
+    con <-DatabaseConnector::connect(connectionDetails)
+    if (length(con)>0) {
+      disconnect(con)
+      return ("Connection Successful")
+    } else
+      return ("Not Connected")
+    
   }, ignoreNULL = TRUE)
   
 })

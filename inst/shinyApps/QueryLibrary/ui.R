@@ -1,6 +1,8 @@
 library(shiny)
 library(shinydashboard)
 library(shinyFiles)
+library(shinyjs)
+library(shinycssloaders)
 library(SqlRender)
 library(DT)
 source("global.R")
@@ -13,7 +15,7 @@ ui <- dashboardPage(
   dashboardSidebar(
     sidebarMenu(
       menuItem("Home", tabName = "select", icon = icon("home")),
-      menuItemCopyDivToClipboard("target", "Copy query to clipboard"),
+      menuItemCopyTextAreaToClipboard("target", "Copy query to clipboard"),
       menuItemDownloadLink("save", "Save query to file"),
       menuItem("Configuration", tabName = "configuration", icon = icon("cog")),
       menuItem("Feedback", icon = icon("comment"), href = "https://github.com/mi-erasmusmc/OMOP-Queries/issues")
@@ -41,95 +43,73 @@ ui <- dashboardPage(
       )
     ),
   
-  dashboardBody(tabItems(tabItem(
+  dashboardBody(
+    useShinyjs(),
+    tabItems(tabItem(
     tabName = "select",
-    tabsetPanel(
-      tabPanel("Select",
-               h2("Select a query"),
-               fluidRow(
-                 column(
-                   label = 'selectedQuery',
-                   width = 6,
-                   offset = 0,
-                   DTOutput("queriesTable")
-                 ),
-                 column(
-                   width = 6,
-                   box(
-                     title = "Query Description",
-                     width = NULL,
-                     status = "primary",
-                     uiOutput(outputId = "html")
-                   )
-                 )
-               )),
-      tabPanel(
-        "Execute",
-        actionButton("executeButton", "Run"),
-        box(
-          title = "Console",
-          width = NULL,
-          height = '80%',
-          column(width = 6,
-                 pre(textOutput(outputId = "target"))),
-          column(width = 6,
-                 textAreaInput("sqlToRun", NULL, "Add query to execute"))
-          
-        ),
-        
-        box(
-          title = "Results",
-          width = NULL,
-          height = '80%',
-          DT::dataTableOutput("resultsTable")
-        )
-      )
-    )
+    tabsetPanel(tabPanel("Select",
+                         h2("Select a query"),
+                         fluidRow(
+                           column(
+                             label = 'selectedQuery',
+                             width = 6,
+                             offset = 0,
+                             DTOutput("queriesTable")
+                           ),
+                           column(
+                             width = 6,
+                             box(
+                               title = "Query Description",
+                               width = NULL,
+                               status = "primary",
+                               uiOutput(outputId = "html")
+                             )
+                           )
+                         )),
+                tabPanel(
+                  "Execute",
+                  box(
+                    title = "Execute",
+                    width = NULL,
+                    height = '80%',
+                    actionButton("importButton", "Import selected query", icon = icon("home")),
+                    textAreaInput("target", NULL, ""),
+                    actionButton("executeButton", "Run", icon = icon("play")),
+                    actionButton(
+                      "copyClipboardButton",
+                      "Copy to clipboard",
+                      icon = icon("file-text-o")
+                    ),
+                    actionButton("saveToFileButton", "Save query to file", icon = icon("floppy-o"))
+                  ),
+                  ### show timer
+                  conditionalPanel("updateBusy() || $('html').hasClass('shiny-busy')",
+                                   id='progressIndicator',
+                                   "Running Query",
+                                   div(id='progress',includeHTML("timer.js"))
+                  ),
+                  tags$head(tags$style(type="text/css",
+                                       '#progressIndicator {',
+                                      # '  position: fixed; top: 120px; right: 80px; width: 170px; height: 60px;',
+                                       '  padding: 8px; border: 1px solid #CCC; border-radius: 8px; color:green',
+                                       '}'
+                  )),
+                  
+                  box(
+                    title = "Results",
+                    width = NULL,
+                    height = '80%',
+                    withSpinner(tableOutput("testTable"))
+                  )
+                
+                  
+                  
+                ))
     
   ), 
-    
-    # tabItem(tabName = "execute", h2("Execute the query"),
-    #         actionButton("executeButton","Execute Query"),
-    #         box(
-    #           title = "Console",
-    #           width = NULL,
-    #           height = '80%',
-    #           column(
-    #             width=6,
-    #             pre(textOutput(outputId = "target"))
-    #           ),
-    #           column(
-    #             width=6,
-    #             textAreaInput("sqlToRun", NULL, "Add query to execute")               
-    #           )
-    # 
-    #         ),
-    # 
-    #         box(
-    #           title = "Results",
-    #           width = NULL,
-    #           height = '80%'#,
-    #          # DT::dataTableOutput("resultsTable")
-    #         )
-    #         ),
-
     tabItem(tabName = "configuration", h2("Configuration"),
-            fluidRow(column(
-              width = 6,
-              fluidRow(
-                column(
-                  width = 1,
-                  shinyFilesButton("loadConfig", "Load", "Select Configuration file", multiple = FALSE)
-                ),
-                column(
-                  width = 1,
-                  shinySaveButton("saveConfig", "Save", "Save file as...", filename = configFilename, filetype = list(settings = "Rds"))
-                ),
-                column(width = 10,textOutput("loaded"),
-                       textOutput("saved"))
-              )
-              )
-            ),
+            shinyFilesButton("loadConfig", "Load", "Select Configuration file", multiple = FALSE),
+            shinySaveButton("saveConfig", "Save", "Save file as...", filename = configFilename, filetype = list(settings = "Rds")),
             fluidRow(offset = 5, column(
               width = 6,
               box(
@@ -159,7 +139,7 @@ ui <- dashboardPage(
                 textInput("user", NULL),
                 
                 h4("password"),
-                textInput("password", NULL),
+                passwordInput("password", NULL),
                 
                 h4("port"),
                 textInput("port", NULL, value = 1521),
